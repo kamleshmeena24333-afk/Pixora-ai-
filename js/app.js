@@ -2,12 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const studio = new CanvasStudio('mainCanvas', 'maskCanvas');
     const ai = new AIService();
 
-    // UI elements
+    // Elements
     const tabs = document.querySelectorAll('.tool-tab');
     const panels = document.querySelectorAll('.tab-content');
     const fileInput = document.getElementById('fileInput');
     const emptyDropzone = document.getElementById('emptyDropzone');
     const loader = document.getElementById('studioLoader');
+
+    // API Key Modal Elements
+    const keyBtn = document.getElementById('btnApiKey');
+    const keyModal = document.getElementById('apiKeyModal');
+    const apiInputVal = document.getElementById('apiInputVal');
+    const btnSaveKey = document.getElementById('btnSaveKey');
+    const btnCloseModal = document.getElementById('btnCloseModal');
 
     // Tab Switching
     tabs.forEach(tab => {
@@ -17,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             panels.forEach(p => p.classList.add('hidden'));
             document.getElementById(`panel-${tab.dataset.tab}`).classList.remove('hidden');
 
-            // Mask draw visibility
             const maskCanvas = document.getElementById('maskCanvas');
             maskCanvas.style.pointerEvents = (tab.dataset.tab === 'edit') ? 'auto' : 'none';
         });
@@ -38,18 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
         handleFiles(e.dataTransfer.files[0]);
     });
 
-    // API Key Prompt Setup
-    const keyBtn = document.getElementById('btnApiKey');
-    keyBtn.addEventListener('click', () => {
-        const current = ai.getApiKey();
-        const input = prompt("Enter your Hugging Face API Token (Free from huggingface.co/settings/tokens):", current);
-        if (input !== null) {
-            ai.setApiKey(input);
-            updateKeyStatus();
-        }
-    });
-
-    function updateKeyStatus() {
+    // Modal Triggers
+    const updateKeyStatus = () => {
         const statusText = document.getElementById('keyStatusText');
         if (ai.hasKey()) {
             statusText.innerText = 'Key Connected';
@@ -58,7 +54,30 @@ document.addEventListener('DOMContentLoaded', () => {
             statusText.innerText = 'Set API Key';
             statusText.classList.remove('text-green-400');
         }
-    }
+    };
+
+    keyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        apiInputVal.value = ai.getApiKey();
+        keyModal.classList.remove('hidden');
+        keyModal.classList.add('flex');
+    });
+
+    btnCloseModal.addEventListener('click', () => {
+        keyModal.classList.add('hidden');
+        keyModal.classList.remove('flex');
+    });
+
+    btnSaveKey.addEventListener('click', () => {
+        const token = apiInputVal.value.trim();
+        if (token) {
+            ai.setApiKey(token);
+            updateKeyStatus();
+        }
+        keyModal.classList.add('hidden');
+        keyModal.classList.remove('flex');
+    });
+
     updateKeyStatus();
 
     // Generation Trigger
@@ -106,4 +125,4 @@ document.addEventListener('DOMContentLoaded', () => {
         a.click();
     });
 });
-                            
+            
