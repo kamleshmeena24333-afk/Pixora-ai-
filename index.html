@@ -45,6 +45,7 @@
             background: rgba(23, 32, 60, 0.85);
             border-color: rgba(139, 92, 246, 0.4);
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25);
         }
         .btn-purple-main {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
@@ -66,6 +67,14 @@
         .thumb-active {
             border-color: #a855f7 !important;
             box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+        .checkerboard {
+            background-image: linear-gradient(45deg, #1f2937 25%, transparent 25%), 
+                              linear-gradient(-45deg, #1f2937 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #1f2937 75%), 
+                              linear-gradient(-45deg, transparent 75%, #1f2937 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
         }
     </style>
 </head>
@@ -89,9 +98,19 @@
             <nav class="hidden lg:flex items-center space-x-7 text-xs sm:text-sm font-medium text-gray-300">
                 <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-purple-500">Home</a>
                 <a href="#tools" class="hover:text-white transition">Features</a>
-                <a href="#tools" class="hover:text-white transition flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i></a>
+                <div class="relative group cursor-pointer">
+                    <span class="hover:text-white flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500 group-hover:rotate-180 transition"></i></span>
+                    <div class="absolute top-full left-0 mt-3 w-48 bg-gray-900/95 border border-gray-800 rounded-xl p-2 hidden group-hover:block shadow-2xl backdrop-blur-lg z-50">
+                        <a href="javascript:void(0)" onclick="launchStudio('text-to-image')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Text to Image</a>
+                        <a href="javascript:void(0)" onclick="launchStudio('img-to-img')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Image to Image</a>
+                        <a href="javascript:void(0)" onclick="launchStudio('editor')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">AI Image Editor</a>
+                        <a href="javascript:void(0)" onclick="launchStudio('style-transfer')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Style Transfer</a>
+                        <a href="javascript:void(0)" onclick="launchStudio('upscaler')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Image Upscaler</a>
+                        <a href="javascript:void(0)" onclick="launchStudio('bg-remover')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Background Remover</a>
+                    </div>
+                </div>
                 <a href="#showcase" class="hover:text-white transition">Examples</a>
-                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+                <a href="#tools" class="hover:text-white transition">Pricing</a>
                 <a href="#" class="hover:text-white transition">Blog</a>
             </nav>
 
@@ -114,10 +133,10 @@
                     </div>
                 </div>
 
-                <a href="#showcase" class="btn-purple-main px-3.5 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
+                <button onclick="launchStudio('text-to-image')" class="btn-purple-main px-3.5 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
                     <span>Get Started</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                </a>
+                </button>
             </div>
         </div>
     </header>
@@ -150,10 +169,10 @@
 
                 <!-- Hero Action Buttons -->
                 <div class="flex flex-wrap items-center gap-3 pt-1 w-full sm:w-auto">
-                    <a href="#showcase" class="btn-purple-main px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
+                    <button onclick="launchStudio('text-to-image')" class="btn-purple-main px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
                         <span>Start Creating Now</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </a>
+                    </button>
                     <a href="#tools" class="px-4 sm:px-5 py-3 rounded-xl border border-gray-700/70 bg-gray-900/40 hover:bg-gray-800 text-xs sm:text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
                         <span>Explore Tools</span>
                         <i class="fa-solid fa-table-cells text-gray-400 text-xs"></i>
@@ -183,7 +202,7 @@
                 </div>
             </div>
 
-            <!-- Right Showcase Frame (Exact Match to Picture) -->
+            <!-- Right Showcase Frame -->
             <div id="showcase" class="lg:col-span-6 relative flex items-center justify-center w-full">
                 
                 <div class="relative w-full max-w-[560px] glass-showcase rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
@@ -193,7 +212,6 @@
                         <!-- Main Left AI Image -->
                         <div class="col-span-9 sm:col-span-10 relative rounded-2xl overflow-hidden aspect-[4/4.5] bg-[#02050f]">
                             
-                            <!-- Exact Butterfly Neon Girl Showcase Image -->
                             <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-500">
                             
                             <!-- Loading Spinner inside Image -->
@@ -257,7 +275,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 
                 <!-- Card 1: Text to Image -->
-                <div onclick="triggerToolPreset('Text to Image', 'Ultra-detailed cinematic landscape with futuristic neon city, 8k')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
+                <div onclick="launchStudio('text-to-image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-2 shadow">
                         <i class="fa-regular fa-image text-sm"></i>
                     </div>
@@ -268,28 +286,4 @@
                 </div>
 
                 <!-- Card 2: Image to Image -->
-                <div onclick="triggerToolPreset('Image to Image', 'Anime makoto shinkai style version of this scenery with soft colors')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-images text-sm"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xs sm:text-sm font-bold text-white mb-0.5">Image to Image</h3>
-                        <p class="text-[10px] text-gray-400 leading-tight">Transform images with AI creativity</p>
-                    </div>
-                </div>
-
-                <!-- Card 3: AI Image Editor -->
-                <div onclick="triggerToolPreset('AI Image Editor', 'Add dramatic golden hour sunset and glowing warm rays')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xs sm:text-sm font-bold text-white mb-0.5">AI Image Editor</h3>
-                        <p class="text-[10px] text-gray-400 leading-tight">Edit and enhance images like a pro</p>
-                    </div>
-                </div>
-
-                <!-- Card 4: Style Transfer -->
-                <div onclick="triggerToolPreset('Style Transfer', 'Cyberpunk neon glow painting art style, Unreal Engine 5 render')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i cl
+                <div onclick="launchStudio('img-to-img')" class="tool-card rounded-2xl p-4 cursor-pointer
