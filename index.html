@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1280, initial-scale=0.32, user-scalable=yes">
+    <meta name="viewport" content="width=1280, initial-scale=0.35, user-scalable=yes">
     <title>Pixora AI — Create Stunning AI Images in Seconds</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,10 +19,10 @@
         body {
             background-color: #030712;
             background-image: 
-                radial-gradient(circle at 75% 25%, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.09) 35%, transparent 65%),
+                radial-gradient(circle at 75% 25%, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.1) 35%, transparent 65%),
                 radial-gradient(circle at 15% 45%, rgba(99, 102, 241, 0.08) 0%, transparent 45%);
             color: #f3f4f6;
-            min-width: 1200px;
+            min-width: 1200px; /* Force desktop width on all devices */
         }
         .text-gradient-seconds {
             background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 35%, #818cf8 70%, #c084fc 100%);
@@ -36,11 +36,14 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.9), 0 0 35px -10px rgba(124, 58, 237, 0.35);
         }
+        /* Tool Card: Single-Row Fixed Layout */
         .tool-card {
             background: rgba(13, 19, 36, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(12px);
             transition: all 0.25s ease;
+            width: calc(100% / 6 - 1rem); /* Force exactly 6 cards per row with gap */
+            min-width: 160px; /* Prevent shrinking too much */
         }
         .tool-card:hover {
             background: rgba(23, 32, 60, 0.9);
@@ -81,7 +84,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-purple-600 selection:text-white">
 
-    <!-- Navbar -->
+    <!-- Top Navigation Bar (Fixed Width) -->
     <header class="w-full border-b border-gray-800/60 bg-[#030712]/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
             
@@ -95,7 +98,7 @@
                 </span>
             </a>
 
-            <!-- Nav Links -->
+            <!-- Nav Links (Forced Visible) -->
             <nav class="flex items-center space-x-8 text-sm font-medium text-gray-300">
                 <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-purple-500">Home</a>
                 <a href="#tools" class="hover:text-white transition">Features</a>
@@ -202,7 +205,7 @@
                 </div>
             </div>
 
-            <!-- Right Showcase Frame (Exact 1:1 Match) -->
+            <!-- Right Showcase Frame -->
             <div id="showcase" class="col-span-6 relative flex items-center justify-center">
                 
                 <div class="relative w-full glass-showcase rounded-3xl p-4 shadow-2xl overflow-visible">
@@ -212,7 +215,6 @@
                         <!-- Main Left Featured AI Image -->
                         <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/4.8] bg-[#02050f]">
                             
-                            <!-- Neon Cyberpunk Girl Featured Image -->
                             <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=85" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-500">
                             
                             <!-- Loading Spinner inside Image -->
@@ -265,18 +267,18 @@
             </div>
         </div>
 
-        <!-- All-in-One AI Image Tools Section (All 6 Horizontal Cards) -->
+        <!-- All-in-One AI Image Tools Section (Forced 6 Horizontal Cards Row) -->
         <section id="tools" class="mt-20 pt-10 border-t border-gray-800/80">
             <div class="text-center max-w-2xl mx-auto mb-10">
                 <h2 class="text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
                 <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
             </div>
 
-            <!-- 6 Interactive Tool Cards in 1 Row -->
-            <div class="grid grid-cols-6 gap-4">
+            <!-- Forced 6 Horizontal Cards Grid (No mobile stacking) -->
+            <div class="flex items-center justify-between gap-4 w-full">
                 
                 <!-- Card 1: Text to Image -->
-                <div onclick="launchStudio('text-to-image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                <div onclick="launchStudio('text-to-image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-2 shadow">
                         <i class="fa-regular fa-image text-base"></i>
                     </div>
@@ -287,10 +289,6 @@
                 </div>
 
                 <!-- Card 2: Image to Image -->
-                <div onclick="launchStudio('img-to-img')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                <div onclick="launchStudio('img-to-img')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-images text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Image to Image</h3>
-                        <p class="text-[11px] text-gray-
+                        <i class="f
