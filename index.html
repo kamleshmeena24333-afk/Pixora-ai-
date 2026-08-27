@@ -1,12 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixora AI — Studio</title>
+    <title>Pixora AI — Create Stunning AI Images in Seconds</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 20%, rgba(124, 58, 237, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-purple {
+            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.2);
+        }
+        .tool-card {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(147, 51, 234, 0.5);
+            box-shadow: 0 12px 30px -8px rgba(147, 51, 234, 0.3);
+        }
+        .btn-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-gradient:hover {
+            box-shadow: 0 0 25px rgba(217, 70, 239, 0.45);
+            transform: translateY(-1px);
+        }
+        .ai-pulse-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+            animation: pulseGlow 3s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.6); }
+            50% { box-shadow: 0 0 45px rgba(192, 38, 211, 0.85); transform: scale(1.04); }
+        }
         .checkerboard {
             background-image: linear-gradient(45deg, #1f2937 25%, transparent 25%), 
                               linear-gradient(-45deg, #1f2937 25%, transparent 25%), 
@@ -17,309 +77,226 @@
         }
     </style>
 </head>
-<body class="bg-[#0b0f19] text-gray-100 flex flex-col h-screen overflow-hidden font-sans">
+<body class="min-h-screen flex flex-col justify-between hero-gradient selection:bg-purple-500 selection:text-white">
 
-    <!-- Navbar -->
-    <header class="h-14 border-b border-gray-800 bg-[#111827] px-4 flex items-center justify-between z-20 shrink-0">
-        <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg">P</div>
-            <span class="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Pixora AI</span>
-        </div>
+    <!-- Top Navigation Bar -->
+    <header class="w-full border-b border-gray-800/80 bg-[#070b14]/80 backdrop-blur-xl sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition">
+                    <i class="fa-solid fa-sparkles text-sm"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white flex items-center gap-1">
+                    Pixora<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">AI</span>
+                </span>
+            </a>
 
-        <div class="flex items-center space-x-3">
-            <button id="btnExport" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow">
-                <i class="fa-solid fa-download"></i> Save
-            </button>
+            <!-- Nav Links (Desktop) -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-gradient-to-r after:from-indigo-500 after:to-purple-500">Home</a>
+                <a href="#tools" class="hover:text-white transition">Features</a>
+                <div class="relative group cursor-pointer">
+                    <span class="hover:text-white flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500 group-hover:rotate-180 transition"></i></span>
+                    <div class="absolute top-full left-0 mt-3 w-48 bg-gray-900/95 border border-gray-800 rounded-xl p-2 hidden group-hover:block shadow-2xl backdrop-blur-lg">
+                        <a href="javascript:void(0)" onclick="openStudioModal('Text to Image')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Text to Image</a>
+                        <a href="javascript:void(0)" onclick="openStudioModal('AI Image Editor')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">AI Image Editor</a>
+                        <a href="javascript:void(0)" onclick="openStudioModal('Image Upscaler')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Image Upscaler</a>
+                    </div>
+                </div>
+                <a href="#showcase" class="hover:text-white transition">Examples</a>
+                <a href="#pricing" class="hover:text-white transition">Pricing</a>
+                <a href="#" class="hover:text-white transition">Blog</a>
+            </nav>
 
-            <!-- User Auth Profile Section -->
-            <div id="authContainer" class="flex items-center">
-                <!-- Sign In Button (When logged out) -->
-                <button id="btnSignIn" class="px-3 py-1.5 bg-white text-gray-900 hover:bg-gray-100 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow">
-                    <i class="fa-brands fa-google text-red-500"></i>
-                    <span>Sign In</span>
+            <!-- User Authentication & Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle Button -->
+                <button class="w-9 h-9 rounded-full bg-gray-800/80 border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition" title="Toggle Mode">
+                    <i class="fa-regular fa-moon text-sm"></i>
                 </button>
 
-                <!-- Circular User Logo/Initial (When logged in) -->
-                <div id="userProfileBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-800/80 hover:bg-gray-700/80 border border-gray-700 py-1 px-2.5 rounded-full transition shadow-md" title="Click to Logout">
-                    <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase shadow ring-2 ring-indigo-400/40">
-                        U
+                <!-- Auth Container -->
+                <div id="authBox">
+                    <button id="btnLogInNav" class="px-4 py-2 text-xs font-semibold text-gray-300 hover:text-white transition bg-gray-900/80 border border-gray-800 rounded-xl">
+                        Log in
+                    </button>
+                    <div id="userBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-900 border border-purple-500/40 py-1 px-3 rounded-full shadow-lg" title="Click to Logout">
+                        <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase ring-2 ring-purple-500/30">
+                            U
+                        </div>
+                        <span id="userNameText" class="text-xs font-semibold text-gray-200 max-w-[80px] truncate">User</span>
                     </div>
-                    <span id="userDisplayName" class="text-xs font-medium text-gray-200 max-w-[90px] truncate">User</span>
-                    <i class="fa-solid fa-right-from-bracket text-[10px] text-gray-400 hover:text-red-400 ml-0.5"></i>
                 </div>
+
+                <!-- CTA Get Started Button -->
+                <button onclick="openStudioModal('Text to Image')" class="btn-gradient px-4 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
+                    <span>Get Started</span>
+                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- App Body -->
-    <div class="flex flex-1 overflow-hidden">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="w-14 border-r border-gray-800 bg-[#111827]/60 flex flex-col items-center py-4 space-y-4 shrink-0">
-            <button id="tabGen" class="tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400" title="AI Generate">
-                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
-            </button>
-            <button id="tabEdit" class="tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400" title="Adjustments">
-                <i class="fa-solid fa-sliders text-lg"></i>
-            </button>
-        </aside>
-
-        <!-- Tool Panels -->
-        <section class="w-72 sm:w-80 border-r border-gray-800 bg-[#111827] p-4 overflow-y-auto shrink-0 flex flex-col space-y-4">
+    <!-- Hero Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 lg:py-16 flex-1 flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
-            <!-- Generate Panel -->
-            <div id="panelGen" class="space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">AI Prompt Studio</h3>
+            <!-- Left Hero Content Column -->
+            <div class="lg:col-span-6 flex flex-col items-start space-y-6">
                 
-                <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Image Prompt</label>
-                    <textarea id="promptInput" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="e.g. A futuristic sports car in Rajasthan desert at sunset, 8k cinematic..."></textarea>
+                <!-- Pill Badge -->
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md shadow-inner">
+                    <span class="text-xs font-medium text-gray-300 flex items-center gap-1.5">
+                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">Advanced AI Models</span>
+                    </span>
                 </div>
 
-                <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Art Style</label>
-                    <select id="styleSelect" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-gray-200">
-                        <option value="">Realistic HD</option>
-                        <option value=", anime style studio ghibli">Anime Cartoon</option>
-                        <option value=", 3d render pixar animation style">3D Pixar</option>
-                        <option value=", cyberpunk neon lighting wallpaper">Cyberpunk</option>
-                    </select>
+                <!-- Main Heading -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+                    Create Stunning<br>
+                    AI Images in<br>
+                    <span class="text-gradient">Seconds</span>
+                </h1>
+
+                <!-- Sub-description -->
+                <p class="text-base sm:text-lg text-gray-400 max-w-lg font-normal leading-relaxed">
+                    Transform your ideas into breathtaking visuals with the power of artificial intelligence.
+                </p>
+
+                <!-- Hero CTA Buttons -->
+                <div class="flex flex-wrap items-center gap-3.5 pt-2 w-full sm:w-auto">
+                    <button onclick="openStudioModal('Text to Image')" class="btn-gradient px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                        <span>Start Creating Now</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                    <a href="#tools" class="px-5 py-3.5 rounded-xl border border-gray-700/80 bg-gray-900/60 hover:bg-gray-800 text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
+                        <span>Explore Tools</span>
+                        <i class="fa-solid fa-table-cells text-gray-400 text-xs"></i>
+                    </a>
                 </div>
 
-                <button id="btnGenerate" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 font-semibold rounded-lg text-xs transition flex justify-center items-center gap-2 shadow">
-                    <i class="fa-solid fa-bolt"></i> Generate Image
-                </button>
+                <!-- Stats Bar -->
+                <div class="pt-6 border-t border-gray-800/80 w-full grid grid-cols-3 gap-4 text-left">
+                    <div>
+                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
+                            <i class="fa-regular fa-user text-purple-400 text-sm"></i> 500K+
+                        </div>
+                        <p class="text-xs text-gray-400 mt-0.5">Happy Users</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
+                            <i class="fa-solid fa-wand-magic text-indigo-400 text-sm"></i> 5M+
+                        </div>
+                        <p class="text-xs text-gray-400 mt-0.5">Images Created</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
+                            <i class="fa-solid fa-bolt text-yellow-400 text-sm"></i> 10x
+                        </div>
+                        <p class="text-xs text-gray-400 mt-0.5">Faster Generation</p>
+                    </div>
+                </div>
             </div>
 
-            <!-- Adjust Panel -->
-            <div id="panelEdit" class="space-y-4 hidden">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">Live Image Filters</h3>
+            <!-- Right Hero Interactive Showcase Column -->
+            <div id="showcase" class="lg:col-span-6 relative flex items-center justify-center">
                 
-                <div>
-                    <div class="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Brightness</span> <span id="valBrightness">100%</span>
-                    </div>
-                    <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Contrast</span> <span id="valContrast">100%</span>
-                    </div>
-                    <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Saturation</span> <span id="valSaturation">100%</span>
-                    </div>
-                    <input type="range" id="filterSaturation" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                </div>
-
-                <div>
-                    <div class="flex justify-between text-xs text-gray-400 mb-1">
-                        <span>Blur</span> <span id="valBlur">0px</span>
-                    </div>
-                    <input type="range" id="filterBlur" min="0" max="20" value="0" class="w-full accent-indigo-500">
-                </div>
-
-                <button id="btnResetFilters" class="w-full py-2 border border-gray-700 hover:bg-gray-800 rounded-lg text-xs transition">Reset Adjustments</button>
-            </div>
-        </section>
-
-        <!-- Canvas Studio Workspace -->
-        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-4 overflow-hidden">
-            
-            <!-- Empty Placeholder Upload -->
-            <div id="uploadBox" class="border-2 border-dashed border-gray-800 rounded-2xl p-8 text-center flex flex-col items-center justify-center max-w-sm w-full">
-                <i class="fa-solid fa-image text-4xl text-gray-600 mb-3"></i>
-                <h4 class="font-medium text-sm text-gray-300 mb-1">Upload Photo or Write Prompt</h4>
-                <p class="text-xs text-gray-500 mb-4">Prompt se nayi image banayein ya phone se photo chunein</p>
-                <label class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold rounded-lg cursor-pointer">
-                    Choose from Phone
-                    <input type="file" id="imageUploader" class="hidden" accept="image/*">
-                </label>
-            </div>
-
-            <!-- Canvas Container -->
-            <div id="canvasBox" class="hidden relative max-w-full max-h-full rounded-xl overflow-hidden shadow-2xl border border-gray-800 checkerboard">
-                <canvas id="studioCanvas" class="max-w-full max-h-[75vh] object-contain block"></canvas>
-            </div>
-
-            <!-- Loading Spinner -->
-            <div id="loader" class="absolute inset-0 bg-black/80 hidden flex-col items-center justify-center z-30">
-                <div class="w-10 h-10 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-3"></div>
-                <span class="text-xs font-semibold text-gray-300">AI Image generate ho rahi hai...</span>
-            </div>
-        </main>
-    </div>
-
-    <!-- Application Script -->
-    <script>
-        // State
-        let currentImage = null;
-        let filters = { brightness: 100, contrast: 100, saturation: 100, blur: 0 };
-        const canvas = document.getElementById('studioCanvas');
-        const ctx = canvas.getContext('2d');
-
-        // Render Canvas
-        function redrawCanvas() {
-            if (!currentImage) return;
-            canvas.width = currentImage.naturalWidth || currentImage.width;
-            canvas.height = currentImage.naturalHeight || currentImage.height;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturation}%) blur(${filters.blur}px)`;
-            ctx.drawImage(currentImage, 0, 0);
-            
-            document.getElementById('uploadBox').classList.add('hidden');
-            document.getElementById('canvasBox').classList.remove('hidden');
-        }
-
-        // Tab Switching
-        const tabGen = document.getElementById('tabGen');
-        const tabEdit = document.getElementById('tabEdit');
-        const panelGen = document.getElementById('panelGen');
-        const panelEdit = document.getElementById('panelEdit');
-
-        tabGen.onclick = () => {
-            tabGen.className = 'tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400';
-            tabEdit.className = 'tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400';
-            panelGen.classList.remove('hidden');
-            panelEdit.classList.add('hidden');
-        };
-
-        tabEdit.onclick = () => {
-            tabEdit.className = 'tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400';
-            tabGen.className = 'tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400';
-            panelEdit.classList.remove('hidden');
-            panelGen.classList.add('hidden');
-        };
-
-        // File Upload Handler
-        document.getElementById('imageUploader').onchange = (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    currentImage = img;
-                    redrawCanvas();
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        };
-
-        // AI Generation Handler
-        document.getElementById('btnGenerate').onclick = async () => {
-            const prompt = document.getElementById('promptInput').value.trim();
-            if (!prompt) {
-                alert('Kripya pehle prompt type karein!');
-                return;
-            }
-            const fullPrompt = encodeURIComponent(prompt + document.getElementById('styleSelect').value);
-            const seed = Math.floor(Math.random() * 1000000);
-            const aiUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
-
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
-            loader.classList.add('flex');
-
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = () => {
-                currentImage = img;
-                redrawCanvas();
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            };
-            img.onerror = () => {
-                alert('Image generation me issue aaya, dobara koshish karein.');
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            };
-            img.src = aiUrl;
-        };
-
-        // Filter Handlers
-        const bindFilter = (id, key, unit) => {
-            document.getElementById(id).oninput = (e) => {
-                filters[key] = e.target.value;
-                document.getElementById('val' + key.charAt(0).toUpperCase() + key.slice(1)).innerText = `${e.target.value}${unit}`;
-                redrawCanvas();
-            };
-        };
-        bindFilter('filterBrightness', 'brightness', '%');
-        bindFilter('filterContrast', 'contrast', '%');
-        bindFilter('filterSaturation', 'saturation', '%');
-        bindFilter('filterBlur', 'blur', 'px');
-
-        document.getElementById('btnResetFilters').onclick = () => {
-            filters = { brightness: 100, contrast: 100, saturation: 100, blur: 0 };
-            document.getElementById('filterBrightness').value = 100;
-            document.getElementById('filterContrast').value = 100;
-            document.getElementById('filterSaturation').value = 100;
-            document.getElementById('filterBlur').value = 0;
-            document.getElementById('valBrightness').innerText = '100%';
-            document.getElementById('valContrast').innerText = '100%';
-            document.getElementById('valSaturation').innerText = '100%';
-            document.getElementById('valBlur').innerText = '0px';
-            redrawCanvas();
-        };
-
-        // Export/Download Button
-        document.getElementById('btnExport').onclick = () => {
-            if (!currentImage) return alert('Pehle image upload ya generate karein!');
-            const link = document.createElement('a');
-            link.download = `pixora-${Date.now()}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        };
-
-        // Circular Profile Logo / Google Email Login Handler
-        const btnSignIn = document.getElementById('btnSignIn');
-        const userProfileBadge = document.getElementById('userProfileBadge');
-        const userAvatarCircle = document.getElementById('userAvatarCircle');
-        const userDisplayName = document.getElementById('userDisplayName');
-
-        function updateAuthDisplay() {
-            const savedEmail = localStorage.getItem('pixora_user_email');
-            if (savedEmail) {
-                const initial = savedEmail.trim().charAt(0).toUpperCase();
-                const shortName = savedEmail.split('@')[0];
-                
-                userAvatarCircle.innerText = initial;
-                userDisplayName.innerText = shortName;
-
-                btnSignIn.classList.add('hidden');
-                userProfileBadge.classList.remove('hidden');
-                userProfileBadge.classList.add('flex');
-            } else {
-                btnSignIn.classList.remove('hidden');
-                userProfileBadge.classList.add('hidden');
-                userProfileBadge.classList.remove('flex');
-            }
-        }
-
-        btnSignIn.onclick = () => {
-            const email = prompt('Apna Gmail address enter karein:');
-            if (email && email.trim().length > 0) {
-                localStorage.setItem('pixora_user_email', email.trim());
-                updateAuthDisplay();
-            }
-        };
-
-        userProfileBadge.onclick = () => {
-            if (confirm('Kya aap logout karna chahte hain?')) {
-                localStorage.removeItem('pixora_user_email');
-                updateAuthDisplay();
-            }
-        };
-
-        // Initial check on load
-        updateAuthDisplay();
-    </script>
-</body>
-                    </html>
+                <!-- Main Showcase Container -->
+                <div class="relative w-full max-w-xl glass-card rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
                     
+                    <div class="flex gap-3 sm:gap-4">
+                        <!-- Main Featured Image Box -->
+                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 group">
+                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                            
+                            <!-- Prompt Pill Overlay (Bottom of Image) -->
+                            <div class="absolute bottom-4 left-4 right-4 bg-gray-950/80 backdrop-blur-md border border-gray-800/90 rounded-xl p-3 shadow-xl">
+                                <p id="featuredPromptLabel" class="text-xs font-medium text-gray-200 line-clamp-2">
+                                    Cyberpunk portrait of a girl with neon lights and butterflies
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Right Thumbnails Bar -->
+                        <div class="w-16 sm:w-20 flex flex-col justify-between space-y-2 shrink-0">
+                            <!-- Thumb 1 (Nature) -->
+                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Lake">
+                            </div>
+
+                            <!-- Thumb 2 (Neon Glasses) -->
+                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80', 'Cyberpunk portrait of a girl with neon lights and butterflies')" class="thumb-card active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
+                                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
+                            </div>
+
+                            <!-- Thumb 3 (Cyber City) -->
+                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Cyber City">
+                            </div>
+
+                            <!-- Thumb 4 (Castle) -->
+                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                                <img src="https://images.unsplash.com/photo-1514539079130-25950c84af65?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Castle">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Glowing Circular 'AI Generate' Button Floating Bottom-Right -->
+                    <button onclick="openStudioModal('AI Generate')" class="ai-pulse-btn absolute -bottom-5 -right-3 sm:-bottom-6 sm:-right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/20">
+                        <i class="fa-solid fa-sparkles text-lg mb-1"></i>
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider">AI Generate</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- All-in-One AI Image Tools Section (Cards Grid) -->
+        <section id="tools" class="mt-20 pt-10 border-t border-gray-900">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
+                <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
+            </div>
+
+            <!-- 6 Interactive Tool Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+                
+                <!-- Card 1: Text to Image -->
+                <div onclick="openStudioModal('Text to Image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-3 shadow">
+                        <i class="fa-regular fa-image text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white mb-1">Text to Image</h3>
+                        <p class="text-[11px] text-gray-400 leading-tight">Turn words into stunning visuals</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Image to Image -->
+                <div onclick="openStudioModal('Image to Image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-3 shadow">
+                        <i class="fa-solid fa-images text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white mb-1">Image to Image</h3>
+                        <p class="text-[11px] text-gray-400 leading-tight">Transform images with AI creativity</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: AI Image Editor -->
+                <div onclick="openStudioModal('AI Image Editor')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-3 shadow">
+                        <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white mb-1">AI Image Editor</h3>
+                        <p class="text-[11px] text-gray-400 leading-tight">Edit and enhance images like a pro</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Style Transfer -->
+                <div onclick="openStudioModal('Style Transfer')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white mb-3 shadow">
+                        <i class="fa-solid fa-palette text-base"></i>
+      
