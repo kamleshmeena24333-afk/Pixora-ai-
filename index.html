@@ -4,174 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixora AI — Create Stunning AI Images in Seconds</title>
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #030712;
+            background-color: #040714;
             color: #f3f4f6;
+            overflow-x: hidden;
         }
-        .hero-gradient {
-            background: radial-gradient(circle at 50% 20%, rgba(124, 58, 237, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
+
+        /* Exact Reference Radial Lighting */
+        .hero-glow-bg {
+            background: 
+                radial-gradient(circle at 75% 28%, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.1) 35%, transparent 65%),
+                radial-gradient(circle at 20% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                #040714;
         }
-        .text-gradient {
-            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+
+        /* Gradient Word "Seconds" */
+        .text-gradient-seconds {
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 30%, #818cf8 70%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .text-gradient-purple {
-            background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        /* Hero Right Showcase Container */
+        .showcase-container {
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px -10px rgba(124, 58, 237, 0.25);
         }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-card:hover {
-            border-color: rgba(168, 85, 247, 0.4);
-            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.2);
-        }
+
+        /* Tool Cards matching screenshot */
         .tool-card {
-            background: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.6) 100%);
+            background: rgba(13, 19, 36, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            transition: all 0.25s ease-in-out;
         }
         .tool-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(147, 51, 234, 0.5);
-            box-shadow: 0 12px 30px -8px rgba(147, 51, 234, 0.3);
+            background: rgba(22, 31, 58, 0.85);
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25);
         }
-        .btn-gradient {
-            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+
+        /* Glowing Circular AI Generate Button */
+        .ai-floating-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%);
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
-        .btn-gradient:hover {
-            box-shadow: 0 0 25px rgba(217, 70, 239, 0.45);
+        .ai-floating-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Top Start Creating Button */
+        .btn-purple-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-purple-gradient:hover {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
             transform: translateY(-1px);
         }
-        .ai-pulse-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
-            animation: pulseGlow 3s infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.6); }
-            50% { box-shadow: 0 0 45px rgba(192, 38, 211, 0.85); transform: scale(1.04); }
-        }
-        .checkerboard {
-            background-image: linear-gradient(45deg, #1f2937 25%, transparent 25%), 
-                              linear-gradient(-45deg, #1f2937 25%, transparent 25%), 
-                              linear-gradient(45deg, transparent 75%, #1f2937 75%), 
-                              linear-gradient(-45deg, transparent 75%, #1f2937 75%);
-            background-size: 16px 16px;
-            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+
+        .thumb-item.active {
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between hero-gradient selection:bg-purple-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between hero-glow-bg selection:bg-purple-600 selection:text-white">
 
-    <!-- Top Navigation Bar -->
-    <header class="w-full border-b border-gray-800/80 bg-[#070b14]/80 backdrop-blur-xl sticky top-0 z-40">
+    <!-- Navbar -->
+    <header class="w-full border-b border-gray-800/60 bg-[#040714]/85 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition">
-                    <i class="fa-solid fa-sparkles text-sm"></i>
+            <a href="#" class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-sparkles text-xs"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight text-white flex items-center gap-1">
-                    Pixora<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">AI</span>
+                <span class="text-xl font-bold tracking-tight text-white flex items-center">
+                    Pixora<span class="text-white">AI</span>
                 </span>
             </a>
 
-            <!-- Nav Links (Desktop) -->
+            <!-- Navigation Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-                <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-gradient-to-r after:from-indigo-500 after:to-purple-500">Home</a>
+                <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-purple-500">Home</a>
                 <a href="#tools" class="hover:text-white transition">Features</a>
-                <div class="relative group cursor-pointer">
-                    <span class="hover:text-white flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500 group-hover:rotate-180 transition"></i></span>
-                    <div class="absolute top-full left-0 mt-3 w-48 bg-gray-900/95 border border-gray-800 rounded-xl p-2 hidden group-hover:block shadow-2xl backdrop-blur-lg">
-                        <a href="javascript:void(0)" onclick="openStudioModal('Text to Image')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Text to Image</a>
-                        <a href="javascript:void(0)" onclick="openStudioModal('AI Image Editor')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">AI Image Editor</a>
-                        <a href="javascript:void(0)" onclick="openStudioModal('Image Upscaler')" class="block px-3 py-2 text-xs rounded-lg hover:bg-gray-800 text-gray-300 hover:text-white">Image Upscaler</a>
-                    </div>
-                </div>
+                <a href="#tools" class="hover:text-white transition flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i></a>
                 <a href="#showcase" class="hover:text-white transition">Examples</a>
                 <a href="#pricing" class="hover:text-white transition">Pricing</a>
                 <a href="#" class="hover:text-white transition">Blog</a>
             </nav>
 
-            <!-- User Authentication & Action Buttons -->
-            <div class="flex items-center space-x-3">
-                <!-- Theme Toggle Button -->
-                <button class="w-9 h-9 rounded-full bg-gray-800/80 border border-gray-700/60 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition" title="Toggle Mode">
+            <!-- Navbar Actions & Google Auth -->
+            <div class="flex items-center space-x-3.5">
+                <button class="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition" title="Theme">
                     <i class="fa-regular fa-moon text-sm"></i>
                 </button>
 
-                <!-- Auth Container -->
+                <!-- Auth / Login Button -->
                 <div id="authBox">
                     <button id="btnLogInNav" class="px-4 py-2 text-xs font-semibold text-gray-300 hover:text-white transition bg-gray-900/80 border border-gray-800 rounded-xl">
                         Log in
                     </button>
-                    <div id="userBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-900 border border-purple-500/40 py-1 px-3 rounded-full shadow-lg" title="Click to Logout">
-                        <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase ring-2 ring-purple-500/30">
+                    <div id="userBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-900/90 border border-purple-500/40 py-1 px-3 rounded-full shadow-lg" title="Click to Logout">
+                        <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase ring-2 ring-purple-500/40">
                             U
                         </div>
                         <span id="userNameText" class="text-xs font-semibold text-gray-200 max-w-[80px] truncate">User</span>
                     </div>
                 </div>
 
-                <!-- CTA Get Started Button -->
-                <button onclick="openStudioModal('Text to Image')" class="btn-gradient px-4 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
+                <a href="#showcase" class="btn-purple-gradient px-4 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
                     <span>Get Started</span>
                     <i class="fa-solid fa-arrow-right text-[11px]"></i>
-                </button>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 lg:py-16 flex-1 flex flex-col justify-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <!-- Main Hero Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:py-14 flex-1 flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             
-            <!-- Left Hero Content Column -->
+            <!-- Left Hero Text Column -->
             <div class="lg:col-span-6 flex flex-col items-start space-y-6">
                 
                 <!-- Pill Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/30 backdrop-blur-md shadow-inner">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 backdrop-blur-md">
                     <span class="text-xs font-medium text-gray-300 flex items-center gap-1.5">
                         Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">Advanced AI Models</span>
                     </span>
                 </div>
 
                 <!-- Main Heading -->
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+                <h1 class="text-4xl sm:text-5xl lg:text-[62px] font-extrabold tracking-tight text-white leading-[1.12]">
                     Create Stunning<br>
                     AI Images in<br>
-                    <span class="text-gradient">Seconds</span>
+                    <span class="text-gradient-seconds">Seconds</span>
                 </h1>
 
-                <!-- Sub-description -->
+                <!-- Subtitle -->
                 <p class="text-base sm:text-lg text-gray-400 max-w-lg font-normal leading-relaxed">
                     Transform your ideas into breathtaking visuals with the power of artificial intelligence.
                 </p>
 
-                <!-- Hero CTA Buttons -->
-                <div class="flex flex-wrap items-center gap-3.5 pt-2 w-full sm:w-auto">
-                    <button onclick="openStudioModal('Text to Image')" class="btn-gradient px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                <!-- Hero Action Buttons -->
+                <div class="flex flex-wrap items-center gap-3.5 pt-1 w-full sm:w-auto">
+                    <a href="#showcase" class="btn-purple-gradient px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
                         <span>Start Creating Now</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </button>
-                    <a href="#tools" class="px-5 py-3.5 rounded-xl border border-gray-700/80 bg-gray-900/60 hover:bg-gray-800 text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
+                    </a>
+                    <a href="#tools" class="px-5 py-3.5 rounded-xl border border-gray-700/70 bg-gray-900/40 hover:bg-gray-800 text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
                         <span>Explore Tools</span>
                         <i class="fa-solid fa-table-cells text-gray-400 text-xs"></i>
                     </a>
@@ -200,60 +198,70 @@
                 </div>
             </div>
 
-            <!-- Right Hero Interactive Showcase Column -->
+            <!-- Right Showcase & Direct Interactive AI Generator -->
             <div id="showcase" class="lg:col-span-6 relative flex items-center justify-center">
                 
-                <!-- Main Showcase Container -->
-                <div class="relative w-full max-w-xl glass-card rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
+                <div class="relative w-full max-w-xl showcase-container rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
                     
                     <div class="flex gap-3 sm:gap-4">
-                        <!-- Main Featured Image Box -->
-                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 group">
-                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        
+                        <!-- Main Featured AI Frame -->
+                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/4.8] bg-[#02050f]">
                             
-                            <!-- Prompt Pill Overlay (Bottom of Image) -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-gray-950/80 backdrop-blur-md border border-gray-800/90 rounded-xl p-3 shadow-xl">
-                                <p id="featuredPromptLabel" class="text-xs font-medium text-gray-200 line-clamp-2">
-                                    Cyberpunk portrait of a girl with neon lights and butterflies
-                                </p>
+                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-500">
+                            
+                            <!-- Loading Spinner inside Image -->
+                            <div id="aiLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
+                                <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-3"></div>
+                                <span class="text-xs font-semibold text-purple-300">Generating AI Image...</span>
+                            </div>
+
+                            <!-- Live Interactive Prompt Input Bar (Overlaid at bottom of image) -->
+                            <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-gray-950/85 backdrop-blur-xl border border-gray-700/80 rounded-2xl p-2 sm:p-2.5 shadow-2xl flex items-center gap-2 z-10">
+                                <i class="fa-solid fa-wand-magic-sparkles text-purple-400 text-xs ml-1 shrink-0"></i>
+                                <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium truncate" placeholder="Type what you want to create...">
+                                <button id="btnSaveImageDirect" title="Download Image" class="w-7 h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition">
+                                    <i class="fa-solid fa-download text-[11px]"></i>
+                                </button>
                             </div>
                         </div>
 
-                        <!-- Right Thumbnails Bar -->
+                        <!-- 4 Right Vertical Thumbnail Cards -->
                         <div class="w-16 sm:w-20 flex flex-col justify-between space-y-2 shrink-0">
-                            <!-- Thumb 1 (Nature) -->
-                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            
+                            <!-- Thumb 1: Lake -->
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Lake">
                             </div>
 
-                            <!-- Thumb 2 (Neon Glasses) -->
-                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80', 'Cyberpunk portrait of a girl with neon lights and butterflies')" class="thumb-card active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
+                            <!-- Thumb 2: Neon Girl -->
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
                             </div>
 
-                            <!-- Thumb 3 (Cyber City) -->
-                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            <!-- Thumb 3: Cyber City -->
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Cyber City">
                             </div>
 
-                            <!-- Thumb 4 (Castle) -->
-                            <div onclick="selectFeatured('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river')" class="thumb-card cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            <!-- Thumb 4: Castle -->
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1514539079130-25950c84af65?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Castle">
                             </div>
                         </div>
                     </div>
 
                     <!-- Glowing Circular 'AI Generate' Button Floating Bottom-Right -->
-                    <button onclick="openStudioModal('AI Generate')" class="ai-pulse-btn absolute -bottom-5 -right-3 sm:-bottom-6 sm:-right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/20">
+                    <button id="btnAIGenerateMain" class="ai-floating-btn absolute -bottom-5 -right-3 sm:-bottom-6 sm:-right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/25">
                         <i class="fa-solid fa-sparkles text-lg mb-1"></i>
-                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider">AI Generate</span>
+                        <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">AI Generate</span>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- All-in-One AI Image Tools Section (Cards Grid) -->
-        <section id="tools" class="mt-20 pt-10 border-t border-gray-900">
+        <!-- All-in-One AI Image Tools Section (Bottom 6 Cards) -->
+        <section id="tools" class="mt-20 pt-10 border-t border-gray-800/80">
             <div class="text-center max-w-2xl mx-auto mb-10">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
                 <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
@@ -263,7 +271,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
                 
                 <!-- Card 1: Text to Image -->
-                <div onclick="openStudioModal('Text to Image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                <div onclick="triggerToolPreset('Text to Image', 'Ultra-detailed cinematic landscape with futuristic neon city, 8k')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-3 shadow">
                         <i class="fa-regular fa-image text-base"></i>
                     </div>
@@ -274,7 +282,7 @@
                 </div>
 
                 <!-- Card 2: Image to Image -->
-                <div onclick="openStudioModal('Image to Image')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                <div onclick="triggerToolPreset('Image to Image', 'Anime makoto shinkai style version of this scenery with soft colors')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-3 shadow">
                         <i class="fa-solid fa-images text-base"></i>
                     </div>
@@ -285,7 +293,7 @@
                 </div>
 
                 <!-- Card 3: AI Image Editor -->
-                <div onclick="openStudioModal('AI Image Editor')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                <div onclick="triggerToolPreset('AI Image Editor', 'Add dramatic golden hour sunset and glowing warm rays')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-3 shadow">
                         <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
                     </div>
@@ -296,7 +304,5 @@
                 </div>
 
                 <!-- Card 4: Style Transfer -->
-                <div onclick="openStudioModal('Style Transfer')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white mb-3 shadow">
-                        <i class="fa-solid fa-palette text-base"></i>
-      
+                <div onclick="triggerToolPreset('Style Transfer', 'Cyberpunk neon glow painting art style, Unreal Engine 5 render')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center 
