@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixora AI — Next-Gen AI Image Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#0b0f19] text-gray-100 flex flex-col h-screen overflow-hidden">
+
+    <!-- Top Navbar -->
+    <header class="h-14 border-b border-gray-800 bg-[#111827]/80 backdrop-blur-md px-6 flex items-center justify-between z-20">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/30">P</div>
+            <span class="font-bold text-lg tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Pixora AI</span>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <button id="btnApiKey" class="px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/60 hover:bg-gray-700 text-xs flex items-center gap-2 transition">
+                <i class="fa-solid fa-key text-yellow-500"></i>
+                <span id="keyStatusText">Set API Key</span>
+            </button>
+            <button id="btnExport" class="px-4 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-xs font-semibold rounded-lg shadow-md transition flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Export
+            </button>
+        </div>
+    </header>
+
+    <!-- Studio Body -->
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <!-- Left Sidebar: Tools -->
+        <aside class="w-16 border-r border-gray-800 bg-[#111827]/40 flex flex-col items-center py-4 space-y-4 z-10">
+            <button class="tool-tab active p-3 rounded-xl hover:bg-gray-800 text-indigo-400" data-tab="generate" title="AI Generate">
+                <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+            </button>
+            <button class="tool-tab p-3 rounded-xl hover:bg-gray-800 text-gray-400" data-tab="edit" title="AI Edit & Inpaint">
+                <i class="fa-solid fa-paintbrush text-lg"></i>
+            </button>
+            <button class="tool-tab p-3 rounded-xl hover:bg-gray-800 text-gray-400" data-tab="adjust" title="Canvas Adjustments">
+                <i class="fa-solid fa-sliders text-lg"></i>
+            </button>
+        </aside>
+
+        <!-- Tool Configuration Panel -->
+        <section id="toolPanel" class="w-80 border-r border-gray-800 bg-[#111827]/90 p-5 overflow-y-auto flex flex-col space-y-6">
+            
+            <!-- Generate Panel -->
+            <div id="panel-generate" class="tab-content flex flex-col space-y-4">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Generate Image</h3>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Prompt</label>
+                    <textarea id="genPrompt" rows="4" class="w-full bg-gray-900/80 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="Describe what you want to create..."></textarea>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Aspect Ratio</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="ratio-btn py-1.5 rounded border border-indigo-500 bg-indigo-500/10 text-xs" data-ratio="1:1">1:1</button>
+                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-xs" data-ratio="16:9">16:9</button>
+                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-xs" data-ratio="9:16">9:16</button>
+                    </div>
+                </div>
+                <button id="btnRunGenerate" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-lg text-sm transition flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-bolt"></i> Generate
+                </button>
+            </div>
+
+            <!-- Edit Panel -->
+            <div id="panel-edit" class="tab-content hidden flex flex-col space-y-4">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">AI Edit & Inpainting</h3>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Modification Prompt</label>
+                    <textarea id="editPrompt" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600" placeholder="e.g., Change hair to blonde, add sunglasses..."></textarea>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-gray-300">Brush Size</span>
+                    <input type="range" id="brushSize" min="5" max="100" value="30" class="w-32 accent-indigo-500">
+                </div>
+                <button id="btnRunEdit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 font-semibold rounded-lg text-sm transition">Apply AI Edit</button>
+            </div>
+
+            <!-- Adjust Panel -->
+            <div id="panel-adjust" class="tab-content hidden flex flex-col space-y-4">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Quick Adjustments</h3>
+                <div>
+                    <label class="text-xs text-gray-400 flex justify-between">Brightness <span id="valBrightness">100%</span></label>
+                    <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 flex justify-between">Contrast <span id="valContrast">100%</span></label>
+                    <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                </div>
+                <button id="btnResetAdjust" class="w-full py-1.5 border border-gray-700 rounded text-xs hover:bg-gray-800">Reset Filters</button>
+            </div>
+        </section>
+
+        <!-- Canvas Workspace Area -->
+        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-6 overflow-hidden">
+            
+            <!-- Upload Overlay (when empty) -->
+            <div id="emptyDropzone" class="border-2 border-dashed border-gray-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center max-w-md w-full hover:border-indigo-500/50 transition cursor-pointer">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-600 mb-3"></i>
+                <h4 class="font-medium text-gray-300 mb-1">Drag & drop your image here</h4>
+                <p class="text-xs text-gray-500 mb-4">PNG, JPG, WEBP up to 20MB</p>
+                <label class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold rounded-lg cursor-pointer">
+                    Browse File
+                    <input type="file" id="fileInput" class="hidden" accept="image/*">
+                </label>
+            </div>
+
+            <!-- Main Canvas Container -->
+            <div id="canvasWrapper" class="relative hidden max-w-full max-h-full shadow-2xl rounded-lg overflow-hidden border border-gray-800">
+                <canvas id="mainCanvas"></canvas>
+                <canvas id="maskCanvas" class="absolute top-0 left-0 pointer-events-none opacity-50"></canvas>
+            </div>
+
+            <!-- Loader Indicator -->
+            <div id="studioLoader" class="absolute inset-0 bg-black/70 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
+                <div class="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-3"></div>
+                <span id="loaderMessage" class="text-sm font-medium text-gray-300">Processing with AI...</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/canvas.js"></script>
+    <script src="js/ai-service.js"></script>
+    <script src="js/app.js"></script>
+</body>
+                      </html>
+                      
