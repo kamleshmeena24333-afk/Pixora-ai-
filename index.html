@@ -129,6 +129,20 @@
     <script src="js/canvas.js"></script>
     <script src="js/ai-service.js"></script>
     <script src="js/app.js"></script>
+    <!-- API Key Popup Modal -->
+    <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <h3 class="text-base font-semibold text-white mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-key text-yellow-500"></i> Set API Token
+            </h3>
+            <p class="text-xs text-gray-400 mb-4">Paste your Hugging Face Access Token below:</p>
+            <input type="text" id="apiInputVal" placeholder="hf_xxxxxxxxxxxx" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none mb-4">
+            <div class="flex justify-end gap-2">
+                <button id="btnCloseModal" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-semibold">Cancel</button>
+                <button id="btnSaveKey" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-semibold">Save Key</button>
+            </div>
+        </div>
+    </div>
 </body>
                       </html>
                       
