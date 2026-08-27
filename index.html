@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1280, initial-scale=0.35, user-scalable=yes">
-    <title>Pixora AI — Create Stunning AI Images in Seconds</title>
+    <title>Pixora AI — Create Stunning 4K AI Images in Seconds</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -63,13 +63,13 @@
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
         }
         .prompt-bar {
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         .prompt-bar:focus-within {
-            border-color: rgba(168, 85, 247, 0.8);
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);
+            border-color: rgba(168, 85, 247, 0.85);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
         }
     </style>
 </head>
@@ -127,7 +127,7 @@
                 <!-- Pill Badge -->
                 <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 backdrop-blur-md">
                     <span class="text-xs font-medium text-gray-300 flex items-center gap-1.5">
-                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">Advanced AI Models</span>
+                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">FLUX 4K Ultra Engine</span>
                     </span>
                 </div>
 
@@ -178,7 +178,7 @@
                 </div>
             </div>
 
-            <!-- Right Showcase Frame (With Below Professional Prompt Box) -->
+            <!-- Right Showcase Frame (With 4K Image & Dedicated Download Bar) -->
             <div id="showcase" class="col-span-6 relative flex flex-col items-center">
                 
                 <div class="relative w-full glass-showcase rounded-3xl p-4 shadow-2xl flex flex-col space-y-4">
@@ -189,12 +189,18 @@
                         <!-- Featured AI Image Frame -->
                         <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/3.8] bg-[#02050f] border border-gray-800/80">
                             
-                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=85" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-300">
+                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600&auto=format&fit=crop&q=95" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-300">
                             
+                            <!-- 4K Ultra HD Badge Overlay -->
+                            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-purple-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[10px] font-bold text-purple-300">
+                                <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>
+                                4K ULTRA HD
+                            </div>
+
                             <!-- Loading Spinner inside Image -->
-                            <div id="aiLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
-                                <div class="w-10 h-10 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-2"></div>
-                                <span class="text-xs font-semibold text-purple-300 tracking-wide">Creating AI Image...</span>
+                            <div id="aiLoader" class="absolute inset-0 bg-black/85 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
+                                <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-2"></div>
+                                <span class="text-xs font-semibold text-purple-300 tracking-wide">Rendering in 4K Ultra HD...</span>
                             </div>
                         </div>
 
@@ -202,44 +208,45 @@
                         <div class="w-20 flex flex-col justify-between space-y-2 shrink-0">
                             
                             <!-- Thumb 1: Lake -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=95', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Lake">
                             </div>
 
                             <!-- Thumb 2: Neon Girl (Active) -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=85', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item thumb-active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600&auto=format&fit=crop&q=95', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item thumb-active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
                             </div>
 
                             <!-- Thumb 3: Cyber City -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop&q=95', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Cyber City">
                             </div>
 
                             <!-- Thumb 4: Castle -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=1600&auto=format&fit=crop&q=95', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1514539079130-25950c84af65?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Castle">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Professional Bottom Prompt & Generate Control Bar (Below the Image) -->
+                    <!-- Professional Bottom Prompt & 4K Download Control Bar -->
                     <div class="prompt-bar rounded-2xl p-2 flex items-center gap-2">
                         <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 ml-1">
                             <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
                         </div>
                         
-                        <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium px-2" placeholder="Describe the image you want to generate...">
+                        <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium px-2" placeholder="Describe what you want to generate in 4K...">
                         
-                        <!-- Save Button -->
-                        <button id="btnSaveImageDirect" title="Download Image" class="w-9 h-9 rounded-xl bg-gray-800/80 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition border border-gray-700/60">
-                            <i class="fa-solid fa-download text-xs"></i>
+                        <!-- Dedicated 4K Download Button -->
+                        <button id="btnSaveImageDirect" title="Download 4K HD Image" class="px-3 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 hover:text-white flex items-center gap-1.5 shrink-0 transition border border-gray-700 text-xs font-bold shadow">
+                            <i class="fa-solid fa-download text-xs text-purple-400"></i>
+                            <span>Download 4K</span>
                         </button>
 
-                        <!-- Professional Generate Button -->
+                        <!-- Generate Button -->
                         <button id="btnAIGenerateMain" class="btn-purple-main px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-2 shrink-0 transition">
                             <i class="fa-solid fa-bolt text-xs"></i>
-                            <span>Generate</span>
+                            <span>Generate 4K</span>
                         </button>
                     </div>
 
@@ -314,91 +321,4 @@
 
                 <!-- Card 6: Background Remover -->
                 <div class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-800 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-crop-simple text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Background Remover</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Remove background instantly</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Trusted By Section -->
-        <section class="mt-20 text-center">
-            <p class="text-xs uppercase tracking-widest font-semibold text-gray-500 mb-8">Trusted by creators and businesses worldwide</p>
-            <div class="flex items-center justify-center gap-12 opacity-50 grayscale hover:grayscale-0 transition duration-300">
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-brands fa-microsoft"></i> Microsoft</span>
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-brands fa-google"></i> Google</span>
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-solid fa-cube"></i> OpenAI</span>
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-solid fa-palette"></i> Canva</span>
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-solid fa-feather"></i> Adobe</span>
-                <span class="text-base font-bold flex items-center gap-2"><i class="fa-solid fa-microchip"></i> NVIDIA</span>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-900 bg-[#02050e] py-8 text-center text-xs text-gray-500">
-        <p>© 2026 Pixora AI Studio. Next-Generation Artificial Intelligence Powered Image Suite.</p>
-    </footer>
-
-    <!-- Direct Fast AI Generation Script -->
-    <script>
-        const mainImg = document.getElementById('mainFeaturedImg');
-        const promptInput = document.getElementById('livePromptInput');
-        const loader = document.getElementById('aiLoader');
-        const btnAIGenerate = document.getElementById('btnAIGenerateMain');
-        const btnSave = document.getElementById('btnSaveImageDirect');
-
-        function switchShowcase(imgUrl, promptText, el) {
-            mainImg.src = imgUrl;
-            promptInput.value = promptText;
-            document.querySelectorAll('.thumb-item').forEach(item => item.classList.remove('thumb-active', 'border-purple-500'));
-            el.classList.add('thumb-active', 'border-purple-500');
-        }
-
-        async function runAIGeneration() {
-            const prompt = promptInput.value.trim();
-            if (!prompt) return alert('Kripya pehle prompt likhein!');
-
-            loader.classList.remove('hidden');
-            loader.classList.add('flex');
-
-            const encodedPrompt = encodeURIComponent(prompt);
-            const seed = Math.floor(Math.random() * 9999999);
-            const aiImageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
-
-            const testImg = new Image();
-            testImg.crossOrigin = "anonymous";
-            testImg.onload = () => {
-                mainImg.src = aiImageUrl;
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            };
-            testImg.onerror = () => {
-                alert('Generation error, please try again.');
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            };
-            testImg.src = aiImageUrl;
-        }
-
-        btnAIGenerate.onclick = () => runAIGeneration();
-
-        promptInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') runAIGeneration();
-        });
-
-        btnSave.onclick = () => {
-            const a = document.createElement('a');
-            a.href = mainImg.src;
-            a.download = `pixora-ai-${Date.now()}.png`;
-            a.target = '_blank';
-            a.click();
-        };
-    </script>
-</body>
-</html>
+                    <div class="w-10 h-10 rounded-xl bg-gr
