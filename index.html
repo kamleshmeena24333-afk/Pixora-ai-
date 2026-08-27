@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,99 +9,84 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #040714;
+        }
+        body {
+            background-color: #030712;
+            background-image: 
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.18) 0%, rgba(59, 130, 246, 0.08) 35%, transparent 60%),
+                radial-gradient(circle at 10% 45%, rgba(99, 102, 241, 0.07) 0%, transparent 40%);
             color: #f3f4f6;
-            overflow-x: hidden;
         }
-
-        /* Exact Reference Radial Lighting */
-        .hero-glow-bg {
-            background: 
-                radial-gradient(circle at 75% 28%, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.1) 35%, transparent 65%),
-                radial-gradient(circle at 20% 40%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                #040714;
-        }
-
-        /* Gradient Word "Seconds" */
         .text-gradient-seconds {
-            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 30%, #818cf8 70%, #c084fc 100%);
+            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 35%, #818cf8 70%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        /* Hero Right Showcase Container */
-        .showcase-container {
-            background: rgba(10, 15, 30, 0.75);
+        .glass-showcase {
+            background: rgba(10, 15, 30, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px -10px rgba(124, 58, 237, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.9), 0 0 30px -10px rgba(124, 58, 237, 0.3);
         }
-
-        /* Tool Cards matching screenshot */
         .tool-card {
-            background: rgba(13, 19, 36, 0.7);
+            background: rgba(13, 19, 36, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(12px);
-            transition: all 0.25s ease-in-out;
+            transition: all 0.25s ease;
         }
         .tool-card:hover {
-            background: rgba(22, 31, 58, 0.85);
+            background: rgba(23, 32, 60, 0.85);
             border-color: rgba(139, 92, 246, 0.4);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.25);
+            transform: translateY(-2px);
         }
-
-        /* Glowing Circular AI Generate Button */
-        .ai-floating-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%);
-            box-shadow: 0 0 35px rgba(124, 58, 237, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        .ai-floating-btn:hover {
-            transform: scale(1.06);
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-
-        /* Top Start Creating Button */
-        .btn-purple-gradient {
+        .btn-purple-main {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
             transition: all 0.3s ease;
         }
-        .btn-purple-gradient:hover {
+        .btn-purple-main:hover {
             box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
             transform: translateY(-1px);
         }
-
-        .thumb-item.active {
+        .ai-pulse-circle {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%);
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.75), inset 0 0 15px rgba(255, 255, 255, 0.25);
+            animation: pulseGlow 3s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 25px rgba(124, 58, 237, 0.6); }
+            100% { box-shadow: 0 0 45px rgba(217, 70, 239, 0.9); }
+        }
+        .thumb-active {
             border-color: #a855f7 !important;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between hero-glow-bg selection:bg-purple-600 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between selection:bg-purple-600 selection:text-white">
 
-    <!-- Navbar -->
-    <header class="w-full border-b border-gray-800/60 bg-[#040714]/85 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Top Navigation Bar -->
+    <header class="w-full border-b border-gray-800/60 bg-[#030712]/90 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
             
             <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+            <a href="#" class="flex items-center gap-2">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
                     <i class="fa-solid fa-sparkles text-xs"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight text-white flex items-center">
+                <span class="text-lg sm:text-xl font-bold tracking-tight text-white">
                     Pixora<span class="text-white">AI</span>
                 </span>
             </a>
 
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+            <!-- Nav Links (Desktop) -->
+            <nav class="hidden lg:flex items-center space-x-7 text-xs sm:text-sm font-medium text-gray-300">
                 <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-purple-500">Home</a>
                 <a href="#tools" class="hover:text-white transition">Features</a>
                 <a href="#tools" class="hover:text-white transition flex items-center gap-1">AI Tools <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i></a>
@@ -110,133 +95,134 @@
                 <a href="#" class="hover:text-white transition">Blog</a>
             </nav>
 
-            <!-- Navbar Actions & Google Auth -->
-            <div class="flex items-center space-x-3.5">
-                <button class="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition" title="Theme">
-                    <i class="fa-regular fa-moon text-sm"></i>
+            <!-- Navbar Actions -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition" title="Theme">
+                    <i class="fa-regular fa-moon text-xs sm:text-sm"></i>
                 </button>
 
                 <!-- Auth / Login Button -->
                 <div id="authBox">
-                    <button id="btnLogInNav" class="px-4 py-2 text-xs font-semibold text-gray-300 hover:text-white transition bg-gray-900/80 border border-gray-800 rounded-xl">
+                    <button id="btnLogInNav" class="px-3 py-1.5 text-xs font-semibold text-gray-300 hover:text-white transition bg-gray-900/80 border border-gray-800 rounded-xl">
                         Log in
                     </button>
-                    <div id="userBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-900/90 border border-purple-500/40 py-1 px-3 rounded-full shadow-lg" title="Click to Logout">
-                        <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase ring-2 ring-purple-500/40">
+                    <div id="userBadge" class="hidden items-center gap-1.5 cursor-pointer bg-gray-900/90 border border-purple-500/40 py-1 px-2.5 rounded-full shadow" title="Click to Logout">
+                        <div id="userAvatarCircle" class="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-[10px] font-bold text-white uppercase ring-2 ring-purple-500/40">
                             U
                         </div>
-                        <span id="userNameText" class="text-xs font-semibold text-gray-200 max-w-[80px] truncate">User</span>
+                        <span id="userNameText" class="text-xs font-semibold text-gray-200 max-w-[70px] truncate">User</span>
                     </div>
                 </div>
 
-                <a href="#showcase" class="btn-purple-gradient px-4 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
+                <a href="#showcase" class="btn-purple-main px-3.5 sm:px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
                     <span>Get Started</span>
-                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
             </div>
         </div>
     </header>
 
     <!-- Main Hero Section -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 lg:py-14 flex-1 flex flex-col justify-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12 lg:py-12 flex-1 flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             
             <!-- Left Hero Text Column -->
-            <div class="lg:col-span-6 flex flex-col items-start space-y-6">
+            <div class="lg:col-span-6 flex flex-col items-start space-y-4 sm:space-y-6">
                 
                 <!-- Pill Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 backdrop-blur-md">
-                    <span class="text-xs font-medium text-gray-300 flex items-center gap-1.5">
-                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">Advanced AI Models</span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 backdrop-blur-md">
+                    <span class="text-[11px] sm:text-xs font-medium text-gray-300 flex items-center gap-1.5">
+                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-[10px]"></i> <span class="text-purple-300 font-semibold">Advanced AI Models</span>
                     </span>
                 </div>
 
                 <!-- Main Heading -->
-                <h1 class="text-4xl sm:text-5xl lg:text-[62px] font-extrabold tracking-tight text-white leading-[1.12]">
+                <h1 class="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-white leading-[1.12]">
                     Create Stunning<br>
                     AI Images in<br>
                     <span class="text-gradient-seconds">Seconds</span>
                 </h1>
 
                 <!-- Subtitle -->
-                <p class="text-base sm:text-lg text-gray-400 max-w-lg font-normal leading-relaxed">
+                <p class="text-sm sm:text-base text-gray-400 max-w-lg font-normal leading-relaxed">
                     Transform your ideas into breathtaking visuals with the power of artificial intelligence.
                 </p>
 
                 <!-- Hero Action Buttons -->
-                <div class="flex flex-wrap items-center gap-3.5 pt-1 w-full sm:w-auto">
-                    <a href="#showcase" class="btn-purple-gradient px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
+                <div class="flex flex-wrap items-center gap-3 pt-1 w-full sm:w-auto">
+                    <a href="#showcase" class="btn-purple-main px-5 sm:px-6 py-3 rounded-xl text-xs sm:text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
                         <span>Start Creating Now</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
-                    <a href="#tools" class="px-5 py-3.5 rounded-xl border border-gray-700/70 bg-gray-900/40 hover:bg-gray-800 text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
+                    <a href="#tools" class="px-4 sm:px-5 py-3 rounded-xl border border-gray-700/70 bg-gray-900/40 hover:bg-gray-800 text-xs sm:text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
                         <span>Explore Tools</span>
                         <i class="fa-solid fa-table-cells text-gray-400 text-xs"></i>
                     </a>
                 </div>
 
                 <!-- Stats Bar -->
-                <div class="pt-6 border-t border-gray-800/80 w-full grid grid-cols-3 gap-4 text-left">
+                <div class="pt-5 border-t border-gray-800/80 w-full grid grid-cols-3 gap-2 sm:gap-4 text-left">
                     <div>
-                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
-                            <i class="fa-regular fa-user text-purple-400 text-sm"></i> 500K+
+                        <div class="flex items-center gap-1.5 text-base sm:text-xl font-bold text-white">
+                            <i class="fa-regular fa-user text-purple-400 text-xs sm:text-sm"></i> 500K+
                         </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Happy Users</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Happy Users</p>
                     </div>
                     <div>
-                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
-                            <i class="fa-solid fa-wand-magic text-indigo-400 text-sm"></i> 5M+
+                        <div class="flex items-center gap-1.5 text-base sm:text-xl font-bold text-white">
+                            <i class="fa-solid fa-wand-magic text-indigo-400 text-xs sm:text-sm"></i> 5M+
                         </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Images Created</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Images Created</p>
                     </div>
                     <div>
-                        <div class="flex items-center gap-1.5 text-lg sm:text-xl font-bold text-white">
-                            <i class="fa-solid fa-bolt text-yellow-400 text-sm"></i> 10x
+                        <div class="flex items-center gap-1.5 text-base sm:text-xl font-bold text-white">
+                            <i class="fa-solid fa-bolt text-yellow-400 text-xs sm:text-sm"></i> 10x
                         </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Faster Generation</p>
+                        <p class="text-[11px] text-gray-400 mt-0.5">Faster Generation</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Showcase & Direct Interactive AI Generator -->
-            <div id="showcase" class="lg:col-span-6 relative flex items-center justify-center">
+            <!-- Right Showcase Frame (Exact Match to Picture) -->
+            <div id="showcase" class="lg:col-span-6 relative flex items-center justify-center w-full">
                 
-                <div class="relative w-full max-w-xl showcase-container rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
+                <div class="relative w-full max-w-[560px] glass-showcase rounded-3xl p-3 sm:p-4 shadow-2xl overflow-visible">
                     
-                    <div class="flex gap-3 sm:gap-4">
+                    <div class="grid grid-cols-12 gap-3 sm:gap-4 items-center">
                         
-                        <!-- Main Featured AI Frame -->
-                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/4.8] bg-[#02050f]">
+                        <!-- Main Left AI Image -->
+                        <div class="col-span-9 sm:col-span-10 relative rounded-2xl overflow-hidden aspect-[4/4.5] bg-[#02050f]">
                             
-                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-500">
+                            <!-- Exact Butterfly Neon Girl Showcase Image -->
+                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-500">
                             
                             <!-- Loading Spinner inside Image -->
                             <div id="aiLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
-                                <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-3"></div>
+                                <div class="w-10 h-10 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-2"></div>
                                 <span class="text-xs font-semibold text-purple-300">Generating AI Image...</span>
                             </div>
 
-                            <!-- Live Interactive Prompt Input Bar (Overlaid at bottom of image) -->
-                            <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-gray-950/85 backdrop-blur-xl border border-gray-700/80 rounded-2xl p-2 sm:p-2.5 shadow-2xl flex items-center gap-2 z-10">
+                            <!-- Live Interactive Prompt Input Bar (Overlaid on bottom) -->
+                            <div class="absolute bottom-3 left-3 right-3 bg-gray-950/85 backdrop-blur-xl border border-gray-700/80 rounded-xl p-2 shadow-2xl flex items-center gap-2 z-10">
                                 <i class="fa-solid fa-wand-magic-sparkles text-purple-400 text-xs ml-1 shrink-0"></i>
-                                <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium truncate" placeholder="Type what you want to create...">
-                                <button id="btnSaveImageDirect" title="Download Image" class="w-7 h-7 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition">
-                                    <i class="fa-solid fa-download text-[11px]"></i>
+                                <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-[11px] sm:text-xs text-gray-100 placeholder-gray-500 focus:outline-none font-medium truncate" placeholder="Type what you want to create...">
+                                <button id="btnSaveImageDirect" title="Download Image" class="w-6 h-6 rounded bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition">
+                                    <i class="fa-solid fa-download text-[10px]"></i>
                                 </button>
                             </div>
                         </div>
 
                         <!-- 4 Right Vertical Thumbnail Cards -->
-                        <div class="w-16 sm:w-20 flex flex-col justify-between space-y-2 shrink-0">
+                        <div class="col-span-3 sm:col-span-2 flex flex-col justify-between h-full space-y-2 shrink-0">
                             
                             <!-- Thumb 1: Lake -->
                             <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
                                 <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Lake">
                             </div>
 
-                            <!-- Thumb 2: Neon Girl -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
-                                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
+                            <!-- Thumb 2: Neon Girl (Active) -->
+                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop&q=80', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item thumb-active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
+                                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
                             </div>
 
                             <!-- Thumb 3: Cyber City -->
@@ -252,57 +238,58 @@
                     </div>
 
                     <!-- Glowing Circular 'AI Generate' Button Floating Bottom-Right -->
-                    <button id="btnAIGenerateMain" class="ai-floating-btn absolute -bottom-5 -right-3 sm:-bottom-6 sm:-right-4 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/25">
-                        <i class="fa-solid fa-sparkles text-lg mb-1"></i>
-                        <span class="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">AI Generate</span>
+                    <button id="btnAIGenerateMain" class="ai-pulse-circle absolute -bottom-5 -right-3 sm:-bottom-6 sm:-right-4 w-18 h-18 sm:w-22 sm:h-22 p-3 sm:p-4 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/25">
+                        <i class="fa-solid fa-sparkles text-base mb-0.5"></i>
+                        <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-center leading-tight">AI Generate</span>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- All-in-One AI Image Tools Section (Bottom 6 Cards) -->
-        <section id="tools" class="mt-20 pt-10 border-t border-gray-800/80">
-            <div class="text-center max-w-2xl mx-auto mb-10">
+        <section id="tools" class="mt-16 pt-10 border-t border-gray-800/80">
+            <div class="text-center max-w-2xl mx-auto mb-8">
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
-                <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
+                <p class="text-xs sm:text-sm text-gray-400 mt-1.5">Everything you need to create, edit and enhance images</p>
             </div>
 
             <!-- 6 Interactive Tool Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 
                 <!-- Card 1: Text to Image -->
-                <div onclick="triggerToolPreset('Text to Image', 'Ultra-detailed cinematic landscape with futuristic neon city, 8k')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-3 shadow">
-                        <i class="fa-regular fa-image text-base"></i>
+                <div onclick="triggerToolPreset('Text to Image', 'Ultra-detailed cinematic landscape with futuristic neon city, 8k')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-2 shadow">
+                        <i class="fa-regular fa-image text-sm"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Text to Image</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Turn words into stunning visuals</p>
+                        <h3 class="text-xs sm:text-sm font-bold text-white mb-0.5">Text to Image</h3>
+                        <p class="text-[10px] text-gray-400 leading-tight">Turn words into stunning visuals</p>
                     </div>
                 </div>
 
                 <!-- Card 2: Image to Image -->
-                <div onclick="triggerToolPreset('Image to Image', 'Anime makoto shinkai style version of this scenery with soft colors')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-3 shadow">
-                        <i class="fa-solid fa-images text-base"></i>
+                <div onclick="triggerToolPreset('Image to Image', 'Anime makoto shinkai style version of this scenery with soft colors')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-2 shadow">
+                        <i class="fa-solid fa-images text-sm"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Image to Image</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Transform images with AI creativity</p>
+                        <h3 class="text-xs sm:text-sm font-bold text-white mb-0.5">Image to Image</h3>
+                        <p class="text-[10px] text-gray-400 leading-tight">Transform images with AI creativity</p>
                     </div>
                 </div>
 
                 <!-- Card 3: AI Image Editor -->
-                <div onclick="triggerToolPreset('AI Image Editor', 'Add dramatic golden hour sunset and glowing warm rays')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-3 shadow">
-                        <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
+                <div onclick="triggerToolPreset('AI Image Editor', 'Add dramatic golden hour sunset and glowing warm rays')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-2 shadow">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-white mb-1">AI Image Editor</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Edit and enhance images like a pro</p>
+                        <h3 class="text-xs sm:text-sm font-bold text-white mb-0.5">AI Image Editor</h3>
+                        <p class="text-[10px] text-gray-400 leading-tight">Edit and enhance images like a pro</p>
                     </div>
                 </div>
 
                 <!-- Card 4: Style Transfer -->
-                <div onclick="triggerToolPreset('Style Transfer', 'Cyberpunk neon glow painting art style, Unreal Engine 5 render')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[140px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center 
+                <div onclick="triggerToolPreset('Style Transfer', 'Cyberpunk neon glow painting art style, Unreal Engine 5 render')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between min-h-[135px]">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white mb-2 shadow">
+                        <i cl
