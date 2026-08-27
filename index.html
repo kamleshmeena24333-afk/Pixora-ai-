@@ -58,13 +58,18 @@
             box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
             transform: translateY(-1px);
         }
-        .ai-pulse-circle {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a21caf 100%);
-            box-shadow: 0 0 35px rgba(124, 58, 237, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.3);
-        }
         .thumb-active {
             border-color: #a855f7 !important;
             box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+        .prompt-bar {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .prompt-bar:focus-within {
+            border-color: rgba(168, 85, 247, 0.8);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);
         }
     </style>
 </head>
@@ -113,7 +118,7 @@
     </header>
 
     <!-- Main Hero Section -->
-    <main class="max-w-7xl mx-auto px-8 pt-10 pb-16 flex-1 flex flex-col justify-center">
+    <main class="max-w-7xl mx-auto px-8 pt-8 pb-16 flex-1 flex flex-col justify-center">
         <div class="grid grid-cols-12 gap-8 items-center">
             
             <!-- Left Hero Text Column -->
@@ -173,36 +178,28 @@
                 </div>
             </div>
 
-            <!-- Right Showcase Frame -->
-            <div id="showcase" class="col-span-6 relative flex items-center justify-center">
+            <!-- Right Showcase Frame (With Below Professional Prompt Box) -->
+            <div id="showcase" class="col-span-6 relative flex flex-col items-center">
                 
-                <div class="relative w-full glass-showcase rounded-3xl p-4 shadow-2xl overflow-visible">
+                <div class="relative w-full glass-showcase rounded-3xl p-4 shadow-2xl flex flex-col space-y-4">
                     
-                    <div class="flex gap-4 items-center">
+                    <!-- Main Frame with Image and Thumbnails -->
+                    <div class="flex gap-4 items-stretch">
                         
-                        <!-- Main Left Featured AI Image -->
-                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/4.8] bg-[#02050f]">
+                        <!-- Featured AI Image Frame -->
+                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/3.8] bg-[#02050f] border border-gray-800/80">
                             
-                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=85" alt="Pixora AI Art" class="w-full h-full object-cover">
+                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=85" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-300">
                             
                             <!-- Loading Spinner inside Image -->
                             <div id="aiLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
-                                <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-3"></div>
-                                <span class="text-xs font-semibold text-purple-300">Generating AI Image...</span>
-                            </div>
-
-                            <!-- Live Interactive Prompt Input Bar -->
-                            <div class="absolute bottom-4 left-4 right-4 bg-gray-950/85 backdrop-blur-xl border border-gray-700/80 rounded-xl p-2.5 shadow-2xl flex items-center gap-2 z-10">
-                                <i class="fa-solid fa-wand-magic-sparkles text-purple-400 text-xs ml-1 shrink-0"></i>
-                                <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs text-gray-100 placeholder-gray-500 focus:outline-none font-medium truncate" placeholder="Type what you want to create...">
-                                <button id="btnSaveImageDirect" title="Download Image" class="w-7 h-7 rounded bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition">
-                                    <i class="fa-solid fa-download text-xs"></i>
-                                </button>
+                                <div class="w-10 h-10 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-2"></div>
+                                <span class="text-xs font-semibold text-purple-300 tracking-wide">Creating AI Image...</span>
                             </div>
                         </div>
 
                         <!-- 4 Right Vertical Thumbnail Cards -->
-                        <div class="w-20 flex flex-col justify-between h-[420px] space-y-2 shrink-0">
+                        <div class="w-20 flex flex-col justify-between space-y-2 shrink-0">
                             
                             <!-- Thumb 1: Lake -->
                             <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
@@ -226,17 +223,32 @@
                         </div>
                     </div>
 
-                    <!-- Circular AI Generate Button -->
-                    <button id="btnAIGenerateMain" class="ai-pulse-circle absolute -bottom-6 -right-4 w-24 h-24 rounded-full flex flex-col items-center justify-center text-white z-20 cursor-pointer border-2 border-white/25">
-                        <i class="fa-solid fa-sparkles text-lg mb-0.5"></i>
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-center leading-tight">AI Generate</span>
-                    </button>
+                    <!-- Professional Bottom Prompt & Generate Control Bar (Below the Image) -->
+                    <div class="prompt-bar rounded-2xl p-2 flex items-center gap-2">
+                        <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 ml-1">
+                            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                        </div>
+                        
+                        <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium px-2" placeholder="Describe the image you want to generate...">
+                        
+                        <!-- Save Button -->
+                        <button id="btnSaveImageDirect" title="Download Image" class="w-9 h-9 rounded-xl bg-gray-800/80 hover:bg-gray-700 text-gray-300 hover:text-white flex items-center justify-center shrink-0 transition border border-gray-700/60">
+                            <i class="fa-solid fa-download text-xs"></i>
+                        </button>
+
+                        <!-- Professional Generate Button -->
+                        <button id="btnAIGenerateMain" class="btn-purple-main px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-2 shrink-0 transition">
+                            <i class="fa-solid fa-bolt text-xs"></i>
+                            <span>Generate</span>
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <!-- All-in-One AI Image Tools Section (6 Cards) -->
-        <section id="tools" class="mt-20 pt-10 border-t border-gray-800/80">
+        <section id="tools" class="mt-16 pt-10 border-t border-gray-800/80">
             <div class="text-center max-w-2xl mx-auto mb-10">
                 <h2 class="text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
                 <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
@@ -333,7 +345,7 @@
         <p>© 2026 Pixora AI Studio. Next-Generation Artificial Intelligence Powered Image Suite.</p>
     </footer>
 
-    <!-- Minimal Script (Only Direct Generation & Thumbnails) -->
+    <!-- Direct Fast AI Generation Script -->
     <script>
         const mainImg = document.getElementById('mainFeaturedImg');
         const promptInput = document.getElementById('livePromptInput');
@@ -350,7 +362,7 @@
 
         async function runAIGeneration() {
             const prompt = promptInput.value.trim();
-            if (!prompt) return alert('Kripya prompt likhein!');
+            if (!prompt) return alert('Kripya pehle prompt likhein!');
 
             loader.classList.remove('hidden');
             loader.classList.add('flex');
