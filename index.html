@@ -1,218 +1,325 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixora AI — Next-Gen AI Image Studio</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Pixora AI — Studio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Identity Services for Gmail Login -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkerboard {
+            background-image: linear-gradient(45deg, #1f2937 25%, transparent 25%), 
+                              linear-gradient(-45deg, #1f2937 25%, transparent 25%), 
+                              linear-gradient(45deg, transparent 75%, #1f2937 75%), 
+                              linear-gradient(-45deg, transparent 75%, #1f2937 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+    </style>
 </head>
-<body class="bg-[#0b0f19] text-gray-100 flex flex-col h-screen overflow-hidden">
+<body class="bg-[#0b0f19] text-gray-100 flex flex-col h-screen overflow-hidden font-sans">
 
-    <!-- Top Navbar -->
-    <header class="h-14 border-b border-gray-800 bg-[#111827]/90 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between z-20">
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/30">P</div>
-            <span class="font-bold text-lg tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Pixora AI</span>
+    <!-- Navbar -->
+    <header class="h-14 border-b border-gray-800 bg-[#111827] px-4 flex items-center justify-between z-20 shrink-0">
+        <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg">P</div>
+            <span class="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Pixora AI</span>
         </div>
-        
-        <div class="flex items-center space-x-2 sm:space-x-3">
-            <!-- API Key Button -->
-            <button id="btnApiKey" class="px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/80 hover:bg-gray-700 text-xs flex items-center gap-1.5 transition">
-                <i class="fa-solid fa-key text-yellow-500"></i>
-                <span id="keyStatusText">Set API Key</span>
+
+        <div class="flex items-center space-x-3">
+            <button id="btnExport" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-download"></i> Save
             </button>
 
-            <!-- Export Button -->
-            <button id="btnExport" class="px-3 sm:px-4 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-xs font-semibold rounded-lg shadow-md transition flex items-center gap-1.5">
-                <i class="fa-solid fa-download"></i> Export
-            </button>
-
-            <!-- Google User Auth Section -->
-            <div id="authSection" class="relative">
-                <button id="btnLoginGoogle" class="px-3 py-1.5 bg-white text-gray-800 hover:bg-gray-100 text-xs font-semibold rounded-lg shadow transition flex items-center gap-2">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-3.5 h-3.5" alt="Google">
+            <!-- User Auth Profile Section -->
+            <div id="authContainer" class="flex items-center">
+                <!-- Sign In Button (When logged out) -->
+                <button id="btnSignIn" class="px-3 py-1.5 bg-white text-gray-900 hover:bg-gray-100 text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow">
+                    <i class="fa-brands fa-google text-red-500"></i>
                     <span>Sign In</span>
                 </button>
-                <div id="userProfile" class="hidden items-center gap-2 cursor-pointer">
-                    <img id="userAvatar" src="" class="w-8 h-8 rounded-full border border-indigo-500 object-cover" alt="User">
-                    <button id="btnLogout" class="text-xs text-gray-400 hover:text-red-400" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+
+                <!-- Circular User Logo/Initial (When logged in) -->
+                <div id="userProfileBadge" class="hidden items-center gap-2 cursor-pointer bg-gray-800/80 hover:bg-gray-700/80 border border-gray-700 py-1 px-2.5 rounded-full transition shadow-md" title="Click to Logout">
+                    <div id="userAvatarCircle" class="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white uppercase shadow ring-2 ring-indigo-400/40">
+                        U
+                    </div>
+                    <span id="userDisplayName" class="text-xs font-medium text-gray-200 max-w-[90px] truncate">User</span>
+                    <i class="fa-solid fa-right-from-bracket text-[10px] text-gray-400 hover:text-red-400 ml-0.5"></i>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Studio Body -->
-    <div class="flex flex-1 overflow-hidden relative">
+    <!-- App Body -->
+    <div class="flex flex-1 overflow-hidden">
         
-        <!-- Left Sidebar: Tools -->
-        <aside class="w-16 border-r border-gray-800 bg-[#111827]/50 flex flex-col items-center py-4 space-y-4 z-10">
-            <button class="tool-tab active p-3 rounded-xl hover:bg-gray-800 text-indigo-400" data-tab="generate" title="AI Generate">
+        <!-- Sidebar Navigation -->
+        <aside class="w-14 border-r border-gray-800 bg-[#111827]/60 flex flex-col items-center py-4 space-y-4 shrink-0">
+            <button id="tabGen" class="tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400" title="AI Generate">
                 <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
             </button>
-            <button class="tool-tab p-3 rounded-xl hover:bg-gray-800 text-gray-400" data-tab="edit" title="AI Edit & Inpaint">
-                <i class="fa-solid fa-paintbrush text-lg"></i>
-            </button>
-            <button class="tool-tab p-3 rounded-xl hover:bg-gray-800 text-gray-400" data-tab="adjust" title="Canvas Adjustments">
+            <button id="tabEdit" class="tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400" title="Adjustments">
                 <i class="fa-solid fa-sliders text-lg"></i>
             </button>
         </aside>
 
-        <!-- Tool Configuration Panel -->
-        <section id="toolPanel" class="w-80 border-r border-gray-800 bg-[#111827]/95 p-5 overflow-y-auto flex flex-col space-y-6">
+        <!-- Tool Panels -->
+        <section class="w-72 sm:w-80 border-r border-gray-800 bg-[#111827] p-4 overflow-y-auto shrink-0 flex flex-col space-y-4">
             
             <!-- Generate Panel -->
-            <div id="panel-generate" class="tab-content flex flex-col space-y-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Generate Image</h3>
-                    <span class="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full font-medium">FLUX.1 / SDXL</span>
+            <div id="panelGen" class="space-y-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">AI Prompt Studio</h3>
+                
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Image Prompt</label>
+                    <textarea id="promptInput" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-xs focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="e.g. A futuristic sports car in Rajasthan desert at sunset, 8k cinematic..."></textarea>
                 </div>
 
                 <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Prompt</label>
-                    <textarea id="genPrompt" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="e.g., Ultra-detailed cinematic portrait, 8k, cyberpunk lighting..."></textarea>
-                </div>
-
-                <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Art Style Preset</label>
-                    <select id="stylePreset" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-gray-300 focus:border-indigo-500 focus:outline-none">
-                        <option value="">None (Raw Prompt)</option>
-                        <option value=", photorealistic, ultra-detailed 8k, studio lighting">Photorealistic 8K</option>
-                        <option value=", anime style, makoto shinkai visual, vibrant colors">Anime / Manga</option>
-                        <option value=", cyberpunk style, neon lights, volumetric fog, Unreal Engine 5">Cyberpunk 2077</option>
-                        <option value=", 3D Pixar Disney style character, smooth render, vibrant">3D Disney / Pixar</option>
-                        <option value=", retro vintage poster style, textured, vibrant palette">Vintage Retro</option>
+                    <label class="text-xs text-gray-400 mb-1 block">Art Style</label>
+                    <select id="styleSelect" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-gray-200">
+                        <option value="">Realistic HD</option>
+                        <option value=", anime style studio ghibli">Anime Cartoon</option>
+                        <option value=", 3d render pixar animation style">3D Pixar</option>
+                        <option value=", cyberpunk neon lighting wallpaper">Cyberpunk</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Aspect Ratio</label>
-                    <div class="grid grid-cols-3 gap-2" id="aspectRatioGroup">
-                        <button class="ratio-btn active py-1.5 rounded border border-indigo-500 bg-indigo-500/20 text-indigo-300 text-xs font-medium" data-ratio="1:1">1:1 Square</button>
-                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-gray-400 text-xs font-medium" data-ratio="16:9">16:9 Wide</button>
-                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-gray-400 text-xs font-medium" data-ratio="9:16">9:16 Reel</button>
-                    </div>
-                </div>
-
-                <button id="btnRunGenerate" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-lg text-sm transition flex justify-center items-center gap-2 shadow-lg shadow-indigo-600/30">
+                <button id="btnGenerate" class="w-full py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 font-semibold rounded-lg text-xs transition flex justify-center items-center gap-2 shadow">
                     <i class="fa-solid fa-bolt"></i> Generate Image
                 </button>
             </div>
 
-            <!-- Edit Panel -->
-            <div id="panel-edit" class="tab-content hidden flex flex-col space-y-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">AI Edit & Inpaint</h3>
-                    <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-medium">Smart Brush</span>
+            <!-- Adjust Panel -->
+            <div id="panelEdit" class="space-y-4 hidden">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400">Live Image Filters</h3>
+                
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Brightness</span> <span id="valBrightness">100%</span>
+                    </div>
+                    <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
                 </div>
-
-                <p class="text-xs text-gray-400">Paint red mask over the area you want to replace or edit with AI:</p>
 
                 <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Instruction Prompt</label>
-                    <textarea id="editPrompt" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-purple-500 focus:outline-none placeholder-gray-600" placeholder="e.g., Change background to mountain sunrise, add gold watch..."></textarea>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Contrast</span> <span id="valContrast">100%</span>
+                    </div>
+                    <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
                 </div>
 
-                <div class="flex items-center justify-between bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
-                    <span class="text-xs text-gray-300">Brush Size</span>
-                    <input type="range" id="brushSize" min="5" max="80" value="25" class="w-28 accent-purple-500">
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Saturation</span> <span id="valSaturation">100%</span>
+                    </div>
+                    <input type="range" id="filterSaturation" min="0" max="200" value="100" class="w-full accent-indigo-500">
                 </div>
 
-                <div class="flex gap-2">
-                    <button id="btnClearMask" class="w-1/2 py-2 border border-gray-700 hover:bg-gray-800 rounded-lg text-xs font-medium">Clear Mask</button>
-                    <button id="btnRunEdit" class="w-1/2 py-2 bg-purple-600 hover:bg-purple-500 font-semibold rounded-lg text-xs transition shadow-lg shadow-purple-600/30">Apply AI Edit</button>
-                </div>
-            </div>
-
-            <!-- Adjust Panel -->
-            <div id="panel-adjust" class="tab-content hidden flex flex-col space-y-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Image Enhancements</h3>
-                
-                <div class="space-y-3">
-                    <div>
-                        <div class="flex justify-between text-xs text-gray-400 mb-1">
-                            <span>Brightness</span> <span id="valBrightness">100%</span>
-                        </div>
-                        <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Blur</span> <span id="valBlur">0px</span>
                     </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs text-gray-400 mb-1">
-                            <span>Contrast</span> <span id="valContrast">100%</span>
-                        </div>
-                        <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs text-gray-400 mb-1">
-                            <span>Saturation</span> <span id="valSaturation">100%</span>
-                        </div>
-                        <input type="range" id="filterSaturation" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs text-gray-400 mb-1">
-                            <span>Blur</span> <span id="valBlur">0px</span>
-                        </div>
-                        <input type="range" id="filterBlur" min="0" max="20" value="0" class="w-full accent-indigo-500">
-                    </div>
+                    <input type="range" id="filterBlur" min="0" max="20" value="0" class="w-full accent-indigo-500">
                 </div>
 
-                <button id="btnResetAdjust" class="w-full py-2 border border-gray-700 rounded-lg text-xs hover:bg-gray-800 transition">Reset All Filters</button>
+                <button id="btnResetFilters" class="w-full py-2 border border-gray-700 hover:bg-gray-800 rounded-lg text-xs transition">Reset Adjustments</button>
             </div>
         </section>
 
-        <!-- Canvas Workspace Area -->
-        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-4 sm:p-6 overflow-hidden">
+        <!-- Canvas Studio Workspace -->
+        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-4 overflow-hidden">
             
-            <!-- Upload Overlay -->
-            <div id="emptyDropzone" class="border-2 border-dashed border-gray-800 rounded-2xl p-8 sm:p-12 text-center flex flex-col items-center justify-center max-w-md w-full hover:border-indigo-500/50 transition cursor-pointer">
-                <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-600 mb-3"></i>
-                <h4 class="font-medium text-gray-300 mb-1">Upload an image or generate one</h4>
-                <p class="text-xs text-gray-500 mb-4">PNG, JPG, WEBP (Supports Inpainting & Edit)</p>
+            <!-- Empty Placeholder Upload -->
+            <div id="uploadBox" class="border-2 border-dashed border-gray-800 rounded-2xl p-8 text-center flex flex-col items-center justify-center max-w-sm w-full">
+                <i class="fa-solid fa-image text-4xl text-gray-600 mb-3"></i>
+                <h4 class="font-medium text-sm text-gray-300 mb-1">Upload Photo or Write Prompt</h4>
+                <p class="text-xs text-gray-500 mb-4">Prompt se nayi image banayein ya phone se photo chunein</p>
                 <label class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold rounded-lg cursor-pointer">
-                    Browse File
-                    <input type="file" id="fileInput" class="hidden" accept="image/*">
+                    Choose from Phone
+                    <input type="file" id="imageUploader" class="hidden" accept="image/*">
                 </label>
             </div>
 
-            <!-- Main Canvas Container -->
-            <div id="canvasWrapper" class="relative hidden max-w-full max-h-full shadow-2xl rounded-lg overflow-hidden border border-gray-800">
-                <canvas id="mainCanvas"></canvas>
-                <canvas id="maskCanvas" class="absolute top-0 left-0 pointer-events-none opacity-60"></canvas>
+            <!-- Canvas Container -->
+            <div id="canvasBox" class="hidden relative max-w-full max-h-full rounded-xl overflow-hidden shadow-2xl border border-gray-800 checkerboard">
+                <canvas id="studioCanvas" class="max-w-full max-h-[75vh] object-contain block"></canvas>
             </div>
 
-            <!-- Loader Indicator -->
-            <div id="studioLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
-                <div class="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-3"></div>
-                <span id="loaderMessage" class="text-sm font-medium text-gray-300">Rendering AI Masterpiece...</span>
+            <!-- Loading Spinner -->
+            <div id="loader" class="absolute inset-0 bg-black/80 hidden flex-col items-center justify-center z-30">
+                <div class="w-10 h-10 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-3"></div>
+                <span class="text-xs font-semibold text-gray-300">AI Image generate ho rahi hai...</span>
             </div>
         </main>
     </div>
 
-    <!-- API Key Popup Modal -->
-    <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
-            <h3 class="text-base font-semibold text-white mb-2 flex items-center gap-2">
-                <i class="fa-solid fa-key text-yellow-500"></i> Set Hugging Face Token
-            </h3>
-            <p class="text-xs text-gray-400 mb-4">FLUX / Stable Diffusion run karne ke liye free API token dalein:</p>
-            <input type="password" id="apiInputVal" placeholder="hf_xxxxxxxxxxxxxxxxxxxx" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none mb-4">
-            <div class="flex justify-end gap-2">
-                <button id="btnCloseModal" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-semibold">Cancel</button>
-                <button id="btnSaveKey" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-semibold">Save Key</button>
-            </div>
-        </div>
-    </div>
+    <!-- Application Script -->
+    <script>
+        // State
+        let currentImage = null;
+        let filters = { brightness: 100, contrast: 100, saturation: 100, blur: 0 };
+        const canvas = document.getElementById('studioCanvas');
+        const ctx = canvas.getContext('2d');
 
-    <!-- Scripts -->
-    <script src="js/auth.js"></script>
-    <script src="js/canvas.js"></script>
-    <script src="js/ai-service.js"></script>
-    <script src="js/app.js"></script>
+        // Render Canvas
+        function redrawCanvas() {
+            if (!currentImage) return;
+            canvas.width = currentImage.naturalWidth || currentImage.width;
+            canvas.height = currentImage.naturalHeight || currentImage.height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.filter = `brightness(${filters.brightness}%) contrast(${filters.contrast}%) saturate(${filters.saturation}%) blur(${filters.blur}px)`;
+            ctx.drawImage(currentImage, 0, 0);
+            
+            document.getElementById('uploadBox').classList.add('hidden');
+            document.getElementById('canvasBox').classList.remove('hidden');
+        }
+
+        // Tab Switching
+        const tabGen = document.getElementById('tabGen');
+        const tabEdit = document.getElementById('tabEdit');
+        const panelGen = document.getElementById('panelGen');
+        const panelEdit = document.getElementById('panelEdit');
+
+        tabGen.onclick = () => {
+            tabGen.className = 'tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400';
+            tabEdit.className = 'tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400';
+            panelGen.classList.remove('hidden');
+            panelEdit.classList.add('hidden');
+        };
+
+        tabEdit.onclick = () => {
+            tabEdit.className = 'tab-btn p-3 rounded-xl bg-indigo-600/20 text-indigo-400';
+            tabGen.className = 'tab-btn p-3 rounded-xl hover:bg-gray-800 text-gray-400';
+            panelEdit.classList.remove('hidden');
+            panelGen.classList.add('hidden');
+        };
+
+        // File Upload Handler
+        document.getElementById('imageUploader').onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    currentImage = img;
+                    redrawCanvas();
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        // AI Generation Handler
+        document.getElementById('btnGenerate').onclick = async () => {
+            const prompt = document.getElementById('promptInput').value.trim();
+            if (!prompt) {
+                alert('Kripya pehle prompt type karein!');
+                return;
+            }
+            const fullPrompt = encodeURIComponent(prompt + document.getElementById('styleSelect').value);
+            const seed = Math.floor(Math.random() * 1000000);
+            const aiUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+            loader.classList.add('flex');
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => {
+                currentImage = img;
+                redrawCanvas();
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            };
+            img.onerror = () => {
+                alert('Image generation me issue aaya, dobara koshish karein.');
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            };
+            img.src = aiUrl;
+        };
+
+        // Filter Handlers
+        const bindFilter = (id, key, unit) => {
+            document.getElementById(id).oninput = (e) => {
+                filters[key] = e.target.value;
+                document.getElementById('val' + key.charAt(0).toUpperCase() + key.slice(1)).innerText = `${e.target.value}${unit}`;
+                redrawCanvas();
+            };
+        };
+        bindFilter('filterBrightness', 'brightness', '%');
+        bindFilter('filterContrast', 'contrast', '%');
+        bindFilter('filterSaturation', 'saturation', '%');
+        bindFilter('filterBlur', 'blur', 'px');
+
+        document.getElementById('btnResetFilters').onclick = () => {
+            filters = { brightness: 100, contrast: 100, saturation: 100, blur: 0 };
+            document.getElementById('filterBrightness').value = 100;
+            document.getElementById('filterContrast').value = 100;
+            document.getElementById('filterSaturation').value = 100;
+            document.getElementById('filterBlur').value = 0;
+            document.getElementById('valBrightness').innerText = '100%';
+            document.getElementById('valContrast').innerText = '100%';
+            document.getElementById('valSaturation').innerText = '100%';
+            document.getElementById('valBlur').innerText = '0px';
+            redrawCanvas();
+        };
+
+        // Export/Download Button
+        document.getElementById('btnExport').onclick = () => {
+            if (!currentImage) return alert('Pehle image upload ya generate karein!');
+            const link = document.createElement('a');
+            link.download = `pixora-${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        };
+
+        // Circular Profile Logo / Google Email Login Handler
+        const btnSignIn = document.getElementById('btnSignIn');
+        const userProfileBadge = document.getElementById('userProfileBadge');
+        const userAvatarCircle = document.getElementById('userAvatarCircle');
+        const userDisplayName = document.getElementById('userDisplayName');
+
+        function updateAuthDisplay() {
+            const savedEmail = localStorage.getItem('pixora_user_email');
+            if (savedEmail) {
+                const initial = savedEmail.trim().charAt(0).toUpperCase();
+                const shortName = savedEmail.split('@')[0];
+                
+                userAvatarCircle.innerText = initial;
+                userDisplayName.innerText = shortName;
+
+                btnSignIn.classList.add('hidden');
+                userProfileBadge.classList.remove('hidden');
+                userProfileBadge.classList.add('flex');
+            } else {
+                btnSignIn.classList.remove('hidden');
+                userProfileBadge.classList.add('hidden');
+                userProfileBadge.classList.remove('flex');
+            }
+        }
+
+        btnSignIn.onclick = () => {
+            const email = prompt('Apna Gmail address enter karein:');
+            if (email && email.trim().length > 0) {
+                localStorage.setItem('pixora_user_email', email.trim());
+                updateAuthDisplay();
+            }
+        };
+
+        userProfileBadge.onclick = () => {
+            if (confirm('Kya aap logout karna chahte hain?')) {
+                localStorage.removeItem('pixora_user_email');
+                updateAuthDisplay();
+            }
+        };
+
+        // Initial check on load
+        updateAuthDisplay();
+    </script>
 </body>
-</html>
+                    </html>
+                    
