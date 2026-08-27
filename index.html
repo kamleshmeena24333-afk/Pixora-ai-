@@ -7,25 +7,42 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Identity Services for Gmail Login -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-[#0b0f19] text-gray-100 flex flex-col h-screen overflow-hidden">
 
     <!-- Top Navbar -->
-    <header class="h-14 border-b border-gray-800 bg-[#111827]/80 backdrop-blur-md px-6 flex items-center justify-between z-20">
+    <header class="h-14 border-b border-gray-800 bg-[#111827]/90 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between z-20">
         <div class="flex items-center space-x-3">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shadow-lg shadow-purple-500/30">P</div>
             <span class="font-bold text-lg tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Pixora AI</span>
         </div>
         
-        <div class="flex items-center space-x-3">
-            <button id="btnApiKey" class="px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/60 hover:bg-gray-700 text-xs flex items-center gap-2 transition">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <!-- API Key Button -->
+            <button id="btnApiKey" class="px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800/80 hover:bg-gray-700 text-xs flex items-center gap-1.5 transition">
                 <i class="fa-solid fa-key text-yellow-500"></i>
                 <span id="keyStatusText">Set API Key</span>
             </button>
-            <button id="btnExport" class="px-4 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-xs font-semibold rounded-lg shadow-md transition flex items-center gap-2">
+
+            <!-- Export Button -->
+            <button id="btnExport" class="px-3 sm:px-4 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-xs font-semibold rounded-lg shadow-md transition flex items-center gap-1.5">
                 <i class="fa-solid fa-download"></i> Export
             </button>
+
+            <!-- Google User Auth Section -->
+            <div id="authSection" class="relative">
+                <button id="btnLoginGoogle" class="px-3 py-1.5 bg-white text-gray-800 hover:bg-gray-100 text-xs font-semibold rounded-lg shadow transition flex items-center gap-2">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-3.5 h-3.5" alt="Google">
+                    <span>Sign In</span>
+                </button>
+                <div id="userProfile" class="hidden items-center gap-2 cursor-pointer">
+                    <img id="userAvatar" src="" class="w-8 h-8 rounded-full border border-indigo-500 object-cover" alt="User">
+                    <button id="btnLogout" class="text-xs text-gray-400 hover:text-red-400" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -33,7 +50,7 @@
     <div class="flex flex-1 overflow-hidden relative">
         
         <!-- Left Sidebar: Tools -->
-        <aside class="w-16 border-r border-gray-800 bg-[#111827]/40 flex flex-col items-center py-4 space-y-4 z-10">
+        <aside class="w-16 border-r border-gray-800 bg-[#111827]/50 flex flex-col items-center py-4 space-y-4 z-10">
             <button class="tool-tab active p-3 rounded-xl hover:bg-gray-800 text-indigo-400" data-tab="generate" title="AI Generate">
                 <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
             </button>
@@ -46,65 +63,117 @@
         </aside>
 
         <!-- Tool Configuration Panel -->
-        <section id="toolPanel" class="w-80 border-r border-gray-800 bg-[#111827]/90 p-5 overflow-y-auto flex flex-col space-y-6">
+        <section id="toolPanel" class="w-80 border-r border-gray-800 bg-[#111827]/95 p-5 overflow-y-auto flex flex-col space-y-6">
             
             <!-- Generate Panel -->
             <div id="panel-generate" class="tab-content flex flex-col space-y-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Generate Image</h3>
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Generate Image</h3>
+                    <span class="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full font-medium">FLUX.1 / SDXL</span>
+                </div>
+
                 <div>
                     <label class="text-xs text-gray-400 mb-1 block">Prompt</label>
-                    <textarea id="genPrompt" rows="4" class="w-full bg-gray-900/80 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="Describe what you want to create..."></textarea>
+                    <textarea id="genPrompt" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600 resize-none" placeholder="e.g., Ultra-detailed cinematic portrait, 8k, cyberpunk lighting..."></textarea>
                 </div>
+
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Art Style Preset</label>
+                    <select id="stylePreset" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-xs text-gray-300 focus:border-indigo-500 focus:outline-none">
+                        <option value="">None (Raw Prompt)</option>
+                        <option value=", photorealistic, ultra-detailed 8k, studio lighting">Photorealistic 8K</option>
+                        <option value=", anime style, makoto shinkai visual, vibrant colors">Anime / Manga</option>
+                        <option value=", cyberpunk style, neon lights, volumetric fog, Unreal Engine 5">Cyberpunk 2077</option>
+                        <option value=", 3D Pixar Disney style character, smooth render, vibrant">3D Disney / Pixar</option>
+                        <option value=", retro vintage poster style, textured, vibrant palette">Vintage Retro</option>
+                    </select>
+                </div>
+
                 <div>
                     <label class="text-xs text-gray-400 mb-1 block">Aspect Ratio</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button class="ratio-btn py-1.5 rounded border border-indigo-500 bg-indigo-500/10 text-xs" data-ratio="1:1">1:1</button>
-                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-xs" data-ratio="16:9">16:9</button>
-                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-xs" data-ratio="9:16">9:16</button>
+                    <div class="grid grid-cols-3 gap-2" id="aspectRatioGroup">
+                        <button class="ratio-btn active py-1.5 rounded border border-indigo-500 bg-indigo-500/20 text-indigo-300 text-xs font-medium" data-ratio="1:1">1:1 Square</button>
+                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-gray-400 text-xs font-medium" data-ratio="16:9">16:9 Wide</button>
+                        <button class="ratio-btn py-1.5 rounded border border-gray-700 bg-gray-800 text-gray-400 text-xs font-medium" data-ratio="9:16">9:16 Reel</button>
                     </div>
                 </div>
-                <button id="btnRunGenerate" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-lg text-sm transition flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-bolt"></i> Generate
+
+                <button id="btnRunGenerate" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 font-semibold rounded-lg text-sm transition flex justify-center items-center gap-2 shadow-lg shadow-indigo-600/30">
+                    <i class="fa-solid fa-bolt"></i> Generate Image
                 </button>
             </div>
 
             <!-- Edit Panel -->
             <div id="panel-edit" class="tab-content hidden flex flex-col space-y-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">AI Edit & Inpainting</h3>
-                <div>
-                    <label class="text-xs text-gray-400 mb-1 block">Modification Prompt</label>
-                    <textarea id="editPrompt" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-indigo-500 focus:outline-none placeholder-gray-600" placeholder="e.g., Change hair to blonde, add sunglasses..."></textarea>
-                </div>
                 <div class="flex items-center justify-between">
-                    <span class="text-xs text-gray-300">Brush Size</span>
-                    <input type="range" id="brushSize" min="5" max="100" value="30" class="w-32 accent-indigo-500">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">AI Edit & Inpaint</h3>
+                    <span class="text-[10px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full font-medium">Smart Brush</span>
                 </div>
-                <button id="btnRunEdit" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 font-semibold rounded-lg text-sm transition">Apply AI Edit</button>
+
+                <p class="text-xs text-gray-400">Paint red mask over the area you want to replace or edit with AI:</p>
+
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Instruction Prompt</label>
+                    <textarea id="editPrompt" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm focus:border-purple-500 focus:outline-none placeholder-gray-600" placeholder="e.g., Change background to mountain sunrise, add gold watch..."></textarea>
+                </div>
+
+                <div class="flex items-center justify-between bg-gray-900/60 p-2.5 rounded-lg border border-gray-800">
+                    <span class="text-xs text-gray-300">Brush Size</span>
+                    <input type="range" id="brushSize" min="5" max="80" value="25" class="w-28 accent-purple-500">
+                </div>
+
+                <div class="flex gap-2">
+                    <button id="btnClearMask" class="w-1/2 py-2 border border-gray-700 hover:bg-gray-800 rounded-lg text-xs font-medium">Clear Mask</button>
+                    <button id="btnRunEdit" class="w-1/2 py-2 bg-purple-600 hover:bg-purple-500 font-semibold rounded-lg text-xs transition shadow-lg shadow-purple-600/30">Apply AI Edit</button>
+                </div>
             </div>
 
             <!-- Adjust Panel -->
             <div id="panel-adjust" class="tab-content hidden flex flex-col space-y-4">
-                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Quick Adjustments</h3>
-                <div>
-                    <label class="text-xs text-gray-400 flex justify-between">Brightness <span id="valBrightness">100%</span></label>
-                    <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Image Enhancements</h3>
+                
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Brightness</span> <span id="valBrightness">100%</span>
+                        </div>
+                        <input type="range" id="filterBrightness" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Contrast</span> <span id="valContrast">100%</span>
+                        </div>
+                        <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Saturation</span> <span id="valSaturation">100%</span>
+                        </div>
+                        <input type="range" id="filterSaturation" min="0" max="200" value="100" class="w-full accent-indigo-500">
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Blur</span> <span id="valBlur">0px</span>
+                        </div>
+                        <input type="range" id="filterBlur" min="0" max="20" value="0" class="w-full accent-indigo-500">
+                    </div>
                 </div>
-                <div>
-                    <label class="text-xs text-gray-400 flex justify-between">Contrast <span id="valContrast">100%</span></label>
-                    <input type="range" id="filterContrast" min="0" max="200" value="100" class="w-full accent-indigo-500">
-                </div>
-                <button id="btnResetAdjust" class="w-full py-1.5 border border-gray-700 rounded text-xs hover:bg-gray-800">Reset Filters</button>
+
+                <button id="btnResetAdjust" class="w-full py-2 border border-gray-700 rounded-lg text-xs hover:bg-gray-800 transition">Reset All Filters</button>
             </div>
         </section>
 
         <!-- Canvas Workspace Area -->
-        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-6 overflow-hidden">
+        <main class="flex-1 bg-[#070a11] flex items-center justify-center relative p-4 sm:p-6 overflow-hidden">
             
-            <!-- Upload Overlay (when empty) -->
-            <div id="emptyDropzone" class="border-2 border-dashed border-gray-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center max-w-md w-full hover:border-indigo-500/50 transition cursor-pointer">
+            <!-- Upload Overlay -->
+            <div id="emptyDropzone" class="border-2 border-dashed border-gray-800 rounded-2xl p-8 sm:p-12 text-center flex flex-col items-center justify-center max-w-md w-full hover:border-indigo-500/50 transition cursor-pointer">
                 <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-600 mb-3"></i>
-                <h4 class="font-medium text-gray-300 mb-1">Drag & drop your image here</h4>
-                <p class="text-xs text-gray-500 mb-4">PNG, JPG, WEBP up to 20MB</p>
+                <h4 class="font-medium text-gray-300 mb-1">Upload an image or generate one</h4>
+                <p class="text-xs text-gray-500 mb-4">PNG, JPG, WEBP (Supports Inpainting & Edit)</p>
                 <label class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-xs font-semibold rounded-lg cursor-pointer">
                     Browse File
                     <input type="file" id="fileInput" class="hidden" accept="image/*">
@@ -114,35 +183,36 @@
             <!-- Main Canvas Container -->
             <div id="canvasWrapper" class="relative hidden max-w-full max-h-full shadow-2xl rounded-lg overflow-hidden border border-gray-800">
                 <canvas id="mainCanvas"></canvas>
-                <canvas id="maskCanvas" class="absolute top-0 left-0 pointer-events-none opacity-50"></canvas>
+                <canvas id="maskCanvas" class="absolute top-0 left-0 pointer-events-none opacity-60"></canvas>
             </div>
 
             <!-- Loader Indicator -->
-            <div id="studioLoader" class="absolute inset-0 bg-black/70 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
+            <div id="studioLoader" class="absolute inset-0 bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
                 <div class="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-3"></div>
-                <span id="loaderMessage" class="text-sm font-medium text-gray-300">Processing with AI...</span>
+                <span id="loaderMessage" class="text-sm font-medium text-gray-300">Rendering AI Masterpiece...</span>
             </div>
         </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/canvas.js"></script>
-    <script src="js/ai-service.js"></script>
-    <script src="js/app.js"></script>
     <!-- API Key Popup Modal -->
     <div id="apiKeyModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-[#111827] border border-gray-800 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
             <h3 class="text-base font-semibold text-white mb-2 flex items-center gap-2">
-                <i class="fa-solid fa-key text-yellow-500"></i> Set API Token
+                <i class="fa-solid fa-key text-yellow-500"></i> Set Hugging Face Token
             </h3>
-            <p class="text-xs text-gray-400 mb-4">Paste your Hugging Face Access Token below:</p>
-            <input type="text" id="apiInputVal" placeholder="hf_xxxxxxxxxxxx" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none mb-4">
+            <p class="text-xs text-gray-400 mb-4">FLUX / Stable Diffusion run karne ke liye free API token dalein:</p>
+            <input type="password" id="apiInputVal" placeholder="hf_xxxxxxxxxxxxxxxxxxxx" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-indigo-500 focus:outline-none mb-4">
             <div class="flex justify-end gap-2">
                 <button id="btnCloseModal" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-semibold">Cancel</button>
                 <button id="btnSaveKey" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-semibold">Save Key</button>
             </div>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/canvas.js"></script>
+    <script src="js/ai-service.js"></script>
+    <script src="js/app.js"></script>
 </body>
-                      </html>
-                      
+</html>
