@@ -19,7 +19,6 @@
             overflow-x: hidden;
         }
 
-        /* Header / Navbar */
         header {
             display: flex;
             justify-content: space-between;
@@ -72,16 +71,10 @@
             transition: 0.3s;
         }
 
-        .user-circle-btn:hover {
-            background: #6366f1;
-            color: #fff;
-        }
-
-        /* Hero Section */
         .hero {
             display: flex;
             flex-wrap: wrap;
-            padding: 60px 8%;
+            padding: 50px 8%;
             gap: 40px;
             align-items: center;
             justify-content: space-between;
@@ -104,7 +97,7 @@
         }
 
         .hero-title {
-            font-size: 46px;
+            font-size: 42px;
             line-height: 1.2;
             margin-bottom: 15px;
             font-weight: 800;
@@ -123,47 +116,6 @@
             line-height: 1.6;
         }
 
-        .cta-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #8b5cf6, #6366f1);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-secondary {
-            background: #1e1b4b;
-            color: white;
-            border: 1px solid #3730a3;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .stats {
-            display: flex;
-            gap: 30px;
-        }
-
-        .stat-item h3 {
-            font-size: 20px;
-            color: #ffffff;
-        }
-
-        .stat-item p {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        /* Generator Box & Visual Area */
         .hero-right {
             flex: 1;
             min-width: 340px;
@@ -185,24 +137,37 @@
             height: 280px;
             border-radius: 12px;
             overflow: hidden;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .main-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.5s;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: absolute;
+            color: #a855f7;
+            font-size: 32px;
+            z-index: 5;
         }
 
         .preview-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             padding: 4px 8px;
             font-size: 10px;
             border-radius: 4px;
             font-weight: 700;
+            z-index: 4;
         }
 
         .side-thumbnails {
@@ -219,14 +184,12 @@
             object-fit: cover;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: 0.3s;
         }
 
-        .thumb.active, .thumb:hover {
+        .thumb.active {
             border-color: #8b5cf6;
         }
 
-        /* Controls / Form Inside Studio */
         .control-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -246,7 +209,6 @@
         }
 
         .prompt-container {
-            position: relative;
             margin-bottom: 15px;
         }
 
@@ -263,7 +225,6 @@
 
         .action-row {
             display: flex;
-            justify-content: space-between;
             gap: 10px;
         }
 
@@ -272,10 +233,14 @@
             background: linear-gradient(90deg, #8b5cf6, #6366f1);
             border: none;
             color: #fff;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-down {
@@ -283,69 +248,18 @@
             background: #1e1b4b;
             border: 1px solid #6366f1;
             color: #a855f7;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* All Tools Section */
-        .tools-section {
-            padding: 40px 8%;
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 26px;
-            margin-bottom: 8px;
-        }
-
-        .section-sub {
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .tool-card {
-            background: #131129;
-            padding: 25px 20px;
-            border-radius: 12px;
-            border: 1px solid #211c47;
-            text-align: left;
-            cursor: pointer;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            border-color: #8b5cf6;
-        }
-
-        .tool-icon {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #8b5cf6;
-        }
-
-        .tool-card h4 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .tool-card p {
-            font-size: 13px;
-            color: #64748b;
-        }
-
-        /* Footer */
         footer {
-            margin-top: 60px;
+            margin-top: 50px;
             padding: 30px 8%;
             background: #080811;
             border-top: 1px solid #1a1830;
@@ -361,95 +275,64 @@
 </head>
 <body>
 
-    <!-- Navigation Bar -->
     <header>
         <div class="logo">PixoraAI</div>
-        <nav>
-            <a href="#home" onclick="alert('Home tab clicked')">Home</a>
-            <a href="#features" onclick="alert('Features list opened')">Features</a>
-            <a href="#tools" onclick="alert('AI Tools selected')">AI Tools</a>
-            <a href="#pricing" onclick="alert('Pricing: Free and Pro plans available')">Pricing</a>
-        </nav>
         <div class="nav-right">
-            <!-- Circular Login/Logout Button -->
-            <div class="user-circle-btn" id="userBtn" onclick="toggleAuth()" title="Login / Logout">
+            <div class="user-circle-btn" onclick="toggleAuth()" title="User Profile">
                 <i class="fa-solid fa-user" id="authIcon"></i>
             </div>
         </div>
     </header>
 
-    <!-- Main Studio Hero -->
-    <div class="hero" id="home">
+    <div class="hero">
         <div class="hero-left">
-            <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 4K Story & Studio</div>
-            <h1 class="hero-title">Create 4K Stories & <span>Videos in Seconds</span></h1>
+            <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 4K Generation Studio</div>
+            <h1 class="hero-title">Create Stunning <span>AI Visuals</span></h1>
             <p class="hero-desc">
-                Generate 10-minute long cinematic story videos, cartoon reels, and realistic visuals. Enter your prompt or story idea below to start generating high-quality assets.
+                Type your prompt below, choose your style and aspect ratio, and click Generate to create high-resolution images instantly.
             </p>
-            <div class="cta-group">
-                <button class="btn-primary" onclick="focusPrompt()">Start Creating Now <i class="fa-solid fa-arrow-right"></i></button>
-                <button class="btn-secondary" onclick="alert('Exploring 4K tools catalog')">Explore Tools</button>
-            </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <h3>500K+</h3>
-                    <p>Active Users</p>
-                </div>
-                <div class="stat-item">
-                    <h3>5M+</h3>
-                    <p>Stories & Images</p>
-                </div>
-                <div class="stat-item">
-                    <h3>10x</h3>
-                    <p>Faster Render</p>
-                </div>
-            </div>
         </div>
 
-        <!-- Studio & Controls Right -->
         <div class="hero-right">
             <div class="preview-container">
                 <div class="main-preview">
-                    <span class="preview-badge">4K ULTRA HD</span>
-                    <img id="mainImage" src="https://picsum.photos/id/1015/600/400" alt="Main Display">
+                    <span class="preview-badge" id="resBadge">4K ULTRA HD</span>
+                    <i class="fa-solid fa-spinner fa-spin loading-spinner" id="loader"></i>
+                    <img id="mainImage" src="https://image.pollinations.ai/prompt/hyperrealistic%20lion%20and%20bear%20nature%20cinematic%204k?width=600&height=400&nologo=true" alt="Main Output">
                 </div>
                 <div class="side-thumbnails">
-                    <img class="thumb active" src="https://picsum.photos/id/1015/150/100" onclick="changeImage(0)">
-                    <img class="thumb" src="https://picsum.photos/id/1018/150/100" onclick="changeImage(1)">
-                    <img class="thumb" src="https://picsum.photos/id/1025/150/100" onclick="changeImage(2)">
-                    <img class="thumb" src="https://picsum.photos/id/1035/150/100" onclick="changeImage(3)">
+                    <img class="thumb active" src="https://image.pollinations.ai/prompt/cyberpunk%20warrior%20anime%204k?width=150&height=100&nologo=true" onclick="selectThumb(this)">
+                    <img class="thumb" src="https://image.pollinations.ai/prompt/scifi%20futuristic%20city%204k?width=150&height=100&nologo=true" onclick="selectThumb(this)">
+                    <img class="thumb" src="https://image.pollinations.ai/prompt/magical%20fantasy%20castle%204k?width=150&height=100&nologo=true" onclick="selectThumb(this)">
                 </div>
             </div>
 
-            <!-- Custom Options Grid -->
             <div class="control-grid">
                 <select class="select-field" id="typeSelect">
-                    <option value="video">Text to Video (Up to 10 min)</option>
                     <option value="image">Text to Image</option>
+                    <option value="video">Text to Video (Storyboard)</option>
                 </select>
 
                 <select class="select-field" id="ratioSelect">
-                    <option value="yt">YouTube Video (16:9 4K)</option>
-                    <option value="reels">YouTube Shorts / Reels (9:16)</option>
-                    <option value="fb">Facebook Video (1:1 / 4:5)</option>
-                    <option value="logo">Logo / Post (1:1 HD)</option>
-                    <option value="thumb">YouTube Thumbnail (1280x720)</option>
+                    <option value="1280x720">YouTube (16:9 4K)</option>
+                    <option value="720x1280">YouTube Shorts / Reels (9:16)</option>
+                    <option value="1024x1024">Facebook / Logo (1:1)</option>
+                    <option value="1280x720">YouTube Thumbnail</option>
                 </select>
 
                 <select class="select-field" id="styleSelect" style="grid-column: span 2;">
-                    <option value="realistic">Ultra Realistic (10 Min Story)</option>
-                    <option value="cinematic">Cinematic Movie Style</option>
-                    <option value="cartoon">Cartoon / 3D Animation</option>
-                    <option value="reels">Cinematic Viral Reel</option>
+                    <option value="ultra realistic, 8k photography, sharp focus">Ultra Realistic</option>
+                    <option value="cinematic movie lighting, 4k render">Cinematic Movie Style</option>
+                    <option value="3D Pixar animation cartoon style">Cartoon / 3D Animation</option>
+                    <option value="dramatic lighting story cinematic">Cinematic Story</option>
                 </select>
             </div>
 
-            <!-- Prompt Input with 'tamnna' default text -->
+            <!-- Prompt Box with Default text 'Prompt' -->
             <div class="prompt-container">
-                <input type="text" id="promptText" class="prompt-input" value="tamnna" placeholder="Type prompt or story idea here...">
+                <input type="text" id="promptText" class="prompt-input" value="Prompt" onfocus="if(this.value=='Prompt')this.value=''" placeholder="Enter what you want to create...">
             </div>
 
-            <!-- Generate & Download Buttons (Swapped as requested) -->
             <div class="action-row">
                 <button class="btn-gen" onclick="generateAsset()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
                 <button class="btn-down" onclick="downloadAsset()"><i class="fa-solid fa-download"></i> Download</button>
@@ -457,108 +340,83 @@
         </div>
     </div>
 
-    <!-- All-in-One Tools Section -->
-    <div class="tools-section" id="tools">
-        <h2 class="section-title">All-in-One AI Media Tools</h2>
-        <p class="section-sub">Generate, render, and upscale your content in 4K format</p>
-        <div class="tools-grid">
-            <div class="tool-card" onclick="alert('Text to Image opened: Create realistic visuals from prompts.')">
-                <i class="fa-solid fa-image tool-icon"></i>
-                <h4>Text to Image</h4>
-                <p>Generate high-resolution thumbnails, logos, and digital art.</p>
-            </div>
-            <div class="tool-card" onclick="alert('Long Story to Video opened: Crafting up to 10-minute long realistic stories.')">
-                <i class="fa-solid fa-video tool-icon"></i>
-                <h4>10-Min Video Generator</h4>
-                <p>Full-length automatic story creation with scene sequencing.</p>
-            </div>
-            <div class="tool-card" onclick="alert('Reels & Cartoon Maker opened: Choose cinematic or cartoon styles.')">
-                <i class="fa-solid fa-clapperboard tool-icon"></i>
-                <h4>Cinematic & Reels</h4>
-                <p>Fast render vertical formats for YouTube Shorts, Reels, and TikTok.</p>
-            </div>
-            <div class="tool-card" onclick="alert('4K Upscaler opened: Enhance resolution and export clean files.')">
-                <i class="fa-solid fa-wand-magic tool-icon"></i>
-                <h4>4K Video Upscaler</h4>
-                <p>Optimize quality to crystal-clear 4K format effortlessly.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Website Creator / Credits Footer -->
     <footer>
         <p>© 2026 PixoraAI Studio. All rights reserved.</p>
         <p style="margin-top: 8px;">Website Created & Developed by: <strong>Kamlesh Meena</strong></p>
     </footer>
 
     <script>
-        // Image auto-slider list
-        const images = [
-            "https://picsum.photos/id/1015/600/400",
-            "https://picsum.photos/id/1018/600/400",
-            "https://picsum.photos/id/1025/600/400",
-            "https://picsum.photos/id/1035/600/400"
-        ];
+        const mainImg = document.getElementById('mainImage');
+        const loader = document.getElementById('loader');
 
-        let currentIndex = 0;
-        const mainImgElem = document.getElementById('mainImage');
-        const thumbs = document.querySelectorAll('.thumb');
+        // Real AI Generator Function
+        function generateAsset() {
+            let prompt = document.getElementById('promptText').value.trim();
+            if (!prompt || prompt === "Prompt") {
+                alert("Kripya prompt bar me kuch likhein!");
+                return;
+            }
 
-        function updateSlider(index) {
-            currentIndex = index;
-            mainImgElem.style.opacity = 0;
-            setTimeout(() => {
-                mainImgElem.src = images[currentIndex];
-                mainImgElem.style.opacity = 1;
-            }, 300);
+            const style = document.getElementById('styleSelect').value;
+            const ratio = document.getElementById('ratioSelect').value.split('x');
+            const width = ratio[0];
+            const height = ratio[1];
 
-            thumbs.forEach((t, i) => {
-                t.classList.toggle('active', i === currentIndex);
-            });
+            // Show loading animation
+            loader.style.display = 'block';
+            mainImg.style.opacity = '0.3';
+
+            const fullPrompt = encodeURIComponent(`${prompt}, ${style}`);
+            const seed = Math.floor(Math.random() * 999999);
+            const aiImageUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
+
+            // Preload generated image
+            const tempImg = new Image();
+            tempImg.src = aiImageUrl;
+            tempImg.onload = function() {
+                mainImg.src = aiImageUrl;
+                mainImg.style.opacity = '1';
+                loader.style.display = 'none';
+            };
+            tempImg.onerror = function() {
+                alert("Image generate karne me dikkat aayi. Kripya dobara try karein.");
+                mainImg.style.opacity = '1';
+                loader.style.display = 'none';
+            };
         }
 
-        function changeImage(index) {
-            updateSlider(index);
-        }
-
-        // Auto change image every 5 seconds
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateSlider(currentIndex);
-        }, 5000);
-
-        // Circular Auth button handler
-        let isLoggedIn = false;
-        function toggleAuth() {
-            isLoggedIn = !isLoggedIn;
-            const icon = document.getElementById('authIcon');
-            if (isLoggedIn) {
-                icon.className = 'fa-solid fa-right-from-bracket';
-                alert("Login successful! Welcome to PixoraAI.");
-            } else {
-                icon.className = 'fa-solid fa-user';
-                alert("Logged out successfully.");
+        // Direct Download Image Function
+        async function downloadAsset() {
+            const currentSrc = mainImg.src;
+            try {
+                const response = await fetch(currentSrc);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = `AI_Creation_${Date.now()}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                window.open(currentSrc, '_blank');
             }
         }
 
-        // Action Handlers
-        function generateAsset() {
-            const prompt = document.getElementById('promptText').value;
-            const type = document.getElementById('typeSelect').value;
-            const ratio = document.getElementById('ratioSelect').value;
-            const style = document.getElementById('styleSelect').value;
-
-            alert(`Generating ${type.toUpperCase()} in 4K!\nPrompt: "${prompt}"\nFormat: ${ratio.toUpperCase()}\nStyle: ${style.toUpperCase()}`);
+        function selectThumb(element) {
+            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+            mainImg.src = element.src;
         }
 
-        function downloadAsset() {
-            alert("Preparing your 4K render file for download...");
-        }
-
-        function focusPrompt() {
-            document.getElementById('promptText').focus();
+        let isLogged = false;
+        function toggleAuth() {
+            isLogged = !isLogged;
+            const icon = document.getElementById('authIcon');
+            icon.className = isLogged ? 'fa-solid fa-right-from-bracket' : 'fa-solid fa-user';
         }
     </script>
 </body>
-                        </html>
-    
+</html>
+
