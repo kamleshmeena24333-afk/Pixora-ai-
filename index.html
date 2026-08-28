@@ -39,18 +39,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        nav a {
-            color: #94a3b8;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            color: #ffffff;
-        }
-
         .nav-right {
             display: flex;
             align-items: center;
@@ -69,6 +57,13 @@
             color: #a855f7;
             cursor: pointer;
             transition: 0.3s;
+            overflow: hidden; /* Profile pic ke liye */
+        }
+
+        .user-circle-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .hero {
@@ -150,6 +145,13 @@
             transition: opacity 0.5s;
         }
 
+        .main-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
         .loading-spinner {
             display: none;
             position: absolute;
@@ -223,6 +225,20 @@
             outline: none;
         }
 
+        .script-input {
+            width: 100%;
+            background: #1c1936;
+            border: 1px solid #3730a3;
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            height: 100px;
+            resize: none;
+            display: none;
+        }
+
         .action-row {
             display: flex;
             gap: 10px;
@@ -272,13 +288,14 @@
             color: #a855f7;
         }
     </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
     <header>
         <div class="logo">PixoraAI</div>
         <div class="nav-right">
-            <div class="user-circle-btn" onclick="toggleAuth()" title="User Profile">
+            <div class="user-circle-btn" id="userBtn" onclick="toggleAuth()" title="User Profile. Click to Login.">
                 <i class="fa-solid fa-user" id="authIcon"></i>
             </div>
         </div>
@@ -289,7 +306,7 @@
             <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 4K Generation Studio</div>
             <h1 class="hero-title">Create Stunning <span>AI Visuals</span></h1>
             <p class="hero-desc">
-                Type your prompt below, choose your style and aspect ratio, and click Generate to create high-resolution images instantly.
+                Type your prompt or script below, choose your style and format, and click Generate to create high-resolution content instantly.
             </p>
         </div>
 
@@ -298,6 +315,8 @@
                 <div class="main-preview">
                     <span class="preview-badge" id="resBadge">4K ULTRA HD</span>
                     <i class="fa-solid fa-spinner fa-spin loading-spinner" id="loader"></i>
+                    
+                    <video id="mainVideo" controls></video>
                     <img id="mainImage" src="https://image.pollinations.ai/prompt/hyperrealistic%20lion%20and%20bear%20nature%20cinematic%204k?width=600&height=400&nologo=true" alt="Main Output">
                 </div>
                 <div class="side-thumbnails">
@@ -308,9 +327,9 @@
             </div>
 
             <div class="control-grid">
-                <select class="select-field" id="typeSelect">
+                <select class="select-field" id="typeSelect" onchange="toggleInputMode()">
                     <option value="image">Text to Image</option>
-                    <option value="video">Text to Video (Storyboard)</option>
+                    <option value="video">Text to Video</option>
                 </select>
 
                 <select class="select-field" id="ratioSelect">
@@ -328,9 +347,9 @@
                 </select>
             </div>
 
-            <!-- Prompt Box with Default text 'Prompt' -->
             <div class="prompt-container">
                 <input type="text" id="promptText" class="prompt-input" value="Prompt" onfocus="if(this.value=='Prompt')this.value=''" placeholder="Enter what you want to create...">
+                <textarea id="scriptText" class="script-input" placeholder="Enter your full story script here (up to 10 minutes)..."></textarea>
             </div>
 
             <div class="action-row">
@@ -345,17 +364,19 @@
         <p style="margin-top: 8px;">Website Created & Developed by: <strong>Kamlesh Meena</strong></p>
     </footer>
 
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <script>
-        // --- APNA CLIENT ID YAHA REPLACE KAREIN ---
-        const GOOGLE_CLIENT_ID = "239528284719-gt2p1g7mgqn5ufl7pjfcj1i2c36p14pj.apps.googleusercontent.com";
+        // --- AAPKA NAYA CLIENT ID YAHAN SET HAI ---
+        const GOOGLE_CLIENT_ID = "239528284719-gt2p1g7mgqn5ufl7pjfcj1i2c36p14pj.apps.googleusercontent.com"; 
         // ------------------------------------------
 
         const mainImg = document.getElementById('mainImage');
+        const mainVideo = document.getElementById('mainVideo');
         const loader = document.getElementById('loader');
+        const typeSelect = document.getElementById('typeSelect');
+        const promptInput = document.getElementById('promptText');
+        const scriptInput = document.getElementById('scriptText');
         const authIcon = document.getElementById('authIcon');
-        const userBtn = document.querySelector('.user-circle-btn');
+        const userBtn = document.getElementById('userBtn');
 
         // Page load par check karein ki user pehle se login hai ya nahi
         window.onload = function () {
@@ -395,7 +416,7 @@
         // UI ko login user ke hisab se update karein
         function updateUIForLoggedInUser(user) {
             // User ki profile picture dikhayein
-            userBtn.innerHTML = `<img src="${user.picture}" alt="${user.name}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            userBtn.innerHTML = `<img src="${user.picture}" alt="${user.name}">`;
             userBtn.title = `Logged in as ${user.name} (${user.email}). Click to Logout.`;
             // Ab click karne par logout hoga
             userBtn.setAttribute('onclick', 'handleLogout()');
@@ -435,8 +456,29 @@
         }
 
         // --- BAKI PURENE GENERATION FUNCTION (Inhein waisa hi rahne dein) ---
+
+        function toggleInputMode() {
+            if (typeSelect.value === 'video') {
+                promptInput.style.display = 'none';
+                scriptInput.style.display = 'block';
+                scriptInput.value = "Script"; // Resetting script value
+            } else {
+                promptInput.style.display = 'block';
+                scriptInput.style.display = 'none';
+                promptInput.value = "Prompt"; // Resetting prompt value
+            }
+        }
+
         function generateAsset() {
-            let prompt = document.getElementById('promptText').value.trim();
+            if (typeSelect.value === 'image') {
+                generateImage();
+            } else {
+                generateVideo();
+            }
+        }
+
+        function generateImage() {
+            let prompt = promptInput.value.trim();
             if (!prompt || prompt === "Prompt") {
                 alert("Kripya prompt bar me kuch likhein!");
                 return;
@@ -449,6 +491,7 @@
 
             loader.style.display = 'block';
             mainImg.style.opacity = '0.3';
+            mainVideo.style.display = 'none';
 
             const fullPrompt = encodeURIComponent(`${prompt}, ${style}`);
             const seed = Math.floor(Math.random() * 999999);
@@ -458,6 +501,7 @@
             tempImg.src = aiImageUrl;
             tempImg.onload = function() {
                 mainImg.src = aiImageUrl;
+                mainImg.style.display = 'block';
                 mainImg.style.opacity = '1';
                 loader.style.display = 'none';
             };
@@ -468,26 +512,5 @@
             };
         }
 
-        async function downloadAsset() {
-            const currentSrc = mainImg.src;
-            try {
-                const response = await fetch(currentSrc);
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `AI_Creation_${Date.now()}.jpg`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(blobUrl);
-            } catch (error) {
-                window.open(currentSrc, '_blank');
-            }
-        }
-            </script>
-    
+        function generateVideo() {
         
-</body>
-</html>
-
