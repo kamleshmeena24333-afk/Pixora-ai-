@@ -1,313 +1,564 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1280, initial-scale=0.35, user-scalable=yes">
-    <title>Pixora AI — Create Stunning 4K AI Images in Seconds</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixoraAI - AI Image & Video Studio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background-color: #030712;
-            background-image: 
-                radial-gradient(circle at 75% 25%, rgba(139, 92, 246, 0.22) 0%, rgba(59, 130, 246, 0.1) 35%, transparent 65%),
-                radial-gradient(circle at 15% 45%, rgba(99, 102, 241, 0.08) 0%, transparent 45%);
-            color: #f3f4f6;
-            min-width: 1200px;
+            background-color: #0b0c1b;
+            color: #ffffff;
+            overflow-x: hidden;
         }
-        .text-gradient-seconds {
-            background: linear-gradient(135deg, #60a5fa 0%, #38bdf8 35%, #818cf8 70%, #c084fc 100%);
+
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(11, 12, 27, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #a855f7, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .glass-showcase {
-            background: rgba(10, 15, 30, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.9), 0 0 35px -10px rgba(124, 58, 237, 0.35);
+
+        nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+            transition: 0.3s;
         }
+
+        nav a:hover {
+            color: #ffffff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-circle-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #1e1b4b;
+            border: 2px solid #6366f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a855f7;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .user-circle-btn:hover {
+            background: #6366f1;
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 60px 8%;
+            gap: 40px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-left {
+            flex: 1;
+            min-width: 320px;
+        }
+
+        .badge {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a855f7;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .hero-title {
+            font-size: 46px;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-secondary {
+            background: #1e1b4b;
+            color: white;
+            border: 1px solid #3730a3;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 20px;
+            color: #ffffff;
+        }
+
+        .stat-item p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Generator Box & Visual Area */
+        .hero-right {
+            flex: 1;
+            min-width: 340px;
+            background: #131129;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #2e285a;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .main-preview {
+            flex: 3;
+            position: relative;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .main-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .preview-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .side-thumbnails {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .thumb {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .thumb.active, .thumb:hover {
+            border-color: #8b5cf6;
+        }
+
+        /* Controls / Form Inside Studio */
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .select-field {
+            background: #1c1936;
+            border: 1px solid #3730a3;
+            color: #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            width: 100%;
+        }
+
+        .prompt-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .prompt-input {
+            width: 100%;
+            background: #1c1936;
+            border: 1px solid #3730a3;
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn-gen {
+            flex: 1;
+            background: linear-gradient(90deg, #8b5cf6, #6366f1);
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-down {
+            flex: 1;
+            background: #1e1b4b;
+            border: 1px solid #6366f1;
+            color: #a855f7;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* All Tools Section */
+        .tools-section {
+            padding: 40px 8%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .section-sub {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
         .tool-card {
-            background: rgba(13, 19, 36, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(12px);
-            transition: all 0.25s ease;
-            width: calc(100% / 6 - 1rem);
-            min-width: 160px;
+            background: #131129;
+            padding: 25px 20px;
+            border-radius: 12px;
+            border: 1px solid #211c47;
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
         }
+
         .tool-card:hover {
-            background: rgba(23, 32, 60, 0.9);
-            border-color: rgba(139, 92, 246, 0.5);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px -5px rgba(124, 58, 237, 0.3);
+            transform: translateY(-5px);
+            border-color: #8b5cf6;
         }
-        .btn-purple-main {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
-            transition: all 0.3s ease;
+
+        .tool-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #8b5cf6;
         }
-        .btn-purple-main:hover {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
-            transform: translateY(-1px);
+
+        .tool-card h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
         }
-        .thumb-active {
-            border-color: #a855f7 !important;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+
+        .tool-card p {
+            font-size: 13px;
+            color: #64748b;
         }
-        .prompt-bar {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(139, 92, 246, 0.35);
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding: 30px 8%;
+            background: #080811;
+            border-top: 1px solid #1a1830;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
         }
-        .prompt-bar:focus-within {
-            border-color: rgba(168, 85, 247, 0.85);
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
+
+        footer strong {
+            color: #a855f7;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-purple-600 selection:text-white">
+<body>
 
-    <!-- Top Navigation Bar -->
-    <header class="w-full border-b border-gray-800/60 bg-[#030712]/90 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-8 h-20 flex items-center justify-between">
-            
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-sparkles text-xs"></i>
-                </div>
-                <span class="text-xl font-bold tracking-tight text-white">
-                    Pixora<span class="text-white">AI</span>
-                </span>
-            </a>
-
-            <!-- Nav Links -->
-            <nav class="flex items-center space-x-8 text-sm font-medium text-gray-300">
-                <a href="#" class="text-white font-semibold relative after:content-[''] after:absolute after:bottom-[-26px] after:left-0 after:w-full after:h-0.5 after:bg-purple-500">Home</a>
-                <a href="#tools" class="hover:text-white transition">Features</a>
-                <a href="#tools" class="hover:text-white transition">AI Tools</a>
-                <a href="#showcase" class="hover:text-white transition">Examples</a>
-                <a href="#pricing" class="hover:text-white transition">Pricing</a>
-                <a href="#" class="hover:text-white transition">Blog</a>
-            </nav>
-
-            <!-- Navbar Actions -->
-            <div class="flex items-center space-x-3.5">
-                <button class="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-white transition">
-                    <i class="fa-regular fa-moon text-sm"></i>
-                </button>
-
-                <button class="px-4 py-2 text-xs font-semibold text-gray-300 hover:text-white transition bg-gray-900/80 border border-gray-800 rounded-xl">
-                    Log in
-                </button>
-
-                <a href="#showcase" class="btn-purple-main px-5 py-2 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-1.5">
-                    <span>Get Started</span>
-                    <i class="fa-solid fa-arrow-right text-[11px]"></i>
-                </a>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">PixoraAI</div>
+        <nav>
+            <a href="#home" onclick="alert('Home tab clicked')">Home</a>
+            <a href="#features" onclick="alert('Features list opened')">Features</a>
+            <a href="#tools" onclick="alert('AI Tools selected')">AI Tools</a>
+            <a href="#pricing" onclick="alert('Pricing: Free and Pro plans available')">Pricing</a>
+        </nav>
+        <div class="nav-right">
+            <!-- Circular Login/Logout Button -->
+            <div class="user-circle-btn" id="userBtn" onclick="toggleAuth()" title="Login / Logout">
+                <i class="fa-solid fa-user" id="authIcon"></i>
             </div>
         </div>
     </header>
 
-    <!-- Main Hero Section -->
-    <main class="max-w-7xl mx-auto px-8 pt-8 pb-16 flex-1 flex flex-col justify-center">
-        <div class="grid grid-cols-12 gap-8 items-center">
-            
-            <!-- Left Hero Text Column -->
-            <div class="col-span-6 flex flex-col items-start space-y-6">
-                
-                <!-- Pill Badge -->
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/30 bg-purple-950/20 backdrop-blur-md">
-                    <span class="text-xs font-medium text-gray-300 flex items-center gap-1.5">
-                        Powered by <i class="fa-solid fa-plane-departure text-purple-400 text-xs"></i> <span class="text-purple-300 font-semibold">Multilingual AI Understanding</span>
-                    </span>
-                </div>
-
-                <!-- Main Heading -->
-                <h1 class="text-[58px] font-extrabold tracking-tight text-white leading-[1.12]">
-                    Create Stunning<br>
-                    AI Images in<br>
-                    <span class="text-gradient-seconds">Seconds</span>
-                </h1>
-
-                <!-- Subtitle -->
-                <p class="text-lg text-gray-400 max-w-lg font-normal leading-relaxed">
-                    Transform your ideas into breathtaking 4K visuals with the power of artificial intelligence. Hindi, Hinglish, English sabhi languages supported.
-                </p>
-
-                <!-- Hero Action Buttons -->
-                <div class="flex items-center gap-3.5 pt-1">
-                    <a href="#showcase" class="btn-purple-main px-6 py-3.5 rounded-xl text-sm font-bold text-white shadow-xl flex items-center justify-center gap-2">
-                        <span>Start Creating Now</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </a>
-                    <a href="#tools" class="px-5 py-3.5 rounded-xl border border-gray-700/70 bg-gray-900/40 hover:bg-gray-800 text-sm font-semibold text-gray-200 transition flex items-center justify-center gap-2">
-                        <span>Explore Tools</span>
-                        <i class="fa-solid fa-table-cells text-gray-400 text-xs"></i>
-                    </a>
-                </div>
-
-                <!-- Stats Bar -->
-                <div class="pt-6 border-t border-gray-800/80 w-full grid grid-cols-3 gap-4 text-left">
-                    <div>
-                        <div class="flex items-center gap-1.5 text-xl font-bold text-white">
-                            <i class="fa-regular fa-user text-purple-400 text-sm"></i> 500K+
-                        </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Happy Users</p>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1.5 text-xl font-bold text-white">
-                            <i class="fa-solid fa-wand-magic text-indigo-400 text-sm"></i> 5M+
-                        </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Images Created</p>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1.5 text-xl font-bold text-white">
-                            <i class="fa-solid fa-bolt text-yellow-400 text-sm"></i> 10x
-                        </div>
-                        <p class="text-xs text-gray-400 mt-0.5">Faster Generation</p>
-                    </div>
-                </div>
+    <!-- Main Studio Hero -->
+    <div class="hero" id="home">
+        <div class="hero-left">
+            <div class="badge"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 4K Story & Studio</div>
+            <h1 class="hero-title">Create 4K Stories & <span>Videos in Seconds</span></h1>
+            <p class="hero-desc">
+                Generate 10-minute long cinematic story videos, cartoon reels, and realistic visuals. Enter your prompt or story idea below to start generating high-quality assets.
+            </p>
+            <div class="cta-group">
+                <button class="btn-primary" onclick="focusPrompt()">Start Creating Now <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn-secondary" onclick="alert('Exploring 4K tools catalog')">Explore Tools</button>
             </div>
-
-            <!-- Right Showcase Frame -->
-            <div id="showcase" class="col-span-6 relative flex flex-col items-center">
-                
-                <div class="relative w-full glass-showcase rounded-3xl p-4 shadow-2xl flex flex-col space-y-4">
-                    
-                    <!-- Main Frame with Image and Thumbnails -->
-                    <div class="flex gap-4 items-stretch">
-                        
-                        <!-- Featured AI Image Frame -->
-                        <div class="relative flex-1 rounded-2xl overflow-hidden aspect-[4/3.8] bg-[#02050f] border border-gray-800/80">
-                            
-                            <img id="mainFeaturedImg" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600&auto=format&fit=crop&q=95" alt="Pixora AI Art" class="w-full h-full object-cover transition duration-300">
-                            
-                            <!-- 4K Ultra HD Badge Overlay -->
-                            <div class="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-purple-500/30 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-[10px] font-bold text-purple-300">
-                                <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>
-                                4K ULTRA HD
-                            </div>
-
-                            <!-- Loading Spinner inside Image -->
-                            <div id="aiLoader" class="absolute inset-0 bg-black/85 backdrop-blur-sm hidden flex-col items-center justify-center z-30">
-                                <div class="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-2"></div>
-                                <span id="loadingStatusText" class="text-xs font-semibold text-purple-300 tracking-wide">AI samajh raha hai aur 4K image bana raha hai...</span>
-                            </div>
-                        </div>
-
-                        <!-- 4 Right Vertical Thumbnail Cards -->
-                        <div class="w-20 flex flex-col justify-between space-y-2 shrink-0">
-                            
-                            <!-- Thumb 1: Lake -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=95', 'Cinematic alpine lake reflection with mountain peak during morning mist, 8k resolution', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
-                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Lake">
-                            </div>
-
-                            <!-- Thumb 2: Neon Girl (Active) -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1600&auto=format&fit=crop&q=95', 'Cyberpunk portrait of a girl with neon lights and butterflies', this)" class="thumb-item thumb-active cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-purple-500 transition">
-                                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Neon Girl">
-                            </div>
-
-                            <!-- Thumb 3: Cyber City -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1600&auto=format&fit=crop&q=95', 'Futuristic sci-fi mega city with flying vehicles, glowing skyscrapers, Unreal Engine 5 render', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
-                                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Cyber City">
-                            </div>
-
-                            <!-- Thumb 4: Castle -->
-                            <div onclick="switchShowcase('https://images.unsplash.com/photo-1514539079130-25950c84af65?w=1600&auto=format&fit=crop&q=95', 'Ancient medieval fantasy castle nestled in mythical enchanted forest beside emerald river', this)" class="thumb-item cursor-pointer rounded-xl overflow-hidden aspect-square border-2 border-transparent hover:border-purple-500 transition">
-                                <img src="https://images.unsplash.com/photo-1514539079130-25950c84af65?w=200&auto=format&fit=crop&q=60" class="w-full h-full object-cover" alt="Castle">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Professional Bottom Multilingual Prompt Bar -->
-                    <div class="prompt-bar rounded-2xl p-2 flex items-center gap-2">
-                        <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 ml-1" title="AI Multilingual Input">
-                            <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-                        </div>
-                        
-                        <input type="text" id="livePromptInput" value="Cyberpunk portrait of a girl with neon lights and butterflies" class="w-full bg-transparent text-xs sm:text-sm text-gray-100 placeholder-gray-500 focus:outline-none font-medium px-2" placeholder="Hindi, Hinglish ya English me kuch bhi likhein (e.g. Gaon me suraj dhal raha ho)...">
-                        
-                        <!-- Dedicated 4K Download Button -->
-                        <button id="btnSaveImageDirect" title="Download 4K HD Image" class="px-3 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 hover:text-white flex items-center gap-1.5 shrink-0 transition border border-gray-700 text-xs font-bold shadow">
-                            <i class="fa-solid fa-download text-xs text-purple-400"></i>
-                            <span>Download 4K</span>
-                        </button>
-
-                        <!-- Generate Button -->
-                        <button id="btnAIGenerateMain" class="btn-purple-main px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg flex items-center gap-2 shrink-0 transition">
-                            <i class="fa-solid fa-bolt text-xs"></i>
-                            <span>Generate 4K</span>
-                        </button>
-                    </div>
-
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>500K+</h3>
+                    <p>Active Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5M+</h3>
+                    <p>Stories & Images</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10x</h3>
+                    <p>Faster Render</p>
                 </div>
             </div>
         </div>
 
-        <!-- All-in-One AI Image Tools Section (6 Cards) -->
-        <section id="tools" class="mt-16 pt-10 border-t border-gray-800/80">
-            <div class="text-center max-w-2xl mx-auto mb-10">
-                <h2 class="text-3xl font-extrabold text-white tracking-tight">All-in-One AI Image Tools</h2>
-                <p class="text-sm text-gray-400 mt-2">Everything you need to create, edit and enhance images</p>
+        <!-- Studio & Controls Right -->
+        <div class="hero-right">
+            <div class="preview-container">
+                <div class="main-preview">
+                    <span class="preview-badge">4K ULTRA HD</span>
+                    <img id="mainImage" src="https://picsum.photos/id/1015/600/400" alt="Main Display">
+                </div>
+                <div class="side-thumbnails">
+                    <img class="thumb active" src="https://picsum.photos/id/1015/150/100" onclick="changeImage(0)">
+                    <img class="thumb" src="https://picsum.photos/id/1018/150/100" onclick="changeImage(1)">
+                    <img class="thumb" src="https://picsum.photos/id/1025/150/100" onclick="changeImage(2)">
+                    <img class="thumb" src="https://picsum.photos/id/1035/150/100" onclick="changeImage(3)">
+                </div>
             </div>
 
-            <!-- 6 Horizontal Cards Row -->
-            <div class="flex items-center justify-between gap-4 w-full">
-                
-                <!-- Card 1: Text to Image -->
-                <div onclick="applyQuickPrompt('A futuristic robotic horse running in glowing desert, 8k cinematic')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-regular fa-image text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Text to Image</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Turn words into stunning visuals</p>
-                    </div>
-                </div>
+            <!-- Custom Options Grid -->
+            <div class="control-grid">
+                <select class="select-field" id="typeSelect">
+                    <option value="video">Text to Video (Up to 10 min)</option>
+                    <option value="image">Text to Image</option>
+                </select>
 
-                <!-- Card 2: Image to Image -->
-                <div onclick="applyQuickPrompt('Transform into 3D Pixar character with vivid colors')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-images text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Image to Image</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Transform images with AI creativity</p>
-                    </div>
-                </div>
+                <select class="select-field" id="ratioSelect">
+                    <option value="yt">YouTube Video (16:9 4K)</option>
+                    <option value="reels">YouTube Shorts / Reels (9:16)</option>
+                    <option value="fb">Facebook Video (1:1 / 4:5)</option>
+                    <option value="logo">Logo / Post (1:1 HD)</option>
+                    <option value="thumb">YouTube Thumbnail (1280x720)</option>
+                </select>
 
-                <!-- Card 3: AI Image Editor -->
-                <div onclick="applyQuickPrompt('Add dramatic golden hour sunset, soft lens flare, realistic')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">AI Image Editor</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Edit and enhance images like a pro</p>
-                    </div>
-                </div>
+                <select class="select-field" id="styleSelect" style="grid-column: span 2;">
+                    <option value="realistic">Ultra Realistic (10 Min Story)</option>
+                    <option value="cinematic">Cinematic Movie Style</option>
+                    <option value="cartoon">Cartoon / 3D Animation</option>
+                    <option value="reels">Cinematic Viral Reel</option>
+                </select>
+            </div>
 
-                <!-- Card 4: Style Transfer -->
-                <div onclick="applyQuickPrompt('Japanese anime Makoto Shinkai aesthetic scenery, ultra detailed')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white mb-2 shadow">
-                        <i class="fa-solid fa-palette text-base"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-white mb-1">Style Transfer</h3>
-                        <p class="text-[11px] text-gray-400 leading-tight">Apply artistic styles to your images</p>
-                    </div>
-                </div>
+            <!-- Prompt Input with 'tamnna' default text -->
+            <div class="prompt-container">
+                <input type="text" id="promptText" class="prompt-input" value="tamnna" placeholder="Type prompt or story idea here...">
+            </div>
 
-                <!-- Card 5: Image Upscaler -->
-                <div onclick="applyQuickPrompt('Ultra-detailed super resolution 4k sharp textures masterpiece')" class="tool-card rounded-2xl p-4 cursor-pointer flex flex-col justify-between h-[150px]">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-700 flex items-center justify-center text-white font-black 
+            <!-- Generate & Download Buttons (Swapped as requested) -->
+            <div class="action-row">
+                <button class="btn-gen" onclick="generateAsset()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate</button>
+                <button class="btn-down" onclick="downloadAsset()"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- All-in-One Tools Section -->
+    <div class="tools-section" id="tools">
+        <h2 class="section-title">All-in-One AI Media Tools</h2>
+        <p class="section-sub">Generate, render, and upscale your content in 4K format</p>
+        <div class="tools-grid">
+            <div class="tool-card" onclick="alert('Text to Image opened: Create realistic visuals from prompts.')">
+                <i class="fa-solid fa-image tool-icon"></i>
+                <h4>Text to Image</h4>
+                <p>Generate high-resolution thumbnails, logos, and digital art.</p>
+            </div>
+            <div class="tool-card" onclick="alert('Long Story to Video opened: Crafting up to 10-minute long realistic stories.')">
+                <i class="fa-solid fa-video tool-icon"></i>
+                <h4>10-Min Video Generator</h4>
+                <p>Full-length automatic story creation with scene sequencing.</p>
+            </div>
+            <div class="tool-card" onclick="alert('Reels & Cartoon Maker opened: Choose cinematic or cartoon styles.')">
+                <i class="fa-solid fa-clapperboard tool-icon"></i>
+                <h4>Cinematic & Reels</h4>
+                <p>Fast render vertical formats for YouTube Shorts, Reels, and TikTok.</p>
+            </div>
+            <div class="tool-card" onclick="alert('4K Upscaler opened: Enhance resolution and export clean files.')">
+                <i class="fa-solid fa-wand-magic tool-icon"></i>
+                <h4>4K Video Upscaler</h4>
+                <p>Optimize quality to crystal-clear 4K format effortlessly.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Website Creator / Credits Footer -->
+    <footer>
+        <p>© 2026 PixoraAI Studio. All rights reserved.</p>
+        <p style="margin-top: 8px;">Website Created & Developed by: <strong>Kamlesh Meena</strong></p>
+    </footer>
+
+    <script>
+        // Image auto-slider list
+        const images = [
+            "https://picsum.photos/id/1015/600/400",
+            "https://picsum.photos/id/1018/600/400",
+            "https://picsum.photos/id/1025/600/400",
+            "https://picsum.photos/id/1035/600/400"
+        ];
+
+        let currentIndex = 0;
+        const mainImgElem = document.getElementById('mainImage');
+        const thumbs = document.querySelectorAll('.thumb');
+
+        function updateSlider(index) {
+            currentIndex = index;
+            mainImgElem.style.opacity = 0;
+            setTimeout(() => {
+                mainImgElem.src = images[currentIndex];
+                mainImgElem.style.opacity = 1;
+            }, 300);
+
+            thumbs.forEach((t, i) => {
+                t.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function changeImage(index) {
+            updateSlider(index);
+        }
+
+        // Auto change image every 5 seconds
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateSlider(currentIndex);
+        }, 5000);
+
+        // Circular Auth button handler
+        let isLoggedIn = false;
+        function toggleAuth() {
+            isLoggedIn = !isLoggedIn;
+            const icon = document.getElementById('authIcon');
+            if (isLoggedIn) {
+                icon.className = 'fa-solid fa-right-from-bracket';
+                alert("Login successful! Welcome to PixoraAI.");
+            } else {
+                icon.className = 'fa-solid fa-user';
+                alert("Logged out successfully.");
+            }
+        }
+
+        // Action Handlers
+        function generateAsset() {
+            const prompt = document.getElementById('promptText').value;
+            const type = document.getElementById('typeSelect').value;
+            const ratio = document.getElementById('ratioSelect').value;
+            const style = document.getElementById('styleSelect').value;
+
+            alert(`Generating ${type.toUpperCase()} in 4K!\nPrompt: "${prompt}"\nFormat: ${ratio.toUpperCase()}\nStyle: ${style.toUpperCase()}`);
+        }
+
+        function downloadAsset() {
+            alert("Preparing your 4K render file for download...");
+        }
+
+        function focusPrompt() {
+            document.getElementById('promptText').focus();
+        }
+    </script>
+</body>
+                        </html>
+    
