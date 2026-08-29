@@ -3,17 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>PixoraAI - Ultra Production Creative Studio</title>
+  <title>PixoraAI - Ultra Production Creative Studio Pro</title>
   
-  <!-- Google Fonts & Lucide Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   
   <style>
-    /* ==========================================================================
-       CSS SYSTEM DESIGN & VARIABLES
-       ========================================================================== */
     :root {
       --bg-main: #060813;
       --bg-card: #0d1127;
@@ -87,16 +83,13 @@
       background: var(--primary);
     }
 
-    /* ==========================================================================
-       HEADER & NAVIGATION
-       ========================================================================== */
+    /* Header */
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
       background: rgba(6, 8, 19, 0.85);
       backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-subtle);
       padding: 0.9rem 2rem;
       display: flex;
@@ -181,43 +174,22 @@
       50% { opacity: 0.4; }
     }
 
-    .user-profile-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--text-main);
-    }
-
-    .user-profile-btn:hover {
-      border-color: var(--primary);
-      box-shadow: var(--shadow-glow);
-    }
-
-    /* ==========================================================================
-       HERO & MAIN WORKSPACE
-       ========================================================================== */
+    /* Workspace */
     main {
       flex: 1;
       max-width: 1440px;
       width: 100%;
       margin: 0 auto;
-      padding: 2.5rem 2rem;
+      padding: 2.2rem 2rem;
       display: flex;
       flex-direction: column;
-      gap: 3rem;
+      gap: 2.5rem;
     }
 
     .workspace-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 2.5rem;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 2.2rem;
       align-items: start;
     }
 
@@ -227,19 +199,18 @@
       }
     }
 
-    /* Left Control Desk */
     .control-desk {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.2rem;
     }
 
     .hero-text h1 {
-      font-size: 2.8rem;
+      font-size: 2.5rem;
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -1px;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
     }
 
     .hero-text h1 span {
@@ -250,20 +221,19 @@
 
     .hero-text p {
       color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.6;
+      font-size: 0.95rem;
+      line-height: 1.5;
     }
 
     .studio-panel {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 1.8rem;
+      padding: 1.6rem;
       display: flex;
       flex-direction: column;
-      gap: 1.4rem;
+      gap: 1.2rem;
       box-shadow: var(--shadow-lg);
-      position: relative;
     }
 
     /* Tabs Engine */
@@ -274,6 +244,7 @@
       border-radius: var(--radius-md);
       border: 1px solid var(--border-subtle);
       gap: 4px;
+      overflow-x: auto;
     }
 
     .tab-btn {
@@ -281,8 +252,8 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 10px 14px;
-      font-size: 0.85rem;
+      padding: 10px 12px;
+      font-size: 0.8rem;
       font-weight: 600;
       border-radius: var(--radius-sm);
       cursor: pointer;
@@ -290,13 +261,88 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
+      white-space: nowrap;
     }
 
     .tab-btn.active {
       background: var(--primary);
       color: #ffffff;
       box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Image-to-Image / Inpainting Dropzone */
+    .upload-zone {
+      display: none;
+      background: var(--bg-input);
+      border: 2px dashed #334155;
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .upload-zone.active-drag {
+      border-color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.05);
+    }
+
+    .upload-zone:hover {
+      border-color: var(--primary);
+    }
+
+    .upload-zone-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .upload-zone-content svg {
+      width: 32px;
+      height: 32px;
+      color: var(--accent-cyan);
+    }
+
+    .upload-thumb-preview {
+      display: none;
+      max-height: 140px;
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+    }
+
+    /* Masking Canvas Toolbar (For precise Face/Cloth edit) */
+    .inpaint-toolbar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      background: #0a0d1e;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.75rem;
+    }
+
+    .inpaint-tools {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .tool-btn {
+      background: #182046;
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+
+    .tool-btn.active {
+      background: var(--accent-pink);
     }
 
     /* Form Controls */
@@ -313,7 +359,7 @@
     }
 
     .input-label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-main);
       display: flex;
@@ -325,7 +371,7 @@
       background: none;
       border: none;
       color: var(--accent-cyan);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -344,16 +390,16 @@
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       color: var(--text-main);
-      padding: 12px 14px;
-      font-size: 0.9rem;
+      padding: 10px 12px;
+      font-size: 0.88rem;
       outline: none;
       transition: var(--transition);
     }
 
     textarea {
       resize: vertical;
-      min-height: 95px;
-      line-height: 1.5;
+      min-height: 85px;
+      line-height: 1.45;
     }
 
     textarea:focus, select:focus, input[type="text"]:focus {
@@ -364,7 +410,7 @@
     .multi-select-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
     @media (max-width: 600px) {
@@ -373,27 +419,52 @@
       }
     }
 
-    /* Advanced Sliders */
+    /* Preset Transformation Chips */
+    .preset-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      background: #151a38;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      color: #94a3b8;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip:hover {
+      border-color: var(--accent-cyan);
+      color: #ffffff;
+      background: rgba(6, 182, 212, 0.15);
+    }
+
+    /* Sliders */
     .filter-sliders {
       background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 1rem;
+      padding: 0.9rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 0.8rem;
     }
 
     .slider-item {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .slider-header {
       display: flex;
       justify-content: space-between;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
     }
 
@@ -406,18 +477,18 @@
       cursor: pointer;
     }
 
-    /* Execution Area */
+    /* Action Buttons */
     .button-group {
       display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
+      gap: 0.8rem;
+      margin-top: 0.2rem;
     }
 
     .btn {
       flex: 1;
-      padding: 14px 20px;
+      padding: 12px 18px;
       border-radius: var(--radius-md);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       border: none;
       cursor: pointer;
@@ -456,15 +527,15 @@
       border-color: var(--primary-light);
     }
 
-    /* Right Preview Stage */
+    /* Stage Preview */
     .preview-stage {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.4rem;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
       box-shadow: var(--shadow-lg);
       position: sticky;
       top: 90px;
@@ -491,6 +562,18 @@
       display: block;
     }
 
+    /* Drawing Canvas Layer for Inpainting Mask */
+    #mask-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      cursor: crosshair;
+      z-index: 5;
+    }
+
     .video-layer {
       width: 100%;
       height: 100%;
@@ -500,35 +583,32 @@
 
     .viewport-overlay {
       position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
+      top: 12px;
+      left: 12px;
+      right: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       pointer-events: none;
+      z-index: 6;
     }
 
     .badge {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 4px 10px;
       border-radius: var(--radius-sm);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #38bdf8;
-      display: flex;
-      align-items: center;
-      gap: 5px;
     }
 
-    /* Loading Spinner */
     .loader-ring {
       display: none;
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: 55px;
+      height: 55px;
       border: 4px solid rgba(139, 92, 246, 0.2);
       border-top: 4px solid var(--primary-light);
       border-right: 4px solid var(--accent-cyan);
@@ -546,11 +626,11 @@
       background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 0.9rem 1.2rem;
+      padding: 0.8rem 1.1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
     }
 
     .meta-item {
@@ -561,7 +641,7 @@
 
     .meta-label {
       color: var(--text-dark);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
       font-weight: 700;
     }
@@ -571,9 +651,7 @@
       color: var(--text-muted);
     }
 
-    /* ==========================================================================
-       HISTORY & ASSET VAULT
-       ========================================================================== */
+    /* Vault History */
     .vault-section {
       display: flex;
       flex-direction: column;
@@ -587,7 +665,7 @@
     }
 
     .section-title {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
     }
 
@@ -603,8 +681,7 @@
       border-radius: var(--radius-md);
       overflow: hidden;
       transition: var(--transition);
-      position: relative;
-      group: hover;
+      cursor: pointer;
     }
 
     .vault-card:hover {
@@ -624,11 +701,11 @@
       padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .vault-prompt {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -637,11 +714,11 @@
     }
 
     .vault-meta {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       color: var(--text-dark);
     }
 
-    /* Toast Notifications */
+    /* Toast */
     .toast-container {
       position: fixed;
       bottom: 24px;
@@ -664,7 +741,7 @@
       align-items: center;
       gap: 10px;
       animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      max-width: 320px;
+      max-width: 340px;
     }
 
     @keyframes slideIn {
@@ -672,7 +749,6 @@
       to { transform: translateX(0); opacity: 1; }
     }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--border-subtle);
       background: var(--bg-card);
@@ -686,7 +762,6 @@
 </head>
 <body>
 
-  <!-- App Header -->
   <header>
     <a href="#" class="brand">
       <div class="brand-logo">
@@ -694,48 +769,63 @@
       </div>
       <div>
         <span class="brand-title">PixoraAI</span>
-        <span class="brand-tag">Studio Pro</span>
+        <span class="brand-tag">Studio Pro Max</span>
       </div>
     </a>
     <div class="nav-actions">
       <div class="status-pill">
         <span class="status-indicator"></span>
-        <span>Node: Online</span>
-      </div>
-      <div class="user-profile-btn" onclick="triggerToast('Cloud Account Synced', 'success')" title="Account Profile">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span>AI Engine: Active</span>
       </div>
     </div>
   </header>
 
-  <!-- Studio Workspace -->
   <main>
     <div class="workspace-grid">
       
-      <!-- Studio Control Desk -->
       <div class="control-desk">
         <div class="hero-text">
-          <h1>Next-Gen <span>AI Production</span> Engine</h1>
-          <p>Generate ultra-high fidelity visual media and render assets directly on client-side infrastructure.</p>
+          <h1>Universal <span>AI Transformation</span> Studio</h1>
+          <p>Text-to-Image, AI Motion Video, & Custom Image Upload Face/Cloth/Object Inpainting.</p>
         </div>
 
         <div class="studio-panel">
-          <!-- Modes -->
           <div class="tabs-nav">
             <button class="tab-btn active" id="tab-img" onclick="switchMode('image')">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               Text to Image
             </button>
+            <button class="tab-btn" id="tab-edit" onclick="switchMode('inpaint')">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Photo Upload &amp; Swap
+            </button>
             <button class="tab-btn" id="tab-vid" onclick="switchMode('video')">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect width="14" height="14" x="1" y="5" rx="2"/></svg>
-              AI Cinema (Motion)
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect width="14" height="14" x="1" y="5" rx="2"/></svg>
+              Cinema Motion
             </button>
           </div>
 
-          <!-- Prompt Area -->
+          <div class="upload-zone" id="upload-container" onclick="document.getElementById('file-uploader').click()">
+            <input type="file" id="file-uploader" accept="image/*" style="display:none;" onchange="handleImageUpload(event)" />
+            <div class="upload-zone-content">
+              <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <div><strong>Click ya Drag karke apni Image yahan Dalein</strong></div>
+              <div style="font-size:0.75rem; color:#64748b;">Face Swap, Clothes Change, ya Background replace karne ke liye</div>
+              <img id="upload-preview" class="upload-thumb-preview" alt="Uploaded Thumbnail" />
+            </div>
+          </div>
+
+          <div class="inpaint-toolbar" id="inpaint-tools-bar">
+            <span>Brush Tool: Edit Specific Area (Face/Clothes)</span>
+            <div class="inpaint-tools">
+              <button class="tool-btn active" id="btn-brush" onclick="toggleBrush(true)">Brush</button>
+              <button class="tool-btn" onclick="clearMask()">Clear Mask</button>
+            </div>
+          </div>
+
           <div class="input-block">
             <div class="input-label-row">
-              <label class="input-label" for="prompt-input">
+              <label class="input-label" for="prompt-input" id="prompt-label">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
                 Master Prompt
               </label>
@@ -744,35 +834,41 @@
                 Enhance Prompt (AI)
               </button>
             </div>
-            <textarea id="prompt-input" placeholder="Describe the scene in detail...">Hyper-detailed cybernetic tiger in neon rain soaked rainforest, octane render, 8k resolution, cinematic lighting</textarea>
+            <textarea id="prompt-input" placeholder="Type what you want to generate or change...">Royal Bengal Tiger in futuristic neon cyberpunk jungle, 8k resolution, cinematic lighting</textarea>
+            
+            <div class="preset-chips" id="inpaint-preset-chips" style="display:none;">
+              <span class="chip" onclick="applyPreset('Change cloth to luxury black tuxedo suit, photorealistic, 8k')">&#128084; Black Tuxedo Suit</span>
+              <span class="chip" onclick="applyPreset('Change face into handsome sharp cinematic model face')">&#128104; Model Face</span>
+              <span class="chip" onclick="applyPreset('Change clothes to futuristic golden sci-fi robotic armor')">&#129302; Cyber Armor</span>
+              <span class="chip" onclick="applyPreset('Change background into Tokyo rainy neon street night')">&#127750; Tokyo Neon City</span>
+              <span class="chip" onclick="applyPreset('Change clothes to traditional royal Indian sherwani with gold embroidery')">&#128088; Royal Sherwani</span>
+            </div>
           </div>
 
-          <!-- Modifiers Grid -->
           <div class="multi-select-grid">
             <div class="input-block">
-              <label class="input-label">Aspect Ratio / Canvas</label>
+              <label class="input-label">Aspect Ratio</label>
               <select id="ratio-select">
-                <option value="1280x720">16:9 - Landscape (YouTube / 4K)</option>
-                <option value="1080x1080">1:1 - Square (Instagram Feed)</option>
-                <option value="720x1280">9:16 - Portrait (Reels / Shorts)</option>
-                <option value="1920x1080">16:9 - Full HD Master</option>
+                <option value="1280x720">16:9 Landscape (YouTube / 4K)</option>
+                <option value="1080x1080">1:1 Square (Instagram)</option>
+                <option value="720x1280">9:16 Portrait (Reels / Shorts)</option>
+                <option value="1920x1080">16:9 Full HD</option>
               </select>
             </div>
             <div class="input-block">
-              <label class="input-label">Art Direction & Engine</label>
+              <label class="input-label">Art Direction</label>
               <select id="style-select">
-                <option value="photorealistic, 8k resolution, highly detailed, shot on 35mm lens">Photorealistic Ultra</option>
+                <option value="photorealistic, 8k resolution, highly detailed, shot on 35mm lens">Ultra Photorealistic</option>
                 <option value="cinematic mood, volumetric lighting, epic scene, unreal engine 5 render">Cinematic Masterpiece</option>
                 <option value="cyberpunk aesthetic, high contrast, neon glow, intricate mechanics">Cyberpunk / Sci-Fi</option>
-                <option value="anime key visual, studio ghibli style, vibrant colors, clean lines">Anime Studio Aesthetic</option>
-                <option value="3D Pixar animation style, soft lighting, vibrant cute character">3D Digital Character</option>
+                <option value="anime key visual, studio ghibli style, vibrant colors">Anime Art Studio</option>
+                <option value="3D Pixar animation style, soft lighting, vibrant">3D Animation</option>
               </select>
             </div>
           </div>
 
-          <!-- Color Correction Engine -->
           <div class="input-block">
-            <label class="input-label">Realtime Post-Processing Engine</label>
+            <label class="input-label">Post-Processing Sliders</label>
             <div class="filter-sliders">
               <div class="slider-item">
                 <div class="slider-header"><span>Brightness</span><span id="val-bright">100%</span></div>
@@ -787,92 +883,82 @@
                 <input type="range" id="filter-saturate" min="0" max="200" value="100" oninput="applyFilters()" />
               </div>
               <div class="slider-item">
-                <div class="slider-header"><span>Sepia Tone</span><span id="val-sepia">0%</span></div>
+                <div class="slider-header"><span>Sepia</span><span id="val-sepia">0%</span></div>
                 <input type="range" id="filter-sepia" min="0" max="100" value="0" oninput="applyFilters()" />
               </div>
             </div>
           </div>
 
-          <!-- Action Buttons -->
           <div class="button-group">
             <button class="btn btn-primary" id="btn-generate" onclick="executeGeneration()">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-              Generate Master Asset
+              <span id="btn-gen-text">Generate AI Master</span>
             </button>
             <button class="btn btn-secondary" onclick="exportActiveAsset()">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              Export
+              Download
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Preview Stage -->
       <div class="preview-stage">
         <div class="viewport" id="viewport-box">
           <div class="viewport-overlay">
-            <div class="badge" id="render-badge">4K MASTER READY</div>
-            <div class="badge" id="fps-badge">60 FPS ENGINE</div>
+            <div class="badge" id="render-badge">4K MASTER ENGINE</div>
+            <div class="badge" id="fps-badge">GPU ONLINE</div>
           </div>
           
           <div class="loader-ring" id="engine-loader"></div>
           
-          <!-- Visual Elements -->
           <img id="active-image" class="canvas-layer" src="https://picsum.photos/1280/720?random=1" alt="Active AI Visual" crossOrigin="anonymous" />
+          <canvas id="mask-canvas"></canvas>
           <video id="active-video" class="video-layer" loop muted playsinline autoplay></video>
         </div>
 
-        <!-- Meta Information Matrix -->
         <div class="meta-info-box">
           <div class="meta-item">
             <span class="meta-label">Resolution</span>
             <span class="meta-val" id="meta-res">1280 x 720</span>
           </div>
           <div class="meta-item">
-            <span class="meta-label">Seed</span>
-            <span class="meta-val" id="meta-seed">#482910</span>
+            <span class="meta-label">Seed ID</span>
+            <span class="meta-val" id="meta-seed">#583920</span>
           </div>
           <div class="meta-item">
-            <span class="meta-label">Latency</span>
-            <span class="meta-val" id="meta-time">0.42s</span>
+            <span class="meta-label">Render Time</span>
+            <span class="meta-val" id="meta-time">0.38s</span>
           </div>
           <div class="meta-item">
             <span class="meta-label">Status</span>
-            <span class="meta-val" style="color: var(--accent-green);">Cached</span>
+            <span class="meta-val" style="color: var(--accent-green);">Ready</span>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Vault History -->
     <div class="vault-section">
       <div class="section-header">
         <div class="section-title">Session Asset Vault</div>
-        <button class="enhancer-btn" onclick="clearVault()">Clear Vault</button>
+        <button class="enhancer-btn" onclick="clearVault()">Clear History</button>
       </div>
-      <div class="vault-grid" id="vault-container">
-        <!-- Vault cards appended dynamically -->
-      </div>
+      <div class="vault-grid" id="vault-container"></div>
     </div>
   </main>
 
-  <!-- Notifications Container -->
   <div class="toast-container" id="toast-shelf"></div>
 
-  <!-- Footer -->
   <footer>
-    &copy; 2026 PixoraAI Pro Studio Platform. Multi-thread client engine active.
+    &copy; 2026 PixoraAI Studio Platform. Multi-layer AI rendering engine.
   </footer>
 
-  <!-- ==========================================================================
-       ENTERPRISE JAVASCRIPT ENGINE
-       ========================================================================== -->
   <script>
-    /* Global State Controller */
     const State = {
       mode: 'image',
       activeUrl: '',
+      uploadedBase64: null,
+      isDrawing: false,
       history: JSON.parse(localStorage.getItem('pixora_vault') || '[]'),
       isProcessing: false,
       sampleVideos: [
@@ -885,41 +971,162 @@
     /* Init Core */
     window.addEventListener('DOMContentLoaded', () => {
       renderVault();
-      triggerToast('PixoraAI Core Engine Initialized', 'info');
+      setupCanvasMask();
+      triggerToast('PixoraAI Universal Studio Active', 'info');
     });
 
     /* Tab Switcher */
     function switchMode(mode) {
       State.mode = mode;
       document.getElementById('tab-img').classList.toggle('active', mode === 'image');
+      document.getElementById('tab-edit').classList.toggle('active', mode === 'inpaint');
       document.getElementById('tab-vid').classList.toggle('active', mode === 'video');
-      
+
+      const uploadBox = document.getElementById('upload-container');
+      const inpaintTools = document.getElementById('inpaint-tools-bar');
+      const chips = document.getElementById('inpaint-preset-chips');
+      const maskCanvas = document.getElementById('mask-canvas');
+      const promptLabel = document.getElementById('prompt-label');
+      const genBtnText = document.getElementById('btn-gen-text');
       const badge = document.getElementById('render-badge');
-      if(mode === 'video') {
+
+      if (mode === 'inpaint') {
+        uploadBox.style.display = 'block';
+        inpaintTools.style.display = 'flex';
+        chips.style.display = 'flex';
+        maskCanvas.style.display = 'block';
+        badge.innerText = 'PHOTO SWAP & INPAINT';
+        genBtnText.innerText = 'Transform Uploaded Image';
+        promptLabel.innerHTML = `<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Transformation Instruction (Face / Clothes / Background)`;
+        triggerToast('Upload photo to start Face / Clothes transformation', 'info');
+      } else if (mode === 'video') {
+        uploadBox.style.display = 'none';
+        inpaintTools.style.display = 'none';
+        chips.style.display = 'none';
+        maskCanvas.style.display = 'none';
         badge.innerText = 'CINEMA MOTION ENGINE';
-        triggerToast('Switched to Cinema Animation Engine', 'info');
+        genBtnText.innerText = 'Render Cinema Video';
+        triggerToast('Switched to Video Mode', 'info');
       } else {
-        badge.innerText = '4K MASTER READY';
-        triggerToast('Switched to Still Image Generator', 'info');
+        uploadBox.style.display = 'none';
+        inpaintTools.style.display = 'none';
+        chips.style.display = 'none';
+        maskCanvas.style.display = 'none';
+        badge.innerText = '4K MASTER ENGINE';
+        genBtnText.innerText = 'Generate AI Master';
+        triggerToast('Switched to Text-to-Image Mode', 'info');
       }
     }
 
-    /* Prompt Enhancer Engine */
+    /* Image Upload Handling */
+    function handleImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        State.uploadedBase64 = event.target.result;
+        
+        const previewImg = document.getElementById('upload-preview');
+        previewImg.src = event.target.result;
+        previewImg.style.display = 'block';
+
+        const activeImg = document.getElementById('active-image');
+        activeImg.src = event.target.result;
+        activeImg.style.display = 'block';
+        document.getElementById('active-video').style.display = 'none';
+
+        resizeCanvasToMatchImage();
+        triggerToast('Photo loaded! Now specify changes in prompt', 'success');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* Inpaint Canvas Masking Engine */
+    function setupCanvasMask() {
+      const canvas = document.getElementById('mask-canvas');
+      const ctx = canvas.getContext('2d');
+      const viewport = document.getElementById('viewport-box');
+
+      canvas.width = viewport.clientWidth;
+      canvas.height = viewport.clientHeight;
+
+      let painting = false;
+
+      function startPosition(e) {
+        if(State.mode !== 'inpaint') return;
+        painting = true;
+        draw(e);
+      }
+
+      function finishedPosition() {
+        painting = false;
+        ctx.beginPath();
+      }
+
+      function draw(e) {
+        if (!painting || State.mode !== 'inpaint') return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || e.touches[0].clientX) - rect.left;
+        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+        ctx.lineWidth = 28;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'rgba(236, 72, 153, 0.55)';
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      canvas.addEventListener('mousedown', startPosition);
+      canvas.addEventListener('mouseup', finishedPosition);
+      canvas.addEventListener('mousemove', draw);
+      canvas.addEventListener('touchstart', startPosition);
+      canvas.addEventListener('touchend', finishedPosition);
+      canvas.addEventListener('touchmove', draw);
+    }
+
+    function resizeCanvasToMatchImage() {
+      const canvas = document.getElementById('mask-canvas');
+      const viewport = document.getElementById('viewport-box');
+      canvas.width = viewport.clientWidth;
+      canvas.height = viewport.clientHeight;
+    }
+
+    function clearMask() {
+      const canvas = document.getElementById('mask-canvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      triggerToast('Mask Cleared', 'info');
+    }
+
+    function toggleBrush(val) {
+      document.getElementById('mask-canvas').style.pointerEvents = val ? 'auto' : 'none';
+    }
+
+    function applyPreset(presetText) {
+      document.getElementById('prompt-input').value = presetText;
+      triggerToast('Preset Applied to Prompt', 'success');
+    }
+
+    /* Prompt Enhancer */
     function enhancePrompt() {
       const field = document.getElementById('prompt-input');
       const modifiers = [
-        "volumetric god rays, intricate depth of field, hyperrealistic textures, masterpiece",
-        "unreal engine 5 render, award winning cinematography, dramatic shadows, 8k",
-        "trending on artstation, masterpiece detailing, ambient occlusion, smooth grading"
+        "hyperrealistic textures, intricate cinematic lighting, octane render, 8k resolution, photorealistic",
+        "unreal engine 5, masterpiece quality, award-winning cinematography, ultra sharp focus",
+        "detailed intricate fabrics, studio lighting, highly refined face contours, aesthetic perfection"
       ];
       const randomMod = modifiers[Math.floor(Math.random() * modifiers.length)];
-      if(!field.value.includes(randomMod)) {
+      if (!field.value.includes(randomMod)) {
         field.value = `${field.value.trim()}, ${randomMod}`;
-        triggerToast('Prompt Optimized by AI Engine', 'success');
+        triggerToast('Prompt Optimized by AI', 'success');
       }
     }
 
-    /* Primary Generator Pipeline */
+    /* Master Execution Pipeline */
     function executeGeneration() {
       if (State.isProcessing) return;
 
@@ -927,30 +1134,53 @@
       const style = document.getElementById('style-select').value;
       const [width, height] = document.getElementById('ratio-select').value.split('x');
       const seed = Math.floor(Math.random() * 999999);
-      
+
       if (!prompt) {
-        triggerToast('Please provide a prompt description', 'error');
+        triggerToast('Please provide a prompt description!', 'error');
         return;
       }
 
       setProcessingState(true);
       const startTime = performance.now();
 
-      if (State.mode === 'image') {
+      if (State.mode === 'inpaint') {
+        renderInpaintPipeline(prompt, style, width, height, seed, startTime);
+      } else if (State.mode === 'image') {
         renderImagePipeline(prompt, style, width, height, seed, startTime);
       } else {
         renderVideoPipeline(prompt, startTime);
       }
     }
 
-    /* Image Pipeline Implementation */
+    /* Image-to-Image / Inpainting Pipeline */
+    function renderInpaintPipeline(prompt, style, width, height, seed, startTime) {
+      const fullPrompt = encodeURIComponent(`transformation of subject: ${prompt}, ${style}`);
+      const transformedUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
+
+      const img = document.getElementById('active-image');
+      const tempImg = new Image();
+      tempImg.crossOrigin = 'anonymous';
+      tempImg.src = transformedUrl;
+
+      tempImg.onload = () => {
+        img.src = transformedUrl;
+        clearMask();
+        finalizeMedia(transformedUrl, width, height, seed, startTime);
+      };
+
+      tempImg.onerror = () => {
+        img.src = transformedUrl;
+        finalizeMedia(transformedUrl, width, height, seed, startTime);
+      };
+    }
+
+    /* Text-to-Image Pipeline */
     function renderImagePipeline(prompt, style, width, height, seed, startTime) {
       const fullPrompt = encodeURIComponent(`${prompt}, ${style}`);
       const primaryUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
-      
+
       const img = document.getElementById('active-image');
       const vid = document.getElementById('active-video');
-      
       vid.style.display = 'none';
       img.style.display = 'block';
 
@@ -963,15 +1193,13 @@
       };
 
       imageLoader.onerror = () => {
-        // Fallback to high resolution Unsplash proxy
         const fallbackUrl = `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=${width}&h=${height}&q=80`;
         img.src = fallbackUrl;
         finalizeMedia(fallbackUrl, width, height, seed, startTime);
-        triggerToast('Rendered via Fallback Engine', 'info');
       };
     }
 
-    /* Cinema Video Pipeline Implementation */
+    /* Video Pipeline */
     function renderVideoPipeline(prompt, startTime) {
       const img = document.getElementById('active-image');
       const vid = document.getElementById('active-video');
@@ -988,12 +1216,12 @@
       };
     }
 
-    /* Complete Render Cycle */
+    /* Finalize Render */
     function finalizeMedia(url, width, height, seed, startTime) {
       State.activeUrl = url;
       const duration = ((performance.now() - startTime) / 1000).toFixed(2);
 
-      if (State.mode === 'image') {
+      if (State.mode !== 'video') {
         document.getElementById('active-image').src = url;
       }
 
@@ -1003,10 +1231,10 @@
 
       saveToVault(url, document.getElementById('prompt-input').value);
       setProcessingState(false);
-      triggerToast('Render Process Complete', 'success');
+      triggerToast('AI Transformation Complete!', 'success');
     }
 
-    /* Canvas Post Processing Filter Controller */
+    /* Filters Controller */
     function applyFilters() {
       const b = document.getElementById('filter-bright').value;
       const c = document.getElementById('filter-contrast').value;
@@ -1023,17 +1251,17 @@
       document.getElementById('active-video').style.filter = filterStyle;
     }
 
-    /* Exporting Engine (Direct Canvas Rasterization) */
+    /* Asset Export */
     async function exportActiveAsset() {
       if (!State.activeUrl) {
-        triggerToast('No active asset to export', 'error');
+        triggerToast('No active asset to export!', 'error');
         return;
       }
 
-      triggerToast('Preparing Master Download...', 'info');
+      triggerToast('Exporting high quality file...', 'info');
 
       try {
-        if (State.mode === 'image') {
+        if (State.mode !== 'video') {
           const img = document.getElementById('active-image');
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
@@ -1041,7 +1269,6 @@
           canvas.width = img.naturalWidth || 1280;
           canvas.height = img.naturalHeight || 720;
 
-          // Apply visual filters to raw export canvas
           ctx.filter = img.style.filter || 'none';
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -1056,18 +1283,17 @@
           link.target = '_blank';
           link.click();
         }
-        triggerToast('Asset Downloaded Successfully', 'success');
+        triggerToast('Download Started Successfully!', 'success');
       } catch (err) {
         window.open(State.activeUrl, '_blank');
-        triggerToast('Exported via Direct Link Stream', 'info');
       }
     }
 
-    /* Vault Controller */
+    /* Vault / History Controller */
     function saveToVault(url, prompt) {
       const record = { id: Date.now(), url, prompt, type: State.mode };
       State.history.unshift(record);
-      if(State.history.length > 8) State.history.pop();
+      if (State.history.length > 8) State.history.pop();
       localStorage.setItem('pixora_vault', JSON.stringify(State.history));
       renderVault();
     }
@@ -1080,14 +1306,14 @@
         const card = document.createElement('div');
         card.className = 'vault-card';
         card.innerHTML = `
-          <img class="vault-thumb" src="${item.url}" alt="Historical Asset" loading="lazy" />
+          <img class="vault-thumb" src="${item.url}" alt="Saved Asset" loading="lazy" />
           <div class="vault-details">
             <div class="vault-prompt">${item.prompt}</div>
             <div class="vault-meta">${item.type.toUpperCase()} • Cached</div>
           </div>
         `;
         card.onclick = () => {
-          if(item.type === 'image') {
+          if (item.type !== 'video') {
             switchMode('image');
             document.getElementById('active-image').src = item.url;
             State.activeUrl = item.url;
@@ -1101,20 +1327,18 @@
       State.history = [];
       localStorage.removeItem('pixora_vault');
       renderVault();
-      triggerToast('Asset Vault Emptied', 'info');
+      triggerToast('History Cleared', 'info');
     }
 
-    /* State Handlers */
+    /* State Manager */
     function setProcessingState(loading) {
       State.isProcessing = loading;
       document.getElementById('engine-loader').style.display = loading ? 'block' : 'none';
       document.getElementById('btn-generate').disabled = loading;
-      document.getElementById('btn-generate').innerHTML = loading 
-        ? `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" class="loader-ring" style="display:inline-block; width:16px; height:16px; border-width:2px;"></svg> Computing Neural Weights...` 
-        : `<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate Master Asset`;
+      document.getElementById('btn-gen-text').innerText = loading ? 'Computing Neural Weights...' : 'Generate AI Master';
     }
 
-    /* Realtime Notification Dispatcher */
+    /* Toast Dispatcher */
     function triggerToast(message, type = 'info') {
       const shelf = document.getElementById('toast-shelf');
       const toast = document.createElement('div');
