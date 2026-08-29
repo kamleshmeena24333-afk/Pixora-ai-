@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixora AI - टेक्स्ट से इमेज</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-main: #07090e;
+      --bg-sidebar: #0b0e14;
+      --bg-card: #10141e;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --accent-cyan: #00f2fe;
+      --accent-glow: rgba(0, 242, 254, 0.2);
+      --text-main: #f8fafc;
+      --text-muted: #7c8ba1;
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+    
+    aside.sidebar {
+      width: 260px; background: var(--bg-sidebar); border-right: 1px solid var(--border-color);
+      display: flex; flex-direction: column; justify-content: space-between; padding: 24px 16px; flex-shrink: 0;
+    }
+    .brand h1 { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #fff 40%, var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 24px; }
+    .nav-link { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: var(--radius-md); color: var(--text-muted); font-size: 14px; text-decoration: none; transition: 0.2s; }
+    .nav-link:hover { color: var(--text-main); background: rgba(255, 255, 255, 0.04); }
+    .nav-link.active { background: rgba(0, 242, 254, 0.12); color: var(--accent-cyan); box-shadow: inset 3px 0 0 var(--accent-cyan); }
+    
+    main.main-viewport { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 24px 40px; }
+    header.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .credits-box { display: flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); color: var(--accent-cyan); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; }
+    .profile-avatar { width: 36px; height: 36px; border-radius: 50%; border: 2px solid rgba(0, 242, 254, 0.4); object-fit: cover; }
+    
+    .studio-layout { display: grid; grid-template-columns: 400px 1fr; gap: 32px; align-items: start; margin-top: 20px; }
+    .prompt-container { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; }
+    .prompt-container textarea { width: 100%; height: 120px; background: transparent; border: none; outline: none; color: var(--text-main); font-size: 14px; resize: none; }
+    .prompt-footer { display: flex; justify-content: space-between; margin-top: 10px; color: var(--text-muted); font-size: 12px; }
+    
+    .aspect-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+    .aspect-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 12px 6px; text-align: center; cursor: pointer; }
+    .aspect-card.active { border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(0, 242, 254, 0.08); }
+    
+    .style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+    .style-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 10px; text-align: center; font-size: 12px; cursor: pointer; }
+    .style-card.active { border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(0, 242, 254, 0.08); }
+    
+    .generate-btn { background: var(--accent-cyan); color: #050b14; border: none; padding: 14px; border-radius: var(--radius-md); font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 20px; }
+    
+    .preview-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 20px; min-height: 520px; display: flex; flex-direction: column; }
+    .preview-viewport { flex: 1; border-radius: var(--radius-md); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #090c12; margin-top: 14px; }
+    .preview-viewport img { width: 100%; height: 100%; object-fit: cover; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <h1>Pixora AI</h1>
+        <p>भविष्य की रचनात्मकता</p>
+      </div>
+      <ul class="nav-list">
+        <li><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i><span>होम</span></a></li>
+        <li><a href="text-to-image.html" class="nav-link active"><i class="fa-regular fa-image"></i><span>टेक्स्ट से इमेज</span></a></li>
+        <li><a href="#" class="nav-link"><i class="fa-solid fa-clapperboard"></i><span>टेक्स्ट से वीडियो</span></a></li>
+        <li><a href="#" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i><span>AI टूल्स</span></a></li>
+        <li><a href="#" class="nav-link"><i class="fa-solid fa-table-cells-large"></i><span>मेरी गैलरी</span></a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="main-viewport">
+    <header class="topbar">
+      <h2 style="font-size: 20px;">Pixora Studio</h2>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <div class="credits-box"><i class="fa-regular fa-credit-card"></i> 1,200 Credits</div>
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="profile-avatar">
+      </div>
+    </header>
+
+    <div>
+      <h2>टेक्स्ट से इमेज बनाएं</h2>
+      <p style="color: var(--text-muted); font-size: 13px;">अपनी कल्पना का वर्णन करें और AI से इमेज बनाएं।</p>
+    </div>
+
+    <div class="studio-layout">
+      <div>
+        <div class="prompt-container">
+          <textarea id="prompt-input" placeholder="विस्तार से वर्णन करें... (उदा: एक साइबरपंक शहर...)"></textarea>
+          <div class="prompt-footer">
+            <i class="fa-solid fa-trash-can" onclick="document.getElementById('prompt-input').value=''"></i>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <label style="font-size: 13px; color: var(--text-muted);">आकार (Aspect Ratio)</label>
+          <div class="aspect-grid">
+            <div class="aspect-card active" onclick="setSelect(this, '.aspect-card')">1:1</div>
+            <div class="aspect-card" onclick="setSelect(this, '.aspect-card')">16:9</div>
+            <div class="aspect-card" onclick="setSelect(this, '.aspect-card')">9:16</div>
+            <div class="aspect-card" onclick="setSelect(this, '.aspect-card')">4:3</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <label style="font-size: 13px; color: var(--text-muted);">शैली (Style)</label>
+          <div class="style-grid">
+            <div class="style-card active" onclick="setSelect(this, '.style-card')">यथार्थवादी</div>
+            <div class="style-card" onclick="setSelect(this, '.style-card')">एनीमे</div>
+            <div class="style-card" onclick="setSelect(this, '.style-card')">डिजिटल आर्ट</div>
+          </div>
+        </div>
+
+        <button class="generate-btn" onclick="generateVisual()"><i class="fa-solid fa-wand-magic-sparkles"></i> बनाएं</button>
+      </div>
+
+      <div class="preview-box">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 13px; font-weight: 600;">परिणाम</span>
+          <button style="padding: 6px 14px; background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: #fff; border-radius: 20px; cursor: pointer;" onclick="downloadImage()">डाउनलोड</button>
+        </div>
+        <div class="preview-viewport">
+          <img id="result-image" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=1000&auto=format&fit=crop&q=80" alt="Result">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function setSelect(el, groupClass) {
+      document.querySelectorAll(groupClass).forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function generateVisual() {
+      const prompt = document.getElementById('prompt-input').value.trim();
+      const img = document.getElementById('result-image');
+      if (!prompt) {
+        alert("कृपया कोई प्रॉम्प्ट दर्ज करें!");
+        return;
+      }
+      img.style.opacity = '0.3';
+      setTimeout(() => {
+        img.src = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000&auto=format&fit=crop&q=80';
+        img.style.opacity = '1';
+      }, 1200);
+    }
+
+    function downloadImage() {
+      window.open(document.getElementById('result-image').src, '_blank');
+    }
+  </script>
+</body>
+</html>
