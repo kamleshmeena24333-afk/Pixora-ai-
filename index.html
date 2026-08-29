@@ -1,495 +1,676 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pixora AI — Create, Edit & Enhance Images With AI</title>
+  <title>Pixora AI - भविष्य की रचनात्मकता</title>
+  <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root {
-      --bg-dark: #080c14;
-      --bg-card: #0f172a;
+      --bg-dark: #0a0d14;
+      --sidebar-bg: #0f131c;
+      --card-bg: #141923;
       --border-color: rgba(255, 255, 255, 0.08);
-      --accent-blue: #4f46e5;
-      --accent-indigo: #6366f1;
-      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-      --text-white: #f8fafc;
-      --text-muted: #94a3b8;
+      --accent-cyan: #00f2fe;
+      --accent-glow: rgba(0, 242, 254, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #8e9bb0;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
     }
 
     body {
       background-color: var(--bg-dark);
-      color: var(--text-white);
-      min-height: 100vh;
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ================= SIDEBAR ================= */
+    aside.sidebar {
+      width: 260px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
-    }
-
-    /* Ambient Background Glow */
-    .glow-bg {
-      position: absolute;
-      top: 15%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 650px;
-      height: 380px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(8, 12, 20, 0) 70%);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Header / Navbar */
-    .navbar {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 4rem;
-      background: rgba(8, 12, 20, 0.75);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding: 24px 16px;
+      flex-shrink: 0;
     }
 
-    .brand-logo {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-decoration: none;
-      letter-spacing: -0.5px;
+    .brand {
+      padding: 0 12px 24px 12px;
     }
 
-    .nav-center {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-center a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding-bottom: 6px;
-      transition: color 0.2s ease;
-    }
-
-    .nav-center a:hover {
-      color: var(--text-white);
-    }
-
-    .nav-center a.active {
-      color: var(--text-white);
-      border-bottom: 2px solid var(--accent-indigo);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .nav-actions .login-link {
-      color: var(--text-white);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .btn-signup {
-      background: var(--accent-indigo);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.6rem 1.4rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .btn-signup:hover {
-      background: #4f46e5;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-    }
-
-    /* Hero Section */
-    .hero {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 4.5rem 1.5rem 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-size: 3.5rem;
+    .brand h1 {
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.15;
-      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #fff, var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .hero h1 span.ai-text {
-      color: #60a5fa;
-      position: relative;
-    }
-
-    .hero p {
+    .brand p {
+      font-size: 11px;
       color: var(--text-muted);
-      font-size: 1.1rem;
-      line-height: 1.6;
-      max-width: 680px;
-      margin: 0 auto 2.5rem;
+      margin-top: 2px;
     }
 
-    /* Action Buttons */
-    .cta-group {
+    .nav-group {
+      list-style: none;
       display: flex;
-      justify-content: center;
-      gap: 1.25rem;
-      margin-bottom: 4rem;
-    }
-
-    .btn-upload {
-      background: var(--accent-indigo);
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0.85rem 1.8rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-
-    .btn-upload:hover {
-      background: #4f46e5;
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 0.85rem 1.8rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Editor Window Mockup */
-    .mockup-container {
-      max-width: 1050px;
-      margin: 0 auto 5rem;
-      padding: 0 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .window-frame {
-      background: #0d1322;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-    }
-
-    .window-header {
-      background: #0a0f1d;
-      padding: 0.75rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .window-dots {
-      display: flex;
+      flex-direction: column;
       gap: 6px;
     }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot.red { background: #ef4444; }
-    .dot.yellow { background: #eab308; }
-    .dot.blue { background: #3b82f6; }
-
-    .window-title {
-      font-size: 0.75rem;
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
       color: var(--text-muted);
+      font-size: 14px;
       font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
     }
 
-    .window-body {
-      position: relative;
-      height: 520px;
-      background: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 2rem;
+    .nav-item i {
+      font-size: 16px;
+      width: 20px;
+      text-align: center;
     }
 
-    /* Floating Dock inside preview */
-    .editor-dock {
-      background: rgba(13, 19, 34, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 30px;
-      padding: 6px 10px;
+    .nav-item:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-item.active {
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--accent-cyan);
+      box-shadow: inset 3px 0 0 var(--accent-cyan);
+    }
+
+    .sidebar-footer {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
-    .dock-btn {
-      background: transparent;
+    .upgrade-card {
+      background: linear-gradient(180deg, rgba(0, 242, 254, 0.12), rgba(0, 242, 254, 0.03));
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .upgrade-card button {
+      background: var(--accent-cyan);
+      color: #000;
       border: none;
-      color: var(--text-muted);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
+      width: 100%;
+      padding: 9px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ================= MAIN CONTENT ================= */
+    main.main-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Top Bar */
+    header.topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 18px 32px;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .credit-badge {
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: color 0.2s, background 0.2s;
-    }
-
-    .dock-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .dock-divider {
-      width: 1px;
-      height: 20px;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .dock-btn-main {
-      background: var(--accent-indigo);
-      color: #fff;
-      border: none;
-      padding: 0.4rem 1.1rem;
+      gap: 8px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+      color: var(--accent-cyan);
+      padding: 7px 16px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 13px;
       font-weight: 600;
-      cursor: pointer;
     }
 
-    /* Footer */
-    footer {
-      background: #050810;
-      border-top: 1px solid var(--border-color);
-      padding: 4rem 4rem 2rem;
-      margin-top: auto;
-    }
-
-    .footer-grid {
+    .icon-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-
-    .footer-brand h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-brand p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      line-height: 1.5;
-      max-width: 280px;
-    }
-
-    .footer-col h4 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 1.25rem;
-    }
-
-    .footer-col ul {
-      list-style: none;
-    }
-
-    .footer-col ul li {
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-col ul a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
+      place-items: center;
+      cursor: pointer;
       transition: color 0.2s;
     }
 
-    .footer-col ul a:hover {
-      color: var(--text-white);
+    .icon-btn:hover {
+      color: var(--text-main);
     }
 
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border-color);
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-cyan);
+      object-fit: cover;
+    }
+
+    /* Page Sections */
+    .page-view {
+      display: none;
+      padding: 32px;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= PAGE 1: HOME ================= */
+    .home-hero h2 {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .home-hero p {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      margin-top: 4px;
+      font-size: 15px;
     }
 
-    @media (max-width: 900px) {
-      .navbar { padding: 1rem 1.5rem; }
-      .hero h1 { font-size: 2.3rem; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .window-body { height: 320px; }
+    .quick-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 32px 0 40px;
+    }
+
+    .quick-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .quick-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 10px 24px var(--accent-glow);
+    }
+
+    .quick-card i {
+      font-size: 24px;
+      color: var(--accent-cyan);
+      margin-bottom: 16px;
+    }
+
+    .quick-card h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .quick-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .gallery-card {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      aspect-ratio: 1;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-card:hover img {
+      transform: scale(1.05);
+    }
+
+    /* ================= PAGE 2 & 3: GENERATORS ================= */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 28px;
+    }
+
+    .control-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .prompt-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .prompt-box textarea {
+      width: 100%;
+      height: 110px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      resize: none;
+      font-size: 14px;
+    }
+
+    .ratio-selector, .style-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .choice-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 4px;
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .choice-btn.selected {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0, 242, 254, 0.08);
+    }
+
+    .primary-btn {
+      background: var(--accent-cyan);
+      color: #000;
+      border: none;
+      padding: 14px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .preview-stage {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ================= PAGE 4: AI TOOLS ================= */
+    .tools-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+    }
+
+    .upload-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 380px;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .upload-zone i {
+      font-size: 38px;
+      color: var(--text-muted);
+    }
+
+    .tool-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tool-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tool-card:hover {
+      border-color: var(--accent-cyan);
+    }
+
+    .tool-card h4 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .tool-card p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    footer.bottom-bar {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <div class="glow-bg"></div>
+  <!-- ================= SIDEBAR NAVIGATION ================= -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <h1>Pixora AI</h1>
+        <p>भविष्य की रचनात्मकता</p>
+      </div>
 
-  <!-- Header -->
-  <header class="navbar">
-    <a href="index.html" class="brand-logo">Pixora AI</a>
-    
-    <ul class="nav-center">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="tools.html">AI Tools</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <a href="login.html" class="login-link">Login</a>
-      <a href="signup.html" class="btn-signup">Sign Up</a>
+      <ul class="nav-group">
+        <li class="nav-item active" onclick="switchPage('home', this)">
+          <i class="fa-solid fa-house"></i>
+          <span>होम</span>
+        </li>
+        <li class="nav-item" onclick="switchPage('txt2img', this)">
+          <i class="fa-regular fa-image"></i>
+          <span>टेक्स्ट से इमेज</span>
+        </li>
+        <li class="nav-item" onclick="switchPage('txt2vid', this)">
+          <i class="fa-solid fa-clapperboard"></i>
+          <span>टेक्स्ट से वीडियो</span>
+        </li>
+        <li class="nav-item" onclick="switchPage('tools', this)">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>AI टूल्स</span>
+        </li>
+      </ul>
     </div>
-  </header>
 
-  <!-- Hero Section -->
-  <main>
-    <section class="hero">
-      <h1>Create, Edit & Enhance Images With <span class="ai-text">AI</span></h1>
-      <p>Experience the power of professional AI image editing in your browser. From background removal to 8K upscaling, Pixora AI does it all in seconds.</p>
-      
-      <div class="cta-group">
-        <a href="editor.html" class="btn-upload">
-          <i class="fa-solid fa-cloud-arrow-up"></i> Upload Image
-        </a>
-        <a href="generator.html" class="btn-secondary">
-          Try AI Editor
-        </a>
+    <div class="sidebar-footer">
+      <div class="upgrade-card">
+        <button onclick="alert('अपग्रेड विकल्प जल्द ही उपलब्ध होंगे!')">
+          <i class="fa-solid fa-bolt"></i> अपग्रेड करें
+        </button>
+      </div>
+      <div class="nav-item" style="padding: 6px 12px;">
+        <i class="fa-solid fa-gear"></i>
+        <span>सेटिंग्स</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN VIEWPORT ================= -->
+  <main class="main-viewport">
+    
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="credit-badge">
+        <i class="fa-solid fa-coins"></i>
+        <span id="credit-count">1,200</span> Credits
+      </div>
+      <button class="icon-btn"><i class="fa-regular fa-bell"></i></button>
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="user-avatar">
+    </header>
+
+    <!-- PAGE 1: HOME -->
+    <section id="page-home" class="page-view active">
+      <div class="home-hero">
+        <h2>Namaste, Creator!</h2>
+        <p>What will you create today?</p>
+      </div>
+
+      <div class="quick-cards-grid">
+        <div class="quick-card" onclick="switchPageDirect('txt2img')">
+          <i class="fa-regular fa-image"></i>
+          <h3>टेक्स्ट से इमेज</h3>
+          <p>Turn your imagination into stunning visuals instantly.</p>
+        </div>
+        <div class="quick-card" onclick="switchPageDirect('txt2vid')">
+          <i class="fa-solid fa-clapperboard"></i>
+          <h3>टेक्स्ट से वीडियो</h3>
+          <p>Bring stories to life with AI-generated motion sequences.</p>
+        </div>
+        <div class="quick-card" onclick="switchPageDirect('tools')">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <h3>AI टूल्स</h3>
+          <p>Enhance, expand, and refine your existing media.</p>
+        </div>
+      </div>
+
+      <h3 style="font-size: 18px; margin-bottom: 12px;">Recent Creations</h3>
+      <div class="gallery-grid">
+        <div class="gallery-card"><img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&auto=format&fit=crop&q=80" alt="Creation 1"></div>
+        <div class="gallery-card"><img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&auto=format&fit=crop&q=80" alt="Creation 2"></div>
+        <div class="gallery-card"><img src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400&auto=format&fit=crop&q=80" alt="Creation 3"></div>
+        <div class="gallery-card"><img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&auto=format&fit=crop&q=80" alt="Creation 4"></div>
       </div>
     </section>
 
-    <!-- Editor Mockup Viewport -->
-    <section class="mockup-container">
-      <div class="window-frame">
-        <div class="window-header">
-          <div class="window-dots">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot blue"></span>
+    <!-- PAGE 2: TEXT TO IMAGE -->
+    <section id="page-txt2img" class="page-view">
+      <div style="margin-bottom: 20px;">
+        <h2>टेक्स्ट से इमेज बनाएं</h2>
+        <p style="color: var(--text-muted); font-size: 13px;">अपनी कल्पना का वर्णन करें और हमारा AI इसे वास्तविकता में बदल देगा।</p>
+      </div>
+
+      <div class="studio-layout">
+        <div class="control-panel">
+          <div class="prompt-box">
+            <textarea id="img-prompt" placeholder="विस्तार से वर्णन करें... (उदा: एक साइबरपंक शहर जिसमें उड़ती हुई कारें हों...)"></textarea>
           </div>
-          <div class="window-title">Pixora Editor / Untitled-Project</div>
-          <div style="width: 36px;"></div>
+
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">आकार (Aspect Ratio)</label>
+            <div class="ratio-selector">
+              <div class="choice-btn selected" onclick="selectRatio(this)">1:1</div>
+              <div class="choice-btn" onclick="selectRatio(this)">16:9</div>
+              <div class="choice-btn" onclick="selectRatio(this)">9:16</div>
+              <div class="choice-btn" onclick="selectRatio(this)">4:3</div>
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">शैली (Style)</label>
+            <div class="ratio-selector">
+              <div class="choice-btn selected" onclick="selectRatio(this)">यथार्थवादी</div>
+              <div class="choice-btn" onclick="selectRatio(this)">एनीमे</div>
+              <div class="choice-btn" onclick="selectRatio(this)">डिजिटल आर्ट</div>
+              <div class="choice-btn" onclick="selectRatio(this)">3D रेंडर</div>
+            </div>
+          </div>
+
+          <button class="primary-btn" onclick="generateImage()">
+            <i class="fa-solid fa-sparkles"></i> बनाएं
+          </button>
         </div>
 
-        <div class="window-body">
-          <div class="editor-dock">
-            <button class="dock-btn" title="Enhance" onclick="window.location.href='enhancer.html'"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
-            <button class="dock-btn" title="Cut / Background Remover" onclick="window.location.href='bg-remover.html'"><i class="fa-solid fa-scissors"></i></button>
-            <div class="dock-divider"></div>
-            <button class="dock-btn-main" onclick="window.location.href='generator.html'">Generate</button>
+        <div class="preview-stage" id="img-preview-box">
+          <i class="fa-regular fa-image" style="font-size: 40px; color: var(--text-muted); margin-bottom: 12px;"></i>
+          <p style="color: var(--text-muted); font-size: 14px;">आपकी बनाई गई इमेज यहाँ दिखाई देगी।</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: TEXT TO VIDEO -->
+    <section id="page-txt2vid" class="page-view">
+      <div style="margin-bottom: 20px;">
+        <h2>सिनेमैटिक वीडियो जनरेशन</h2>
+        <p style="color: var(--text-muted); font-size: 13px;">उच्च-गुणवत्ता वाले AI वीडियो मोशन सीन्स बनाएं।</p>
+      </div>
+
+      <div class="studio-layout">
+        <div class="control-panel">
+          <div class="prompt-box">
+            <textarea id="vid-prompt" placeholder="वीडियो के लिए प्रॉम्प्ट लिखें... (उदा: 4k रेजोल्यूशन में उड़ता हुआ ड्रोन शॉट...)"></textarea>
+          </div>
+
+          <div>
+            <label style="font-size: 12px; color: var(--text-muted);">अवधि</label>
+            <div class="ratio-selector" style="grid-template-columns: 1fr 1fr;">
+              <div class="choice-btn selected" onclick="selectRatio(this)">5 सेकंड</div>
+              <div class="choice-btn" onclick="selectRatio(this)">10 सेकंड</div>
+            </div>
+          </div>
+
+          <button class="primary-btn" onclick="generateVideo()">
+            <i class="fa-solid fa-film"></i> वीडियो जनरेट करें
+          </button>
+        </div>
+
+        <div class="preview-stage" id="vid-preview-box">
+          <i class="fa-solid fa-circle-play" style="font-size: 44px; color: var(--text-muted); margin-bottom: 12px;"></i>
+          <p style="color: var(--text-muted); font-size: 14px;">सिनेमैटिक प्रीव्यू एरिया</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: AI TOOLS -->
+    <section id="page-tools" class="page-view">
+      <div style="margin-bottom: 20px;">
+        <h2>AI संपादन उपकरण</h2>
+        <p style="color: var(--text-muted); font-size: 13px;">छवियों को परिष्कृत करें, बैकग्राउंड हटाएं और अपस्केल करें।</p>
+      </div>
+
+      <div class="tools-layout">
+        <div class="upload-zone" onclick="document.getElementById('file-upload').click()">
+          <input type="file" id="file-upload" style="display: none;" onchange="handleToolUpload(this)">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <h3 style="font-size: 16px;">छवि अपलोड करें</h3>
+          <p style="color: var(--text-muted); font-size: 12px;">उच्च-रिज़ॉल्यूशन PNG या JPG का समर्थन करता है</p>
+        </div>
+
+        <div class="tool-list">
+          <div class="tool-card" onclick="alert('बैकग्राउंड रिमूवल टूल चुना गया')">
+            <h4><i class="fa-solid fa-eraser" style="color: var(--accent-cyan); margin-right: 6px;"></i> पृष्ठभूमि हटाएँ</h4>
+            <p>AI की मदद से 1-क्लिक में बैकग्राउंड साफ़ करें।</p>
+          </div>
+          <div class="tool-card" onclick="alert('ऑब्जेक्ट रिप्लेस टूल चुना गया')">
+            <h4><i class="fa-solid fa-arrows-rotate" style="color: var(--accent-cyan); margin-right: 6px;"></i> ऑब्जेक्ट बदलें</h4>
+            <p>छवि के किसी हिस्से को प्रॉम्प्ट से री-पेंट करें।</p>
+          </div>
+          <div class="tool-card" onclick="alert('इमेज अपस्केलर टूल चुना गया')">
+            <h4><i class="fa-solid fa-up-right-and-down-left-from-center" style="color: var(--accent-cyan); margin-right: 6px;"></i> इमेज अपस्केलर</h4>
+            <p>गुणवत्ता खोए बिना रिज़ॉल्यूशन को 4x तक बढ़ाएं।</p>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Global Footer -->
+    <footer class="bottom-bar">
+      नियम और शर्तें • गोपनीयता नीति • <strong>Pixora AI</strong>
+    </footer>
+
   </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <h3>Pixora AI</h3>
-        <p>Professional AI image editing right in your browser. Powering the next generation of visual creativity.</p>
-      </div>
+  <script>
+    // Navigation Switching Logic
+    function switchPage(pageKey, element) {
+      document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
 
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="tools.html">Features</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="tools.html">API</a></li>
-        </ul>
-      </div>
+      const targetPage = document.getElementById('page-' + pageKey);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
 
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="contact.html">About</a></li>
-          <li><a href="contact.html">Careers</a></li>
-          <li><a href="contact.html">Blog</a></li>
-        </ul>
-      </div>
+      if (element) {
+        element.classList.add('active');
+      }
+    }
 
-      <div class="footer-col">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="contact.html">Docs</a></li>
-          <li><a href="contact.html">Community</a></li>
-          <li><a href="contact.html">Help Center</a></li>
-        </ul>
-      </div>
+    // Direct redirection from cards
+    function switchPageDirect(pageKey) {
+      const navItems = document.querySelectorAll('.nav-item');
+      let targetIndex = 0;
+      if (pageKey === 'txt2img') targetIndex = 1;
+      if (pageKey === 'txt2vid') targetIndex = 2;
+      if (pageKey === 'tools') targetIndex = 3;
 
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="contact.html">Terms</a></li>
-          <li><a href="contact.html">Privacy</a></li>
-          <li><a href="contact.html">Cookies</a></li>
-        </ul>
-      </div>
-    </div>
+      switchPage(pageKey, navItems[targetIndex]);
+    }
 
-    <div class="footer-bottom">
-      <span>© 2026 Pixora AI. All rights reserved.</span>
-      <span>Engineered by <strong>Kamlesh Meena</strong></span>
-    </div>
-  </footer>
-
-</body>
-  </html>
-              
+    // Selector Button state toggle
+    fu
